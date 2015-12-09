@@ -17,13 +17,9 @@ public class DownloadAll {
   
   public static void main(String[] args) throws IOException {
     
-    
-    
-    int size = 10;
+    int size = 50000;
     int count = 0;
     int nextFile = 0;
-    
-    
 
     File file = new File(args[0]);
     BufferedReader reader = new BufferedReader(new FileReader(file));

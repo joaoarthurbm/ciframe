@@ -8,7 +8,7 @@ if len(sys.argv) != 2:
 
 path = sys.argv[1]
 dirs = os.listdir(path)
-
+cont = 0
 for d in dirs:
     art_dir = '%s/%s' % (path,d)
     for html_file in os.listdir(art_dir):
@@ -24,6 +24,8 @@ for d in dirs:
             for nota in notas:
                 out += '%s;' % nota.text.encode('utf-8') 
             print out[0:-1]
+            cont+=1
+            if cont == 1000:
+                sys.exit()
         except Exception as e:
-            print e
-            print 'ERRO %s' % sys.argv[1]
+            print 'ERRO %s' % html

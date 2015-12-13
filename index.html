@@ -32,8 +32,6 @@
 	<link href="css/animate.css" rel="stylesheet">
 
   <script type="text/javascript" src="js/angular.min.js"></script>
-  <script type="text/javascript" src="js/angular-ui-router.js"></script>
-
 
 
 	<!-- Magnific Popup core CSS file -->
@@ -42,7 +40,7 @@
 	<script src="js/modernizr-2.6.2.min.js"></script>  <!-- Modernizr /-->
 </head>
 
-<body id="home" ng-app="DecifraMe">
+<body id="home" ng-app="DecifraMe" ng-controller="MainCtrl">
 
 	<!-- Preloader -->
 	<div id="preloader">
@@ -73,13 +71,13 @@
 	</nav>
 
 	<!-- FullScreen -->
-    <div class="intro-header" ng-controller="MainCtrl">
+    <div class="intro-header">
 		<div class="col-xs-12 text-center abcen1">
 			<h1 class="h1_home wow fadeIn" data-wow-delay="0.4s">Decifra-me</h1>
 			<h3 class="h3_home wow fadeIn" data-wow-delay="0.6s">Ache músicas que você já pode manjar</h3>
       <h3 class="h3_home wow fadeIn" data-wow-delay="0.6s">Pesquisando pela música:</h3>
       <div class="search-song-container">
-      <input id="song" class="search-song" type="text" placeholder="Nos diga uma música que você sabe" />
+      <input id="song" class="search-song" type="text" placeholder="Nos diga uma música que você sabe" ng-model="tituloMusica" />
       <a class="search-song-button btn" ng-click="pesquisarPorNome()">Pesquisar</a>
     </div>
       <h3 class="h3_home wow fadeIn" data-wow-delay="0.6s">Ou a partir dos acordes que você já sabe:</h3>
@@ -105,22 +103,14 @@
 			</div>
 
 			<div class="row">
+
 				<div class="col-sm-4 wow fadeInDown text-center">
 					<h3 class="text-center">Maiores</h3>
 					<div class="well" style="max-height: 300px;overflow: auto;">
 						<ul class="list-group checked-list-box">
-							<li class="list-group-item">C</li>
-							<li class="list-group-item">C#</li>
-							<li class="list-group-item">D</li>
-							<li class="list-group-item">D#</li>
-							<li class="list-group-item">E</li>
-							<li class="list-group-item">F</li>
-							<li class="list-group-item">F#</li>
-							<li class="list-group-item">G</li>
-							<li class="list-group-item">G#</li>
-							<li class="list-group-item">A</li>
-							<li class="list-group-item">A#</li>
-							<li class="list-group-item">B</li>
+              <li ng-repeat="acorde in acordesMaiores track by $index" class="list-group-item" ng-click="tiraEBota(acorde)">
+                {{acorde}}
+              </li>
 						</ul>
 					</div>
 				</div>
@@ -129,18 +119,9 @@
 					<h3 class="text-center">Menores</h3>
 					<div class="well" style="max-height: 300px;overflow: auto;">
 						<ul class="list-group checked-list-box">
-							<li class="list-group-item">Cm</li>
-							<li class="list-group-item">C#m</li>
-							<li class="list-group-item">Dm</li>
-							<li class="list-group-item">D#m</li>
-							<li class="list-group-item">Em</li>
-							<li class="list-group-item">Fm</li>
-							<li class="list-group-item">F#m</li>
-							<li class="list-group-item">Gm</li>
-							<li class="list-group-item">G#m</li>
-							<li class="list-group-item">Am</li>
-							<li class="list-group-item">A#m</li>
-							<li class="list-group-item">Bm</li>
+              <li ng-repeat="acorde in acordesMenores track by $index" class="list-group-item" ng-click="tiraEBota(acorde)">
+                {{acorde}}
+              </li>
 						</ul>
 					</div>
 				</div>
@@ -149,23 +130,20 @@
 					<h3 class="text-center">Com Sétima</h3>
 					<div class="well" style="max-height: 300px;overflow: auto;">
 						<ul class="list-group checked-list-box">
-							<li class="list-group-item">C7</li>
-							<li class="list-group-item">C#7</li>
-							<li class="list-group-item">D7</li>
-							<li class="list-group-item">D#7</li>
-							<li class="list-group-item">E7</li>
-							<li class="list-group-item">F7</li>
-							<li class="list-group-item">F#7</li>
-							<li class="list-group-item">G7</li>
-							<li class="list-group-item">G#7</li>
-							<li class="list-group-item">A7</li>
-							<li class="list-group-item">A#7</li>
-							<li class="list-group-item">B7</li>
+              <li ng-repeat="acorde in acordesComSetima" class="list-group-item" ng-click="tiraEBota(acorde)">
+                {{acorde}}
+              </li>
 						</ul>
 					</div>
 				</div>
 		  </div>
-			<div align="center"><a class="search-song-button btn">Pesquisar</a></div>
+			<div align="center"><a class="search-song-button btn" ng-click="pesquisarPorAcordes()">Pesquisar</a></div>
+
+      <ul class='list-group'>
+        <li class='list-group-item' ng-repeat='musica in musicas' ng-style='{background: "rgba(0, 128, 0, "+0.6*musica.facilidade}'>
+          <a ng-href='http://www.cifraclub.com.br/{{musica.artista_id}}/{{musica.musica_id}}'>{{musica.artista}} - {{musica.musica}} - {{musica.genero}} - {{musica.diferenca}}</a>
+        </li>
+      </ul>
 
 		</div>
 	</div>

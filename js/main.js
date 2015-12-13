@@ -5,20 +5,41 @@
         .module('DecifraMe')
         .controller('MainCtrl', function($scope, $http, $window) {
 
-          $scope.filtroArtista = ["Molejo"];
-          $scope.filtroEstilo = ["MPB"];
-          $scope.filtroFacilidade = [70, 100];
-          $scope.tituloMusica = "Vou voltar pra sacanagem";
+          $scope.filtroArtista = [];
+          $scope.filtroEstilo = [];
+          $scope.filtroFacilidade = [0, 100];
+          $scope.tituloMusica = "";
 
           $scope.musicas = [];
           $scope.meusAcordes = [];
 
+          $scope.acordesMaiores = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+          $scope.acordesMenores = ["Cm", "C#m", "Dm", "D#m", "Em", "Fm", "F#m", "Gm", "G#m", "Am", "A#m", "Bm"];
+          $scope.acordesComSetima = ["C7", "C#7", "D7", "D#7", "E7", "F7", "F#7", "G7", "G#7", "A7", "A#7", "B7"];
+
+          $scope.tiraEBota = function(s) {
+            if ($scope.meusAcordes.indexOf(s) == -1) {
+              $scope.meusAcordes.push(s);
+            } else {
+              var index = $scope.meusAcordes.indexOf(s);
+              if (index > -1) $scope.meusAcordes.splice(index, 1);
+            }
+          }
+
           $scope.pesquisarPorNome = function() {
-            console.log("enrouuurgurbsbsfyivsbsybvv");
             $http.get("http://localhost:5000/busca?musica=" + $scope.tituloMusica)
               .success(function(data, headers) {
-                musicas = data;
-                console.log("Aheeeee");
+                if(data.length == 1) $http.get("http://localhost:5000/rankByMusica?musica=" + data[0].musica +
+                  "&artista=" + data[0].artista +
+                  "&filtro-generos=" + JSON.stringify($scope.filtroEstilo) +
+                  "&filtro-artistas=" + JSON.stringify($scope.filtroArtista) +
+                  "&min=" + $scope.filtroFacilidade[0] +
+                  "&max=" + $scope.filtroFacilidade[1]
+                )
+                  .success(function (data, headers) {
+                    $scope.musicas = data;
+                  })
+                else console.log(data.length)
               })
               .error(function(data, headers) {
                 console.log("Erro ao tentar pesquisar por nome!");
@@ -27,14 +48,14 @@
 
           $scope.pesquisarPorAcordes = function() {
             $http.get(
-              "http://localhost:5000/rankByAcordes?acordes=" + $scope.meusAcordes +
-                "&filtro-generos=" + $scope.filtroEstilo +
-                "&filtro-artistas=" + $scope.filtroArtista +
+              "http://localhost:5000/rankByAcordes?acordes=" + JSON.stringify($scope.meusAcordes).replace('#', "%23") +
+                "&filtro-generos=" + JSON.stringify($scope.filtroEstilo) +
+                "&filtro-artistas=" + JSON.stringify($scope.filtroArtista) +
                 "&min=" + $scope.filtroFacilidade[0] +
                 "&max=" + $scope.filtroFacilidade[1]
               )
                 .success(function (data, headers) {
-                  musicas = data;
+                  $scope.musicas = data;
                 })
                 .error(function () {
                   console.log("Erro ao tentar pesquisar por acordes!");

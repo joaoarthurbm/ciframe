@@ -50,10 +50,9 @@ def pagina(colecao):
 	return colecao[inicio:inicio+POR_PAGINA]
 
 def metodo_mestre(acordes):
-
 	answer = applyFiltro('filtro-artistas', musicas, ARTISTA)
 	answer = applyFiltro('filtro-generos', answer, GENERO)
-
+	
 	answer = [{
 		'artista': m[0],
 		'musica': m[1],
@@ -62,9 +61,13 @@ def metodo_mestre(acordes):
 		'diferenca': list(m[CIFRA] - acordes)
 	} for m in answer]
 
-	answer.sort(key = lambda x: -x['facilidade'])
+	minimo = float(request.args.get('min', 0))/ 100
+	maximo = float(request.args.get('max', 100))/ 100
+	
+	answer = filter(lambda x: minimo <= x['facilidade'] <= maximo, answer)
+	
+	answer.sort(key = lambda x: -x['facilidade'])	
 	return json.dumps(pagina(answer))
-
 
 @app.route('/rankByMusica')
 def get_by_nome():
@@ -75,7 +78,6 @@ def get_by_nome():
 		if m[MUSICA] == musica and m[ARTISTA] == artista:
 			return metodo_mestre(m[CIFRA])
 	return '[]'
-
 
 @app.route('/rankByAcordes')
 def conjunto():

@@ -1,0 +1,13 @@
+KEY,C,C#,D,D#,E,F,F#,G,G#,A,A#,B
+C,I,,II,,III,IV,,V,,VI,,VII
+C#,VII,I,,II,,III,IV,,V,,VI,
+D,,VII,I,,II,,III,IV,,V,,VI
+D#,VI,,VII,I,,II,,III,IV,,V,
+E,,VI,,VII,I,,II,,III,IV,,V
+F,V,,VI,,VII,I,,II,,III,IV,
+F#,,V,,VI,,VII,I,,II,,III,IV
+G,IV,,V,,VI,,VII,I,,II,,III
+G#,III,IV,,V,,VI,,VII,I,,II,
+A,,III,IV,,V,,VI,,VII,I,,II
+A#,II,,III,IV,,V,,VI,,VII,I,
+B,,II,,III,IV,,V,,VI,,VII,I

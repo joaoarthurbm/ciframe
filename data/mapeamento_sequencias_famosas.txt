@@ -1,0 +1,6 @@
+0,Sequência de Bm,Bm - G - D - A
+1,Sequência de C,C - G - Am - F
+2,Sequência Em,Em - G
+3,Sequência de C (Samba),C - A7 - Dm - G7
+4,Sequência de Gm,Gm - F
+5,Sequência de C (Samba cont.),C - C7 - F - Fm

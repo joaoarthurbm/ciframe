@@ -6,9 +6,10 @@ app = Flask(__name__)
 ARTISTA = 0
 MUSICA = 1
 GENERO = 2
-TOM = 3
-POPULARIDADE = 4
-CIFRA = 5
+POPULARIDADE = 3
+TOM = 4
+SEQ_FAMOSA = 5
+CIFRA = 6
 
 POR_PAGINA = 50
 
@@ -22,9 +23,9 @@ def init():
 	f.readline()
 
 	for line in f:
-		line = line.replace('"', '')[:-1]
+		line = line.replace('"', '').replace('NA', '')[:-1]
 
-		musica = line.split(',')
+		musica = line.split(',')[2:]
 		musica[POPULARIDADE] = int(musica[POPULARIDADE].replace('.', ''))
 		musica[CIFRA] = set(musica[CIFRA].split(';')) if musica[CIFRA] != '' else set()
 
@@ -54,9 +55,9 @@ def metodo_mestre(acordes):
 	answer = applyFiltro('filtro-generos', answer, GENERO)
 	
 	answer = [{
-		'artista': m[0],
-		'musica': m[1],
-		'genero': m[2],
+		'artista': m[ARTISTA],
+		'musica': m[MUSICA],
+		'genero': m[GENERO],
 		'facilidade': 1.0 * len(m[CIFRA] & acordes) / len(m[CIFRA]),
 		'diferenca': list(m[CIFRA] - acordes)
 	} for m in answer]
@@ -90,14 +91,27 @@ def busca():
 	filtered = applyFiltro('musica', musicas, MUSICA)
 
 	return json.dumps([{
-		'artista': m[0],
-		'musica': m[1],
-		'genero': m[2],
+		'artista': m[ARTISTA],
+		'musica': m[MUSICA],
+		'genero': m[GENERO],
 	} for m in filtered])
 
-@app.route('/getGeneros')
-def get_generos():
+@app.route('/generos')
+def generos():
 	return json.dumps(generos)
+
+@app.route('/porSequencia')
+def por_sequencia():
+	sequencia_famosa = int(request.args.get('sequencia'))
+	answer = filter(lambda x: sequencia_famosa in x[SEQ_FAMOSA], musicas)	
+	answer = applyFiltro('filtro-artistas', answer, ARTISTA)
+	answer = applyFiltro('filtro-generos', answer, GENERO)	
+	
+	return json.dumps(pagina([{
+		'artista': m[ARTISTA],
+		'musica': m[MUSICA],
+		'genero': m[GENERO],
+	} for m in answer]))
 
 if __name__ == '__main__':
 	init()

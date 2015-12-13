@@ -78,7 +78,7 @@ saida = [{
 	'diferenca': ["Am", "E"],
 }, ... ]
 
-getGeneros
+generos
 saida = {
 	generos : list
 }

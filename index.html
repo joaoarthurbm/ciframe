@@ -31,13 +31,18 @@
 	<link href="css/style.css" rel="stylesheet">
 	<link href="css/animate.css" rel="stylesheet">
 
+  <script type="text/javascript" src="js/angular.min.js"></script>
+  <script type="text/javascript" src="js/angular-ui-router.js"></script>
+
+
+
 	<!-- Magnific Popup core CSS file -->
 	<link rel="stylesheet" href="css/magnific-popup.css">
 
 	<script src="js/modernizr-2.6.2.min.js"></script>  <!-- Modernizr /-->
 </head>
 
-<body id="home">
+<body id="home" ng-app="DecifraMe">
 
 	<!-- Preloader -->
 	<div id="preloader">
@@ -68,14 +73,14 @@
 	</nav>
 
 	<!-- FullScreen -->
-    <div class="intro-header">
+    <div class="intro-header" ng-controller="MainCtrl">
 		<div class="col-xs-12 text-center abcen1">
 			<h1 class="h1_home wow fadeIn" data-wow-delay="0.4s">Decifra-me</h1>
 			<h3 class="h3_home wow fadeIn" data-wow-delay="0.6s">Ache músicas que você já pode manjar</h3>
       <h3 class="h3_home wow fadeIn" data-wow-delay="0.6s">Pesquisando pela música:</h3>
       <div class="search-song-container">
       <input id="song" class="search-song" type="text" placeholder="Nos diga uma música que você sabe" />
-      <a class="search-song-button btn">Pesquisar</a>
+      <a class="search-song-button btn" ng-click="pesquisarPorNome()">Pesquisar</a>
     </div>
       <h3 class="h3_home wow fadeIn" data-wow-delay="0.6s">Ou a partir dos acordes que você já sabe:</h3>
 
@@ -231,6 +236,8 @@
 	<!-- Smoothscroll -->
 	<script type="text/javascript" src="js/jquery.corner.js"></script>
 	<script src="js/wow.min.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/main.js"></script>
 	<script>
 	 new WOW().init();
 	</script>

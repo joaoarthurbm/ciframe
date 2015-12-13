@@ -14,9 +14,11 @@
           $scope.meusAcordes = [];
 
           $scope.pesquisarPorNome = function() {
+            console.log("enrouuurgurbsbsfyivsbsybvv");
             $http.get("http://localhost:5000/busca?musica=" + $scope.tituloMusica)
               .success(function(data, headers) {
                 musicas = data;
+                console.log("Aheeeee");
               })
               .error(function(data, headers) {
                 console.log("Erro ao tentar pesquisar por nome!");
@@ -40,4 +42,3 @@
           }
         })
 })();
-

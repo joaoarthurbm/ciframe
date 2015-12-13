@@ -64,25 +64,13 @@
 <!-- Credits -->
 <div id="notas" class="content-section-a">
     <div class="container">
-
-
-
-
         <h3 class="text-center">Músicas que você é capaz de tocar!</h3>
             <div class="well" style="max-height: 300px;overflow: auto;">
                 <ul class="list-group">
-                    </a><li class="list-group-item"><a href="index.html">Cilada bino!!!!</a></li>
-                    <li class="list-group-item">C#</li>
-                    <li class="list-group-item">D</li>
-                    <li class="list-group-item">D#</li>
-                    <li class="list-group-item">E</li>
-                    <li class="list-group-item">F</li>
-                    <li class="list-group-item">F#</li>
-                    <li class="list-group-item">G</li>
-                    <li class="list-group-item">G#</li>
-                    <li class="list-group-item">A</li>
-                    <li class="list-group-item">A#</li>
-                    <li class="list-group-item">B</li>
+                    <li class="list-group-item" ng-repeat="musica in resultado" ng-style="{background: 'rgba(0, '+128*musica.facilidade+', 0, 0.4)'}">
+                        <a href="index.html">{{musica.musica}} - {{musica.artista}} - {{musica.genero}}</a>
+                    </li>
+
                 </ul>
             </div>
 

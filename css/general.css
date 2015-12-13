@@ -18,7 +18,7 @@ body, html {
 
 ::selection{background:#1abc9c;color:white}
 
-.abcen{position: absolute;bottom: 8%;}
+.abcen{position: absolute;bottom: -56px;}
 
 .abcen1{position: absolute;top: 20%;}
 
@@ -154,6 +154,7 @@ filter: alpha(opacity=95) !important;
 
 .button_down img {
 width: 50px;
+	padding-bottom: 5px;
 	
 }
 .btn-primary {

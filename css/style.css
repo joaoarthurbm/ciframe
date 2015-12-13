@@ -5,6 +5,20 @@ Bootstrap Version
 Build: 1.0
 http://www.andreagalanti.it
 */
+/* CSS REQUIRED */
+.state-icon {
+  left: -5px;
+}
+.list-group-item-primary {
+  color: rgb(255, 255, 255);
+  background-color: rgb(66, 139, 202);
+}
+
+/* DEMO ONLY - REMOVES UNWANTED MARGIN */
+.well .list-group {
+  margin-bottom: 0px;
+}
+
 
 @font-face {
   font-family: 'Lato';
@@ -4788,7 +4802,7 @@ footer p {
 .search-song-button {
   margin: 0 0 5px 0;
   border: 1px #111;
-  background-color: #333;
+  background-color: #979797;
 }
 
 .search-song-container {

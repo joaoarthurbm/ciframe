@@ -1,450 +1,517 @@
-<!DOCTYPE html>
-<html>
+ <!-- FlatFy Theme - Andrea Galanti /-->
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if IE 9]>    <html class="no-js ie9" lang="en"> <![endif]-->
+<!--[if gt IE 9]><!--> <html> <!--<![endif]-->
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-    <meta name="theme-color" content="#2196F3">
-    <title>Decifra-me</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="Flatfy Free Flat and Responsive HTML5 Template ">
+    <meta name="author" content="">
 
-    <!-- CSS  -->
-    <link href="min/plugin-min.css" type="text/css" rel="stylesheet">
-    <link href="min/custom-min.css" type="text/css" rel="stylesheet" >
-    <link rel="stylesheet" type="text/css" href="css/normalize.css" />
-		<link rel="stylesheet" type="text/css" href="css/demo.css" />
-		<link rel="stylesheet" type="text/css" href="css/component2.css" />
+    <title>Flatfy – Free Flat and Responsive HTML5 Template</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom Google Web Font -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Arvo:400,700' rel='stylesheet' type='text/css'>
+
+    <!-- Custom CSS-->
+    <link href="css/general.css" rel="stylesheet">
+
+	 <!-- Owl-Carousel -->
+    <link href="css/custom.css" rel="stylesheet">
+	<link href="css/owl.carousel.css" rel="stylesheet">
+    <link href="css/owl.theme.css" rel="stylesheet">
+	<link href="css/style.css" rel="stylesheet">
+	<link href="css/animate.css" rel="stylesheet">
+
+	<!-- Magnific Popup core CSS file -->
+	<link rel="stylesheet" href="css/magnific-popup.css">
+
+	<script src="js/modernizr-2.6.2.min.js"></script>  <!-- Modernizr /-->
 </head>
-<body id="top" class="scrollspy">
 
-<!-- Pre Loader -->
-<div id="loader-wrapper">
-    <div id="loader"></div>
+<body id="home">
 
-    <div class="loader-section section-left"></div>
-    <div class="loader-section section-right"></div>
+	<!-- Preloader -->
+	<div id="preloader">
+		<div id="status"></div>
+	</div>
 
-</div>
+	<!-- FullScreen -->
+    <div class="intro-header">
+		<div class="col-xs-12 text-center abcen1">
+			<h1 class="h1_home wow fadeIn" data-wow-delay="0.4s">Decifra-me</h1>
+			<h3 class="h3_home wow fadeIn" data-wow-delay="0.6s">Ache músicas que você já pode manjar</h3>
+      <h3 class="h3_home wow fadeIn" data-wow-delay="0.6s">Pesquisando pela música:</h3>
+      <div class="search-song-container">
+      <input id="song" class="search-song" type="text" placeholder="Nos diga uma música que você sabe" />
+      <a class="search-song-button btn">Pesquisar</a>
+    </div>
+      <h3 class="h3_home wow fadeIn" data-wow-delay="0.6s">Ou a partir dos acordes que você já sabe:</h3>
 
-<!--Navigation-->
- <div class="navbar-fixed">
-    <nav id="nav_f" class="default_color" role="navigation">
+		</div>
+        <!-- /.container -->
+		<div class="col-xs-12 text-center abcen wow fadeIn">
+			<div class="button_down ">
+				<a class="imgcircle wow bounceInUp" data-wow-duration="1.5s"  href="#whatis"> <img class="img_scroll" src="img/icon/circle.png" alt=""> </a>
+			</div>
+		</div>
+    </div>
+
+	<!-- NavBar-->
+	<nav class="navbar-default" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#home">Flatfy</a>
+			</div>
+
+			<div class="collapse navbar-collapse navbar-right navbar-ex1-collapse">
+				<ul class="nav navbar-nav">
+
+					<li class="menuItem"><a href="#whatis">What is?</a></li>
+					<li class="menuItem"><a href="#useit">Use It</a></li>
+					<li class="menuItem"><a href="#screen">Screenshot</a></li>
+					<li class="menuItem"><a href="#credits">Credits</a></li>
+					<li class="menuItem"><a href="#contact">Contact</a></li>
+				</ul>
+			</div>
+
+		</div>
+	</nav>
+
+	<!-- What is -->
+	<div id="whatis" class="content-section-b" style="border-top: 0">
+		<div class="container">
+
+			<div class="col-md-6 col-md-offset-3 text-center wrap_title">
+				<h2>Que acordes você já sabe?</h2>
+				<p class="lead" style="margin-top:0">Clique para escolher um acorde.</p>
+
+			</div>
+
+			<div class="row">
+
+        <div class="col-sm-4  wow fadeInDown text-center">
+				  <img class="rotate" src="img/icon/laptop.svg" alt="Generic placeholder image">
+				  <h3>Maiores</h3>
+				  <p class="lead">Epsum factorial non deposit quid pro quo hic escorol. Olypian quarrels et gorilla congolium sic ad nauseum. </p>
+				 <!-- <p><a class="btn btn-embossed btn-primary view" role="button">View Details</a></p> -->
+				</div><!-- /.col-lg-4 -->
+
+				<div class="col-sm-4 wow fadeInDown text-center">
+				  <img  class="rotate" src="img/icon/picture.svg" alt="Generic placeholder image">
+				   <h3>Menores</h3>
+				   <!-- <p><a class="btn btn-embossed btn-primary view" role="button">View Details</a></p> -->
+				</div><!-- /.col-lg-4 -->
+
+				<div class="col-sm-4 wow fadeInDown text-center">
+				  <img  class="rotate" src="img/icon/retina.svg" alt="Generic placeholder image">
+				   <h3>Com sétima</h3>
+				  <!-- <p><a class="btn btn-embossed btn-primary view" role="button">View Details</a></p> -->
+				</div><!-- /.col-lg-4 -->
+
+			</div><!-- /.row -->
+
+
+		</div>
+	</div>
+
+	<!-- Use it -->
+    <div id ="useit" class="content-section-a">
+
         <div class="container">
-            <div class="nav-wrapper">
-            <a href="#" id="logo-container" class="brand-logo">Decifra-me</a>
-                <ul class="right hide-on-med-and-down">
-                    <li><a href="#intro">Service</a></li>
-                    <li><a href="#work">Work</a></li>
-                    <li><a href="#team">Team</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="https://github.com/joashp/material-design-template" target="_blank">Download</a></li>
-                </ul>
-                <ul id="nav-mobile" class="side-nav">
-                    <li><a href="#intro">Service</a></li>
-                    <li><a href="#work">Work</a></li>
-                    <li><a href="#team">Team</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="https://github.com/joashp/material-design-template" target="_blank">Download</a></li>
-                </ul>
-            <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
-            </div>
-        </div>
-    </nav>
-</div>
 
-<!--Hero-->
-<div class="section no-pad-bot" id="index-banner">
-    <div class="container">
+            <div class="row">
 
-    	<h1 class="text_h center header cd-headline letters type">
-    		<span>Selecione os acordes que você manja</span>
-    	</h1>
+				<div class="col-sm-6 pull-right wow fadeInRightBig">
+                    <img class="img-responsive " src="img/ipad.png" alt="">
+                </div>
 
-    	<!-- Start Nav Structure -->
-				<button class="cn-button button-left" id="cn-button">Maiores</button>
-				<div class="cn-wrapper button-left" id="cn-wrapper">
-					<ul>
-						<li><a href="#"><span>C</span></a></li>
-						<li><a href="#"><span>C#</span></a></li>
-						<li><a href="#"><span>D</span></a></li>
-						<li><a href="#"><span>D#</span></a></li>
-						<li><a href="#"><span>E</span></a></li>
-						<li><a href="#"><span>F</span></a></li>
-						<li><a href="#"><span>F#</span></a></li>
-						<li><a href="#"><span>G</span></a></li>
-						<li><a href="#"><span>G#</span></a></li>
-						<li><a href="#"><span>A</span></a></li>
-						<li><a href="#"><span>A#</span></a></li>
-						<li><a href="#"><span>B</span></a></li>
-					 </ul>
+                <div class="col-sm-6 wow fadeInLeftBig"  data-animation-delay="200">
+                    <h3 class="section-heading">Full Responsive</h3>
+					<div class="sub-title lead3">Lorem ipsum dolor sit atmet sit dolor greand fdanrh<br> sdfs sit atmet sit dolor greand fdanrh sdfs</div>
+                    <p class="lead">
+						In his igitur partibus duabus nihil erat, quod Zeno commuta rest gestiret.
+						Sed virtutem ipsam inchoavit, nihil ampliusuma. Scien tiam pollicentur,
+						uam non erat mirum sapientiae lorem cupido
+						patria esse cariorem. Quae qui non vident, nihilamane umquam magnum ac cognitione.
+					</p>
+
+					 <p><a class="btn btn-embossed btn-primary" href="#" role="button">View Details</a>
+					 <a class="btn btn-embossed btn-info" href="#" role="button">Visit Website</a></p>
 				</div>
-				<!-- End of Nav Structure -->
+            </div>
+        </div>
+        <!-- /.container -->
+    </div>
 
-				<!-- Start Nav Structure -->
-				<button class="cn-button button-center" id="cn-button-2">Menores</button>
-				<div class="cn-wrapper button-center" id="cn-wrapper-2">
-					<ul>
-						<li><a href="#"><span>Cm</span></a></li>
-						<li><a href="#"><span>C#m</span></a></li>
-						<li><a href="#"><span>Dm</span></a></li>
-						<li><a href="#"><span>D#m</span></a></li>
-						<li><a href="#"><span>Em</span></a></li>
-						<li><a href="#"><span>Fm</span></a></li>
-						<li><a href="#"><span>F#m</span></a></li>
-						<li><a href="#"><span>Gm</span></a></li>
-						<li><a href="#"><span>G#m</span></a></li>
-						<li><a href="#"><span>Am</span></a></li>
-						<li><a href="#"><span>A#m</span></a></li>
-						<li><a href="#"><span>Bm</span></a></li>
-					 </ul>
+    <div class="content-section-b">
+
+		<div class="container">
+            <div class="row">
+                <div class="col-sm-6 wow fadeInLeftBig">
+                     <div id="owl-demo-1" class="owl-carousel">
+						<a href="img/iphone.png" class="image-link">
+							<div class="item">
+								<img  class="img-responsive img-rounded" src="img/iphone.png" alt="">
+							</div>
+						</a>
+						<a href="img/iphone.png" class="image-link">
+							<div class="item">
+								<img  class="img-responsive img-rounded" src="img/iphone.png" alt="">
+							</div>
+						</a>
+						<a href="img/iphone.png" class="image-link">
+							<div class="item">
+								<img  class="img-responsive img-rounded" src="img/iphone.png" alt="">
+							</div>
+						</a>
+					</div>
+                </div>
+
+                <div class="col-sm-6 wow fadeInRightBig"  data-animation-delay="200">
+                    <h3 class="section-heading">Drag Gallery</h3>
+					<div class="sub-title lead3">Lorem ipsum dolor sit atmet sit dolor greand fdanrh<br> sdfs sit atmet sit dolor greand fdanrh sdfs</div>
+                    <p class="lead">
+						In his igitur partibus duabus nihil erat, quod Zeno commuta rest gestiret.
+						Sed virtutem ipsam inchoavit, nihil ampliusuma. Scien tiam pollicentur,
+						uam non erat mirum sapientiae lorem cupido
+						patria esse cariorem. Quae qui non vident, nihilamane umquam magnum ac cognitione.
+					</p>
+
+					 <p><a class="btn btn-embossed btn-primary" href="#" role="button">View Details</a>
+					 <a class="btn btn-embossed btn-info" href="#" role="button">Visit Website</a></p>
 				</div>
-				<!-- End of Nav Structure -->
-
-        <!-- Start Nav Structure -->
-				<button class="cn-button button-right" id="cn-button-3">Com sétima</button>
-				<div class="cn-wrapper button-right" id="cn-wrapper-3">
-					<ul>
-						<li><a href="#"><span>C7</span></a></li>
-						<li><a href="#"><span>C#7</span></a></li>
-						<li><a href="#"><span>D7</span></a></li>
-						<li><a href="#"><span>D#7</span></a></li>
-						<li><a href="#"><span>E7</span></a></li>
-						<li><a href="#"><span>F7</span></a></li>
-						<li><a href="#"><span>F#7</span></a></li>
-						<li><a href="#"><span>G7</span></a></li>
-						<li><a href="#"><span>G#7</span></a></li>
-						<li><a href="#"><span>A7</span></a></li>
-						<li><a href="#"><span>A#7</span></a></li>
-						<li><a href="#"><span>B7</span></a></li>
-					 </ul>
-				</div>
-
-    </div>
-</div>
-
-<!--Intro and service-->
-<div id="intro" class="section scrollspy">
-    <div class="container">
-        <div class="row">
-            <div  class="col s12">
-                <h2 class="center header text_h2"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. <span class="span_h2"> Phasellus  </span>vestibulum lorem risus, nec suscipit lorem <span class="span_h2"> laoreet quis.</span> </h2>
-            </div>
-
-            <div  class="col s12 m4 l4">
-                <div class="center promo promo-example">
-                    <i class="mdi-image-flash-on"></i>
-                    <h5 class="promo-caption">Speeds up development</h5>
-                    <p class="light center">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Cum sociis natoque penatibus et magnis dis parturient montes.</p>
-                </div>
-            </div>
-            <div class="col s12 m4 l4">
-                <div class="center promo promo-example">
-                    <i class="mdi-social-group"></i>
-                    <h5 class="promo-caption">User Experience Focused</h5>
-                    <p class="light center">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-                </div>
-            </div>
-            <div class="col s12 m4 l4">
-                <div class="center promo promo-example">
-                    <i class="mdi-hardware-desktop-windows"></i>
-                    <h5 class="promo-caption">Fully responsive</h5>
-                    <p class="light center">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.</p>
-                </div>
-            </div>
+			</div>
         </div>
     </div>
-</div>
 
-<!--Work-->
-<div class="section scrollspy" id="work">
-    <div class="container">
-        <h2 class="header text_b">Work </h2>
-        <div class="row">
-            <div class="col s12 m4 l4">
-                <div class="card">
-                    <div class="card-image waves-effect waves-block waves-light">
-                        <img class="activator" src="img/project1.jpg">
-                    </div>
-                    <div class="card-content">
-                        <span class="card-title activator grey-text text-darken-4">Project Title <i class="mdi-navigation-more-vert right"></i></span>
-                        <p><a href="#">Project link</a></p>
-                    </div>
-                    <div class="card-reveal">
-                        <span class="card-title grey-text text-darken-4">Project Title <i class="mdi-navigation-close right"></i></span>
-                        <p>Here is some more information about this project that is only revealed once clicked on.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m4 l4">
-                <div class="card">
-                    <div class="card-image waves-effect waves-block waves-light">
-                        <img class="activator" src="img/project2.jpeg">
-                    </div>
-                    <div class="card-content">
-                        <span class="card-title activator grey-text text-darken-4">Project Title <i class="mdi-navigation-more-vert right"></i></span>
-                        <p><a href="#">Project link</a></p>
-                    </div>
-                    <div class="card-reveal">
-                        <span class="card-title grey-text text-darken-4">Project Title <i class="mdi-navigation-close right"></i></span>
-                        <p>Here is some more information about this project that is only revealed once clicked on.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m4 l4">
-                <div class="card">
-                    <div class="card-image waves-effect waves-block waves-light">
-                        <img class="activator" src="img/project3.png">
-                    </div>
-                    <div class="card-content">
-                        <span class="card-title activator grey-text text-darken-4">Project Title <i class="mdi-navigation-more-vert right"></i></span>
-                        <p><a href="#">Project link</a></p>
-                    </div>
-                    <div class="card-reveal">
-                        <span class="card-title grey-text text-darken-4">Project Title <i class="mdi-navigation-close right"></i></span>
-                        <p>Here is some more information about this project that is only revealed once clicked on.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m4 l4">
-                <div class="card">
-                    <div class="card-image waves-effect waves-block waves-light">
-                        <img class="activator" src="img/project4.jpg">
-                    </div>
-                    <div class="card-content">
-                        <span class="card-title activator grey-text text-darken-4">Project Title <i class="mdi-navigation-more-vert right"></i></span>
-                        <p><a href="#">Project link</a></p>
-                    </div>
-                    <div class="card-reveal">
-                        <span class="card-title grey-text text-darken-4">Project Title <i class="mdi-navigation-close right"></i></span>
-                        <p>Here is some more information about this project that is only revealed once clicked on.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m4 l4">
-                <div class="card">
-                    <div class="card-image waves-effect waves-block waves-light">
-                        <img class="activator" src="img/project5.png">
-                    </div>
-                    <div class="card-content">
-                        <span class="card-title activator grey-text text-darken-4">Project Title <i class="mdi-navigation-more-vert right"></i></span>
-                        <p><a href="#">Project link</a></p>
-                    </div>
-                    <div class="card-reveal">
-                        <span class="card-title grey-text text-darken-4">Project Title <i class="mdi-navigation-close right"></i></span>
-                        <p>Here is some more information about this project that is only revealed once clicked on.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m4 l4">
-                <div class="card">
-                    <div class="card-image waves-effect waves-block waves-light">
-                        <img class="activator" src="img/project6.jpeg">
-                    </div>
-                    <div class="card-content">
-                        <span class="card-title activator grey-text text-darken-4">Project Title <i class="mdi-navigation-more-vert right"></i></span>
-                        <p><a href="#">Project link</a></p>
-                    </div>
-                    <div class="card-reveal">
-                        <span class="card-title grey-text text-darken-4">Project Title <i class="mdi-navigation-close right"></i></span>
-                        <p>Here is some more information about this project that is only revealed once clicked on.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    <div class="content-section-a">
 
-<!--Parallax-->
-<div class="parallax-container">
-    <div class="parallax"><img src="img/parallax1.png"></div>
-</div>
-
-<!--Team-->
-<div class="section scrollspy" id="team">
-    <div class="container">
-        <h2 class="header text_b"> Our Team </h2>
-        <div class="row">
-            <div class="col s12 m3">
-                <div class="card card-avatar">
-                    <div class="waves-effect waves-block waves-light">
-                        <img class="activator" src="img/avatar1.png">
-                    </div>
-                    <div class="card-content">
-                        <span class="card-title activator grey-text text-darken-4">Flash <br/>
-                            <small><em><a class="red-text text-darken-1" href="#">CEO</a></em></small></span>
-                        <p>
-                            <a class="blue-text text-lighten-2" href="https://www.facebook.com/joash.c.pereira">
-                                <i class="fa fa-facebook-square"></i>
-                            </a>
-                            <a class="blue-text text-lighten-2" href="https://twitter.com/im_joash">
-                                <i class="fa fa-twitter-square"></i>
-                            </a>
-                            <a class="blue-text text-lighten-2" href="https://plus.google.com/u/0/+JoashPereira">
-                                <i class="fa fa-google-plus-square"></i>
-                            </a>
-                            <a class="blue-text text-lighten-2" href="https://www.linkedin.com/in/joashp">
-                                <i class="fa fa-linkedin-square"></i>
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m3">
-                <div class="card card-avatar">
-                    <div class="waves-effect waves-block waves-light">
-                        <img class="activator" src="img/avatar2.png">
-                    </div>
-                    <div class="card-content">
-                        <span class="card-title activator grey-text text-darken-4">Cat Woman<br/>
-                            <small><em><a class="red-text text-darken-1" href="#">Designer</a></em></small>
-                        </span>
-                        <p>
-                            <a class="blue-text text-lighten-2" href="https://www.facebook.com/joash.c.pereira">
-                                <i class="fa fa-facebook-square"></i>
-                            </a>
-                            <a class="blue-text text-lighten-2" href="https://twitter.com/im_joash">
-                                <i class="fa fa-twitter-square"></i>
-                            </a>
-                            <a class="blue-text text-lighten-2" href="https://plus.google.com/u/0/+JoashPereira">
-                                <i class="fa fa-google-plus-square"></i>
-                            </a>
-                            <a class="blue-text text-lighten-2" href="https://www.linkedin.com/in/joashp">
-                                <i class="fa fa-linkedin-square"></i>
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m3">
-                <div class="card card-avatar">
-                    <div class="waves-effect waves-block waves-light">
-                        <img class="activator" src="img/avatar3.png">
-                    </div>
-                    <div class="card-content">
-                        <span class="card-title activator grey-text text-darken-4">
-                            Capt. America <br/>
-                            <small><em><a class="red-text text-darken-1" href="#">CMO</a></em></small></span>
-                        <p>
-                            <a class="blue-text text-lighten-2" href="https://www.facebook.com/joash.c.pereira">
-                                <i class="fa fa-facebook-square"></i>
-                            </a>
-                            <a class="blue-text text-lighten-2" href="https://twitter.com/im_joash">
-                                <i class="fa fa-twitter-square"></i>
-                            </a>
-                            <a class="blue-text text-lighten-2" href="https://plus.google.com/u/0/+JoashPereira">
-                                <i class="fa fa-google-plus-square"></i>
-                            </a>
-                            <a class="blue-text text-lighten-2" href="https://www.linkedin.com/in/joashp">
-                                <i class="fa fa-linkedin-square"></i>
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m3">
-                <div class="card card-avatar">
-                    <div class="waves-effect waves-block waves-light">
-                        <img class="activator" src="img/avatar4.png">
-                    </div>
-                    <div class="card-content">
-                        <span class="card-title activator grey-text text-darken-4">Robin<br/>
-                            <small><em><a class="red-text text-darken-1" href="#">Developer</a></em></small></span>
-                        <p>
-                            <a class="blue-text text-lighten-2" href="https://www.facebook.com/joash.c.pereira">
-                                <i class="fa fa-facebook-square"></i>
-                            </a>
-                            <a class="blue-text text-lighten-2" href="https://twitter.com/im_joash">
-                                <i class="fa fa-twitter-square"></i>
-                            </a>
-                            <a class="blue-text text-lighten-2" href="https://plus.google.com/u/0/+JoashPereira">
-                                <i class="fa fa-google-plus-square"></i>
-                            </a>
-                            <a class="blue-text text-lighten-2" href="https://www.linkedin.com/in/joashp">
-                                <i class="fa fa-linkedin-square"></i>
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--Footer-->
-<footer id="contact" class="page-footer default_color scrollspy">
-    <div class="container">
-        <div class="row">
-            <div class="col l6 s12">
-                <form class="col s12" action="contact.php" method="post">
-                    <div class="row">
-                        <div class="input-field col s6">
-                            <i class="mdi-action-account-circle prefix white-text"></i>
-                            <input id="icon_prefix" name="name" type="text" class="validate white-text">
-                            <label for="icon_prefix" class="white-text">First Name</label>
-                        </div>
-                        <div class="input-field col s6">
-                            <i class="mdi-communication-email prefix white-text"></i>
-                            <input id="icon_email" name="email" type="email" class="validate white-text">
-                            <label for="icon_email" class="white-text">Email-id</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <i class="mdi-editor-mode-edit prefix white-text"></i>
-                            <textarea id="icon_prefix2" name="message" class="materialize-textarea white-text"></textarea>
-                            <label for="icon_prefix2" class="white-text">Message</label>
-                        </div>
-                        <div class="col offset-s7 s5">
-                            <button class="btn waves-effect waves-light red darken-1" type="submit">Submit
-                                <i class="mdi-content-send right white-text"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="col l3 s12">
-                <h5 class="white-text">joashpereira.com</h5>
-                <ul>
-                    <li><a class="white-text" href="http://www.joashpereira.com/">Home</a></li>
-                    <li><a class="white-text" href="http://www.joashpereira.com/blog">Blog</a></li>
-                </ul>
-            </div>
-            <div class="col l3 s12">
-                <h5 class="white-text">Social</h5>
-                <ul>
-                    <li>
-                        <a class="white-text" href="https://www.behance.net/joashp">
-                            <i class="small fa fa-behance-square white-text"></i> Behance
-                        </a>
-                    </li>
-                    <li>
-                        <a class="white-text" href="https://www.facebook.com/joash.c.pereira">
-                            <i class="small fa fa-facebook-square white-text"></i> Facebook
-                        </a>
-                    </li>
-                    <li>
-                        <a class="white-text" href="https://github.com/joashp">
-                            <i class="small fa fa-github-square white-text"></i> Github
-                        </a>
-                    </li>
-                    <li>
-                        <a class="white-text" href="https://www.linkedin.com/in/joashp">
-                            <i class="small fa fa-linkedin-square white-text"></i> Linkedin
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="footer-copyright default_color">
         <div class="container">
-            Made by <a class="white-text" href="http://joashpereira.com">Joash Pereira</a>. Thanks to <a class="white-text" href="http://materializecss.com/">materializecss</a>
+
+             <div class="row">
+
+				<div class="col-sm-6 pull-right wow fadeInRightBig">
+                    <img class="img-responsive " src="img/doge.png" alt="">
+                </div>
+
+                <div class="col-sm-6 wow fadeInLeftBig"  data-animation-delay="200">
+                    <h3 class="section-heading">Font Awesome & Glyphicon</h3>
+                    <p class="lead">A special thanks to Death to the Stock Photo for
+					providing the photographs that you see in this template.
+					</p>
+
+					<ul class="descp lead2">
+						<li><i class="glyphicon glyphicon-signal"></i> Reliable and Secure Platform</li>
+						<li><i class="glyphicon glyphicon-refresh"></i> Everything is perfectly orgainized for future</li>
+						<li><i class="glyphicon glyphicon-headphones"></i> Attach large file easily</li>
+					</ul>
+				</div>
+            </div>
         </div>
+
     </div>
-</footer>
+
+	<!-- Screenshot -->
+	<div id="screen" class="content-section-b">
+        <div class="container">
+          <div class="row" >
+			 <div class="col-md-6 col-md-offset-3 text-center wrap_title ">
+				<h2>Screen App</h2>
+				<p class="lead" style="margin-top:0">A special thanks to Death.</p>
+			 </div>
+		  </div>
+		    <div class="row wow bounceInUp" >
+              <div id="owl-demo" class="owl-carousel">
+
+				<a href="img/slide/1.png" class="image-link">
+					<div class="item">
+						<img  class="img-responsive img-rounded" src="img/slide/1.png" alt="Owl Image">
+					</div>
+				</a>
+
+               <a href="img/slide/2.png" class="image-link">
+					<div class="item">
+						<img  class="img-responsive img-rounded" src="img/slide/2.png" alt="Owl Image">
+					</div>
+				</a>
+
+				<a href="img/slide/3.png" class="image-link">
+					<div class="item">
+						<img  class="img-responsive img-rounded" src="img/slide/3.png" alt="Owl Image">
+					</div>
+				</a>
+
+				<a href="img/slide/1.png" class="image-link">
+					<div class="item">
+						<img  class="img-responsive img-rounded" src="img/slide/1.png" alt="Owl Image">
+					</div>
+				</a>
+
+               <a href="img/slide/2.png" class="image-link">
+					<div class="item">
+						<img  class="img-responsive img-rounded" src="img/slide/2.png" alt="Owl Image">
+					</div>
+				</a>
+
+				<a href="img/slide/3.png" class="image-link">
+					<div class="item">
+						<img  class="img-responsive img-rounded" src="img/slide/3.png" alt="Owl Image">
+					</div>
+				</a>
+              </div>
+          </div>
+        </div>
 
 
-    <!--  Scripts-->
-    <script src="min/plugin-min.js"></script>
-    <script src="min/custom-min.js"></script>
-    <script src="js/polyfills.js"></script>
-		<script src="js/demo2.js"></script>
+	</div>
 
-    </body>
+	<div  class="content-section-c ">
+		<div class="container">
+			<div class="row">
+			<div class="col-md-6 col-md-offset-3 text-center wrap_title white">
+				<h2>Get Live Updates</h2>
+				<p class="lead" style="margin-top:0">A special thanks to Death.</p>
+			 </div>
+			<div class="mockup-content">
+					<div class="morph-button wow pulse morph-button-inflow morph-button-inflow-1">
+						<button type="button "><span>Subscribe to our Newsletter</span></button>
+						<div class="morph-content">
+							<div>
+								<div class="content-style-form content-style-form-4 ">
+									<h2 class="morph-clone">Subscribe to our Newsletter</h2>
+									<form>
+										<p><label>Your Email Address</label><input type="text"/></p>
+										<p><button>Subscribe me</button></p>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Credits -->
+	<div id="credits" class="content-section-a">
+		<div class="container">
+			<div class="row">
+
+			<div class="col-md-6 col-md-offset-3 text-center wrap_title">
+				<h2>Credits</h2>
+				<p class="lead" style="margin-top:0">A special thanks to Death.</p>
+			 </div>
+
+				<div class="col-sm-6  block wow bounceIn">
+					<div class="row">
+						<div class="col-md-4 box-icon rotate">
+							<i class="fa fa-desktop fa-4x "> </i>
+						</div>
+						<div class="col-md-8 box-ct">
+							<h3> Bootstrap </h3>
+							<p> Lorem ipsum dolor sit ametconsectetur adipiscing elit. Suspendisse orci quam. </p>
+						</div>
+				  </div>
+			  </div>
+			  <div class="col-sm-6 block wow bounceIn">
+					<div class="row">
+					  <div class="col-md-4 box-icon rotate">
+						<i class="fa fa-picture-o fa-4x "> </i>
+					  </div>
+					  <div class="col-md-8 box-ct">
+						<h3> Owl-Carousel </h3>
+						<p> Nullam mo  arcu ac molestie scelerisqu vulputate, molestie ligula gravida, tempus ipsum.</p>
+					  </div>
+					</div>
+			  </div>
+		  </div>
+
+		  <div class="row tworow">
+				<div class="col-sm-6  block wow bounceIn">
+					<div class="row">
+						<div class="col-md-4 box-icon rotate">
+							<i class="fa fa-magic fa-4x "> </i>
+						</div>
+						<div class="col-md-8 box-ct">
+							<h3> Codrops </h3>
+							<p> Lorem ipsum dolor sit ametconsectetur adipiscing elit. Suspendisse orci quam. </p>
+						</div>
+				  </div>
+			  </div>
+			  <div class="col-sm-6 block wow bounceIn">
+					<div class="row">
+					  <div class="col-md-4 box-icon rotate">
+						<i class="fa fa-heart fa-4x "> </i>
+					  </div>
+					  <div class="col-md-8 box-ct">
+						<h3> Lorem Ipsum</h3>
+						<p> Nullam mo  arcu ac molestie scelerisqu vulputate, molestie ligula gravida, tempus ipsum.</p>
+					  </div>
+					</div>
+			  </div>
+		  </div>
+		</div>
+	</div>
+
+	<!-- Banner Download -->
+	<div id="downloadlink" class="banner">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3 text-center wrap_title">
+				<h2>Download Free</h2>
+				<p class="lead" style="margin-top:0">Pay with a Tweet</p>
+				<p><a class="btn btn-embossed btn-primary view" role="button">Free Download</a></p>
+			 </div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Contact -->
+	<div id="contact" class="content-section-a">
+		<div class="container">
+			<div class="row">
+
+			<div class="col-md-6 col-md-offset-3 text-center wrap_title">
+				<h2>Contact Us</h2>
+				<p class="lead" style="margin-top:0">A special thanks to Death.</p>
+			</div>
+
+			<form role="form" action="" method="post" >
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="InputName">Your Name</label>
+						<div class="input-group">
+							<input type="text" class="form-control" name="InputName" id="InputName" placeholder="Enter Name" required>
+							<span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="InputEmail">Your Email</label>
+						<div class="input-group">
+							<input type="email" class="form-control" id="InputEmail" name="InputEmail" placeholder="Enter Email" required  >
+							<span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="InputMessage">Message</label>
+						<div class="input-group">
+							<textarea name="InputMessage" id="InputMessage" class="form-control" rows="5" required></textarea>
+							<span class="input-group-addon"><i class="glyphicon glyphicon-ok form-control-feedback"></i></span>
+						</div>
+					</div>
+
+					<input type="submit" name="submit" id="submit" value="Submit" class="btn wow tada btn-embossed btn-primary pull-right">
+				</div>
+			</form>
+
+			<hr class="featurette-divider hidden-lg">
+				<div class="col-md-5 col-md-push-1 address">
+					<address>
+					<h3>Office Location</h3>
+					<p class="lead"><a href="https://www.google.com/maps/preview?ie=UTF-8&q=The+Pentagon&fb=1&gl=us&hq=1400+Defense+Pentagon+Washington,+DC+20301-1400&cid=12647181945379443503&ei=qmYfU4H8LoL2oATa0IHIBg&ved=0CKwBEPwSMAo&safe=on">The Pentagon<br>
+					Washington, DC 20301</a><br>
+					Phone: XXX-XXX-XXXX<br>
+					Fax: XXX-XXX-YYYY</p>
+					</address>
+
+					<h3>Social</h3>
+					<li class="social">
+					<a href="#"><i class="fa fa-facebook-square fa-size"> </i></a>
+					<a href="#"><i class="fa  fa-twitter-square fa-size"> </i> </a>
+					<a href="#"><i class="fa fa-google-plus-square fa-size"> </i></a>
+					<a href="#"><i class="fa fa-flickr fa-size"> </i> </a>
+					</li>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-7">
+            <h3 class="footer-title">Follow Me!</h3>
+            <p>Vuoi ricevere news su altri template?<br/>
+              Visita Andrea Galanti.it e vedrai tutte le news riguardanti nuovi Theme!<br/>
+              Go to: <a  href="http://andreagalanti.it" target="_blank">andreagalanti.it</a>
+            </p>
+
+			<!-- LICENSE -->
+			<a rel="cc:attributionURL" href="http://www.andreagalanti.it/flatfy"
+		   property="dc:title">Flatfy Theme </a> by
+		   <a rel="dc:creator" href="http://www.andreagalanti.it"
+		   property="cc:attributionName">Andrea Galanti</a>
+		   is licensed to the public under
+		   <BR>the <a rel="license"
+		   href="http://creativecommons.org/licenses/by-nc/3.0/it/deed.it">Creative
+		   Commons Attribution 3.0 License - NOT COMMERCIAL</a>.
+
+
+          </div> <!-- /col-xs-7 -->
+
+          <div class="col-md-5">
+            <div class="footer-banner">
+              <h3 class="footer-title">Flatfy Theme</h3>
+              <ul>
+                <li>12 Column Grid Bootstrap</li>
+                <li>Form Contact</li>
+                <li>Drag Gallery</li>
+                <li>Full Responsive</li>
+                <li>Lorem Ipsum</li>
+              </ul>
+              Go to: <a href="http://andreagalanti.it/flatfy" target="_blank">andreagalanti.it/flatfy</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/jquery-1.10.2.js"></script>
+    <script src="js/bootstrap.js"></script>
+	<script src="js/owl.carousel.js"></script>
+	<script src="js/script.js"></script>
+
+	<!-- StikyMenu -->
+	<script src="js/stickUp.min.js"></script>
+	<script type="text/javascript">
+	  jQuery(function($) {
+		$(document).ready( function() {
+		  $('.navbar-default').stickUp();
+
+		});
+	  });
+
+	</script>
+	<!-- Smoothscroll -->
+	<script type="text/javascript" src="js/jquery.corner.js"></script>
+	<script src="js/wow.min.js"></script>
+	<script>
+	 new WOW().init();
+	</script>
+	<script src="js/classie.js"></script>
+	<script src="js/uiMorphingButton_inflow.js"></script>
+	<!-- Magnific Popup core JS file -->
+	<script src="js/jquery.magnific-popup.js"></script>
+</body>
+
 </html>

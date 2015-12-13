@@ -3,13 +3,15 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-ARTISTA = 0
-MUSICA = 1
-GENERO = 2
-POPULARIDADE = 3
-TOM = 4
-SEQ_FAMOSA = 5
-CIFRA = 6
+ARTISTA_ID = 0
+MUSICA_ID = 1
+ARTISTA = 2
+MUSICA = 3
+GENERO = 4
+POPULARIDADE = 5
+TOM = 6
+SEQ_FAMOSA = 7
+CIFRA = 8
 
 POR_PAGINA = 50
 
@@ -25,9 +27,10 @@ def init():
 	for line in f:
 		line = line.replace('"', '').replace('NA', '')[:-1]
 
-		musica = line.split(',')[2:]
+		musica = line.split(',')
 		musica[POPULARIDADE] = int(musica[POPULARIDADE].replace('.', ''))
 		musica[CIFRA] = set(musica[CIFRA].split(';')) if musica[CIFRA] != '' else set()
+		musica[SEQ_FAMOSA] = musica[SEQ_FAMOSA].split(";")
 
 		if musica[GENERO] != '' :
 			generos.add(musica[GENERO])
@@ -53,21 +56,23 @@ def pagina(colecao):
 def metodo_mestre(acordes):
 	answer = applyFiltro('filtro-artistas', musicas, ARTISTA)
 	answer = applyFiltro('filtro-generos', answer, GENERO)
-	
+
 	answer = [{
 		'artista': m[ARTISTA],
 		'musica': m[MUSICA],
 		'genero': m[GENERO],
+		'artista_id': m[ARTISTA_ID],
+		'musica_id': m[MUSICA_ID],
 		'facilidade': 1.0 * len(m[CIFRA] & acordes) / len(m[CIFRA]),
 		'diferenca': list(m[CIFRA] - acordes)
 	} for m in answer]
 
 	minimo = float(request.args.get('min', 0))/ 100
 	maximo = float(request.args.get('max', 100))/ 100
-	
+
 	answer = filter(lambda x: minimo <= x['facilidade'] <= maximo, answer)
-	
-	answer.sort(key = lambda x: -x['facilidade'])	
+
+	answer.sort(key = lambda x: -x['facilidade'])
 	return json.dumps(pagina(answer))
 
 @app.route('/rankByMusica')
@@ -88,7 +93,7 @@ def conjunto():
 
 @app.route('/busca')
 def busca():
-	filtered = applyFiltro('musica', musicas, MUSICA)
+	filtered = filter(lambda x: x[MUSICA].lower() == request.args.get('musica').lower(), musicas)
 
 	return json.dumps([{
 		'artista': m[ARTISTA],
@@ -97,21 +102,28 @@ def busca():
 	} for m in filtered])
 
 @app.route('/generos')
-def generos():
+def get_generos():
 	return json.dumps(generos)
 
 @app.route('/porSequencia')
 def por_sequencia():
-	sequencia_famosa = int(request.args.get('sequencia'))
-	answer = filter(lambda x: sequencia_famosa in x[SEQ_FAMOSA], musicas)	
+	sequencia_famosa = request.args.get('sequencia')
+	answer = filter(lambda x: sequencia_famosa in x[SEQ_FAMOSA], musicas)
 	answer = applyFiltro('filtro-artistas', answer, ARTISTA)
-	answer = applyFiltro('filtro-generos', answer, GENERO)	
-	
+	answer = applyFiltro('filtro-generos', answer, GENERO)
+
 	return json.dumps(pagina([{
 		'artista': m[ARTISTA],
 		'musica': m[MUSICA],
 		'genero': m[GENERO],
+		'artista_id': m[ARTISTA_ID],
+		'musica_id': m[MUSICA_ID],
 	} for m in answer]))
+
+@app.after_request
+def add_header(response):
+	response.headers['Access-Control-Allow-Origin'] = '*'
+	return response
 
 if __name__ == '__main__':
 	init()

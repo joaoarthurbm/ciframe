@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import sys, os
 import glob
 if len(sys.argv) != 2:
-    print 'usage: python cifra_parser.py cifras_dir'
+    print 'usage: python parse_estilos.py estilos.html'
     sys.exit()
 
 

@@ -35,10 +35,6 @@ def init():
 		if musica[GENERO] != '' :
 			generos.add(musica[GENERO])
 
-		# TRATAR NOS DADOS
-		if len(musica[CIFRA]) > 0:
-			musicas.append(musica)
-
 	f.close()
 	generos = list(generos)
 	musicas.sort(key = lambda x: -x[POPULARIDADE])

@@ -1,5 +1,7 @@
+# coding: utf-8
 import json
 from flask import Flask, request
+import sys
 
 app = Flask(__name__)
 
@@ -19,6 +21,8 @@ musicas = []
 generos = set()
 
 def init():
+	reload(sys)  
+	sys.setdefaultencoding('utf8')
 	global generos
 
 	f = open('../data/top/dataset_final.csv')
@@ -89,14 +93,14 @@ def conjunto():
 
 @app.route('/busca')
 def busca():
-	filtered = filter(lambda x: x[MUSICA].lower() == request.args.get('musica').lower(), musicas)
-	out = json.dumps([{
+	key = request.args.get('musica').lower()
+	filtered = filter(lambda x: key in x[MUSICA].lower(), musicas)
+	return json.dumps([{
 		'artista': m[ARTISTA],
 		'musica': m[MUSICA],
 		'genero': m[GENERO],
 	} for m in filtered])
-	print out
-	return out
+	
 
 @app.route('/generos')
 def get_generos():

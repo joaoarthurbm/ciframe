@@ -34,7 +34,7 @@ def init():
 
 		if musica[GENERO] != '' :
 			generos.add(musica[GENERO])
-
+		musicas.append(musica)
 	f.close()
 	generos = list(generos)
 	musicas.sort(key = lambda x: -x[POPULARIDADE])
@@ -90,12 +90,13 @@ def conjunto():
 @app.route('/busca')
 def busca():
 	filtered = filter(lambda x: x[MUSICA].lower() == request.args.get('musica').lower(), musicas)
-
-	return json.dumps([{
+	out = json.dumps([{
 		'artista': m[ARTISTA],
 		'musica': m[MUSICA],
 		'genero': m[GENERO],
 	} for m in filtered])
+	print out
+	return out
 
 @app.route('/generos')
 def get_generos():

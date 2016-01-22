@@ -1,0 +1,36 @@
+.top {
+  position: absolute;
+  width: 100%;
+  z-index: 100;
+}
+.top ul {
+  float: right;
+  padding-top: 10px;
+}
+@keyframes slideInRight {
+    from    { transform:translateX(100%); }
+    to      { transform: translateX(0); }
+}
+@keyframes slideInLeft {
+    from    { transform:translateX(0); }
+    to      { transform: translateX(-100%); }
+}
+.page {
+  padding-top: 60px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transition: all 1s ease;
+  -webkit-transition:all 1s ease;
+  -moz-transition: all 1s ease;
+  -o-transition: all 1s ease;
+}
+.page-home      { background:#a569bd; color:#ecf0f1; }
+.page-about     { background:#f39c12; color:#ecf0f1; }
+
+.page.ng-enter {
+    animation: slideInRight .5s both ease-in;
+}
+.page.ng-leave {
+    animation: slideInLeft .5s both ease-in;
+}

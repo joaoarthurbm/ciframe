@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt" ng-app="deciframeApp">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Decifra-me</title>
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="assets/css/app.css" media="screen">
+</head>
+<body ng-controller="MainController">
+
+  <nav class="container top">
+    <ul class="nav nav-pills">
+      <li role="presentation" ng-class="{active: isActive('/')}"><a href="#/">Home</a></li>
+      <li role="presentation" ng-class="{active: isActive('/sobre')}"><a href="#/sobre">Sobre</a></li>
+    </ul>
+  </nav>
+  <div class="page {{ pageClass }}" ng-view></div>
+
+  <!-- jQuery 1.11.3 -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <!-- Bootstrap 3.3.6 -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <!-- Angular 1.4.9 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular-route.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular-animate.min.js"></script>
+  <!-- App -->
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/routes.js"></script>
+  <script src="assets/js/controllers/main.js"></script>
+  <script src="assets/js/controllers/home.js"></script>
+  <script src="assets/js/controllers/about.js"></script>
+</body>
+</html>

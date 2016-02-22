@@ -33,8 +33,6 @@ body {
 .page.ng-leave {
     animation: slideInLeft .5s both ease-in;
 }
-.page-home      { background:#E9BC00; color:#671958; }
-.page-about     { background:#f39c12; color:#ecf0f1; }
 
 .navbar-deciframe {
   background: none;
@@ -52,12 +50,33 @@ body {
     height: 100vh;
   }
 }
-.logo-container  {
-  padding: 50px;
+.viewWindow-panel-A { background:#E9BC00; }
+.viewWindow-panel-B { background:#671958; color: #FFFFFF }
+.viewWindow-panel-C { background:#FFFFFF; }
+.viewWindow-panel-main-container  {
+  padding: 150px 50px;
 }
-.viewWindow-panel-home-menu {
-  background:#671958;
-}
-.home-menu {
+.viewWindow-panel-container {
   padding-top: 70px;
+  padding-bottom: 70px;
+}
+a:link,
+a:visited {
+  color: #fff;
+}
+a.btn-link-theme:link,
+a.btn-link-theme:visited, {
+  text-decoration: none;
+}
+
+/* Bootstrap overhide */
+.navbar-default .navbar-nav>.active>a,
+.navbar-default .navbar-nav>.active>a:focus,
+.navbar-default .navbar-nav>.active>a:hover {
+  background: none;
+  color: #FFF;
+  text-shadow: 2px 2px 1px #000;
+}
+.navbar-default .navbar-nav>li>a {
+  color: #FFF;
 }

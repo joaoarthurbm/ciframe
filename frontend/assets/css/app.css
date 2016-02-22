@@ -40,6 +40,10 @@ body {
   background: none;
   border: none;
 }
+.navbar-brand > svg {
+  width: 200px;
+}
+.st0 { fill:rgba(244, 234, 242, 0.5); }
 .vertical-img-wrapper {
   line-height: 500px;
 }

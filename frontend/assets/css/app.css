@@ -34,15 +34,10 @@ body {
 .page.ng-leave {
     animation: slideInLeft .5s both ease-in;
 }
-
-.navbar-deciframe {
-  background: none;
-  border: none;
-}
 .navbar-brand > svg {
   width: 200px;
 }
-.st0 { fill:rgba(244, 234, 242, 0.5); }
+.st0 { fill:rgba(244, 234, 242, 0.9); }
 .vertical-img-wrapper {
   line-height: 500px;
 }
@@ -52,10 +47,24 @@ body {
   }
 }
 .viewWindow-panel-A { background:#E9BC00; }
-.viewWindow-panel-B { background:#671958; color: #FFFFFF }
+.viewWindow-panel-B {
+  background:#BA007C; color: #FFFFFF
+  background: -moz-linear-gradient(top, #BA007C 0%, #BA007C 50%, #372478 51%, #372478 100%, #372478 100%);
+  background: -webkit-linear-gradient(top, #BA007C 0%,#BA007C 50%,#372478 51%,#372478 100%,#372478 100%);
+  background: linear-gradient(to bottom, #BA007C 0%,#BA007C 50%,#372478 51%,#372478 100%,#372478 100%);
+}
 .viewWindow-panel-C { background:#FFFFFF; }
+.viewWindow-panel-D { background:#BA007C; }
 .viewWindow-panel-main-container  {
   padding: 150px 50px;
+}
+.viewWindow-panel-sub-container {
+  padding-top: 140px;
+}
+@media (max-width: 768px) {
+  .viewWindow-panel-sub-container {
+    padding-top: 30px;
+  }
 }
 .viewWindow-panel-container {
   padding-top: 70px;
@@ -65,12 +74,36 @@ a:link,
 a:visited {
   color: #fff;
 }
-a.btn-link-theme:link,
-a.btn-link-theme:visited, {
+.btn-link-theme {
+  display: block;
+  margin-left: -15px;
+  margin-right: -15px;
+  padding: 40px;
+}
+@media (max-width: 768px) {
+  .btn-link-theme {
+    padding: 25px;
+  }
+}
+.btn-link-theme:active,
+.btn-link-theme:hover {
   text-decoration: none;
 }
+.btn-link-theme span.glyphicon {
+  font-size: 3em;
+}
+.btn-link-theme-A { background-color: #BA007C;}
+.btn-link-theme-B { background-color: #7B057E; padding: 60px 5px; }
+.btn-link-theme-C { background-color: #372478;}
 
+@media (max-width: 768px) {
+  .btn-link-theme-B { padding: 40px 25px; }
+}
 /* Bootstrap overhide */
+.navbar-default {
+  background: none;
+  border: none;
+}
 .navbar-default .navbar-nav>.active>a,
 .navbar-default .navbar-nav>.active>a:focus,
 .navbar-default .navbar-nav>.active>a:hover {

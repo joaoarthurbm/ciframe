@@ -1,3 +1,6 @@
+body {
+  overflow-x: hidden;
+}
 .top {
   position: absolute;
   width: 100%;
@@ -16,7 +19,6 @@
     to      { transform: translateX(-100%); }
 }
 .page {
-  padding-top: 60px;
   position: absolute;
   width: 100%;
   height: 100%;
@@ -25,12 +27,33 @@
   -moz-transition: all 1s ease;
   -o-transition: all 1s ease;
 }
-.page-home      { background:#a569bd; color:#ecf0f1; }
-.page-about     { background:#f39c12; color:#ecf0f1; }
-
 .page.ng-enter {
     animation: slideInRight .5s both ease-in;
 }
 .page.ng-leave {
     animation: slideInLeft .5s both ease-in;
+}
+.page-home      { background:#E9BC00; color:#671958; }
+.page-about     { background:#f39c12; color:#ecf0f1; }
+
+.navbar-deciframe {
+  background: none;
+  border: none;
+}
+.vertical-img-wrapper {
+  line-height: 500px;
+}
+@media (min-width: 768px) {
+  .viewWindow-panel {
+    height: 100vh;
+  }
+}
+.logo-container  {
+  padding: 50px;
+}
+.viewWindow-panel-home-menu {
+  background:#671958;
+}
+.home-menu {
+  padding-top: 70px;
 }

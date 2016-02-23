@@ -1,3 +1,6 @@
+.bug {
+  border: solid 1px red;
+}
 body {
   overflow-x: hidden;
   font-family: 'Varela Round', sans-serif;
@@ -138,15 +141,18 @@ a:visited {
   float: left;
   width: 50px;
   position: relative;
+  top: 0;
   left: 0;
 }
 .acorde-wrapper .acorde {
   color: #fff;
   font-size: 1.1em;
+  z-index: 1;
   position: relative;
   top: -38px;
+  margin-top: 38px;
   margin-bottom: -38px;
-  z-index: 1;
+  padding-bottom: 16px;
 }
 /* Bootstrap overhide */
 .navbar-default {

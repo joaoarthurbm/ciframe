@@ -41,6 +41,9 @@ body {
 .vertical-img-wrapper {
   line-height: 500px;
 }
+.viewWindow-panel {
+  overflow: auto;
+}
 @media (min-width: 768px) {
   .viewWindow-panel {
     height: 100vh;
@@ -57,6 +60,25 @@ body {
 .viewWindow-panel-D { background:#BA007C; }
 .viewWindow-panel-E { background:#7B057E; }
 .viewWindow-panel-F { background:#372478; }
+.viewWindow-panel-C a:link,
+.viewWindow-panel-C a:visited {
+  display: block;
+  font-size: 1.2em;
+  line-height: 1.1em;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: #eee;
+  text-decoration: none;
+  color: #333;
+}
+.viewWindow-panel-C a:active,
+.viewWindow-panel-C a:hover {
+  background-color: #E9BC00;
+  text-decoration: none;
+}
+.viewWindow-panel-C a > small {
+  font-size: 0.8em;
+}
 .viewWindow-panel-main-container  {
   padding: 150px 50px;
 }
@@ -101,6 +123,26 @@ a:visited {
 @media (max-width: 768px) {
   .btn-link-theme-B { padding: 40px 25px; }
 }
+/* Acorde directive*/
+.acorde-wrapper {
+  float: left;
+  width: 50px;
+  cursor: pointer;
+}
+.acorde-wrapper > svg {
+  float: left;
+  width: 50px;
+  position: relative;
+  left: 0;
+}
+.acorde-wrapper .acorde {
+  color: #fff;
+  font-size: 1.1em;
+  position: relative;
+  top: -38px;
+  margin-bottom: -38px;
+  z-index: 1;
+}
 /* Bootstrap overhide */
 .navbar-default {
   background: none;
@@ -115,4 +157,43 @@ a:visited {
 }
 .navbar-default .navbar-nav>li>a {
   color: #FFF;
+}
+.btn {
+  border: none;
+}
+.btn-primary {
+  background-color: #372478;
+}
+.btn-primary:active,
+.btn-primary:hover {
+  background-color: #412478;
+}
+.btn-link:active,
+.btn-link:hover {
+  text-decoration: none;
+  color: #E9BC00;
+}
+/* Animations */
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+.animated.infinite {
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+@keyframes rotateIn {
+  from {
+    transform-origin: center;
+    transform: rotate3d(0, 0, 1, -200deg);
+  }
+  to {
+    transform-origin: center;
+    transform: none;
+  }
+}
+.rotateIn {
+  animation-name: rotateIn;
 }

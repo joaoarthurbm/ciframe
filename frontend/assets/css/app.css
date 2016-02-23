@@ -173,6 +173,26 @@ a:visited {
   text-decoration: none;
   color: #E9BC00;
 }
+.form-control {
+  box-shadow: none;
+  color: #FFF;
+}
+.form-control:focus{
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.input-group > .form-control,
+.input-group > .input-group-addon,
+.input-group-lg > .input-group-btn > .btn {
+  border: none;
+  border-radius: 0;
+  background: none;
+  padding: 10px 5px;
+  border-bottom: solid 2px #FFF;
+}
+.input-group-btn > .btn-default {
+  color: #FFF;
+}
 /* Animations */
 .animated {
   -webkit-animation-duration: 1s;

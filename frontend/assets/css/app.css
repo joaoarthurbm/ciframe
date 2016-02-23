@@ -49,19 +49,19 @@ body {
     height: 100vh;
   }
 }
-.viewWindow-panel-A { background:#E9BC00; }
-.viewWindow-panel-B {
+.viewWindow-panel-A { background:#372478; }
+.viewWindow-panel-B { background:#7B057E; }
+.viewWindow-panel-C { background:#BA007C; }
+.viewWindow-panel-D { background:#FFFFFF; }
+.viewWindow-panel-E { background:#E9BC00; }
+.viewWindow-panel-F {
   background:#BA007C; color: #FFFFFF
-  background: -moz-linear-gradient(top, #BA007C 0%, #BA007C 50%, #372478 51%, #372478 100%, #372478 100%);
-  background: -webkit-linear-gradient(top, #BA007C 0%,#BA007C 50%,#372478 51%,#372478 100%,#372478 100%);
-  background: linear-gradient(to bottom, #BA007C 0%,#BA007C 50%,#372478 51%,#372478 100%,#372478 100%);
+  background: -moz-linear-gradient(top, #372478 0%, #372478 50%, #BA007C 51%, #BA007C 100%, #BA007C 100%);
+  background: -webkit-linear-gradient(top, #372478 0%, #372478 50%,#BA007C 51%,#BA007C 100%,#BA007C 100%);
+  background: linear-gradient(to bottom, #372478 0%, #372478 50%,#BA007C 51%,#BA007C 100%,#BA007C 100%);
 }
-.viewWindow-panel-C { background:#FFFFFF; }
-.viewWindow-panel-D { background:#BA007C; }
-.viewWindow-panel-E { background:#7B057E; }
-.viewWindow-panel-F { background:#372478; }
-.viewWindow-panel-C a:link,
-.viewWindow-panel-C a:visited {
+.viewWindow-panel-D a:link,
+.viewWindow-panel-D a:visited {
   display: block;
   font-size: 1.2em;
   line-height: 1.1em;
@@ -71,12 +71,12 @@ body {
   text-decoration: none;
   color: #333;
 }
-.viewWindow-panel-C a:active,
-.viewWindow-panel-C a:hover {
+.viewWindow-panel-D a:active,
+.viewWindow-panel-D a:hover {
   background-color: #E9BC00;
   text-decoration: none;
 }
-.viewWindow-panel-C a > small {
+.viewWindow-panel-D a > small {
   font-size: 0.8em;
 }
 .viewWindow-panel-main-container  {
@@ -116,12 +116,17 @@ a:visited {
 .btn-link-theme span.glyphicon {
   font-size: 3em;
 }
-.btn-link-theme-A { background-color: #BA007C;}
+.btn-link-theme-A { background-color: #372478;}
 .btn-link-theme-B { background-color: #7B057E; padding: 60px 5px; }
-.btn-link-theme-C { background-color: #372478;}
+.btn-link-theme-C { background-color: #BA007C;}
 
 @media (max-width: 768px) {
   .btn-link-theme-B { padding: 40px 25px; }
+}
+.acordes-container {
+  width: 300px; /* to hold 6 hexs*/
+  margin: auto;
+  clear: both;
 }
 /* Acorde directive*/
 .acorde-wrapper {

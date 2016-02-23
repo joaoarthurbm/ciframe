@@ -1,23 +1,18 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-3 viewWindow-panel viewWindow-panel-D">
+    <div class="col-sm-3 viewWindow-panel viewWindow-panel-A">
       <div class="viewWindow-panel-container">
-
-        <df-hex acorde="{{acorde}}" acorde-color="#7B057E" ng-repeat="acorde in acordesMaiores" ng-click="addAcorde(acorde)"></df-hex>
-        <df-hex acorde="{{acorde}}" acorde-color="#372478" ng-repeat="acorde in acordesMenores" ng-click="addAcorde(acorde)"></df-hex>
-        <df-hex acorde="{{acorde}}" acorde-color="#E9BC00" ng-repeat="acorde in acordesComSetima" ng-click="addAcorde(acorde)"></df-hex>
-
+        <div class="acordes-container" ng-repeat='acordesCollection in acordes'>
+          <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" ng-repeat="acordeon in acordesCollection track by $index" ng-click="addAcorde(acordeon)"></df-hex>
+        </div>
         <br style="clear: both;">
-        <br>
-        <p><button type="button" name="pesquisar" class="btn btn-primary btn-block" ng-click="pesquisarPorAcordes()"><span class="glyphicon glyphicon-search"></span> Pesquisar</button></p>
         <br><br>
         <p><a href="#/" class="btn btn-link"><span class="glyphicon glyphicon-menu-left"></span> Voltar</a></p>
-
       </div>
     </div>
-    <div class="col-sm-9 viewWindow-panel viewWindow-panel-C">
+    <div class="col-sm-9 viewWindow-panel viewWindow-panel-D">
       <div class="viewWindow-panel-container">
-        <df-hex acorde="{{acorde}}" acorde-color="#7B057E" ng-repeat="acorde in meusAcordes" ng-click="addAcorde(acorde)"></df-hex>
+        <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" ng-repeat="acordeon in meusAcordes" ng-click="addAcorde(acordeon)"></df-hex>
         <br style="clear: both;"><br>
         <p ng-repeat="musica in musicas">
           <a ng-href="{{musica.link}}" target="_blank">{{musica.titulo}}

@@ -55,7 +55,6 @@ angular.module('deciframeApp').controller('AcordesController', function($scope, 
   $scope.musicas = [];
 
   $scope.addAcorde = function(acorde) {
-    console.log(acorde);
     if ($scope.meusAcordes.indexOf(acorde) == -1) {
       $scope.meusAcordes.push(acorde);
     } else {

@@ -3,7 +3,7 @@
     <div class="col-sm-3 viewWindow-panel viewWindow-panel-A">
       <div class="viewWindow-panel-container">
         <div class="acordes-container" ng-repeat='acordesCollection in acordes'>
-          <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" ng-repeat="acordeon in acordesCollection" ng-click="addAcorde(acordeon)"></df-hex>
+          <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" ng-repeat="acordeon in acordesCollection" ng-click="addAcorde(acordeon)" ng-hide="temAcorde(acordeon)"></df-hex>
         </div>
         <br style="clear: both;">
         <br><br>

@@ -40,7 +40,17 @@ body {
 .navbar-brand > svg {
   width: 200px;
 }
-.st0 { fill:rgba(244, 234, 242, 0.9); }
+.logo-d,
+.logo-e1,
+.logo-c,
+.logo-i,
+.logo-dot1,
+.logo-f,
+.logo-r,
+.logo-a,
+.logo-dot,
+.logo-m,
+.logo-e { fill:#FFF; }
 .vertical-img-wrapper {
   line-height: 500px;
 }
@@ -215,6 +225,13 @@ a:visited {
   -webkit-animation-iteration-count: infinite;
   animation-iteration-count: infinite;
 }
+.navbar-brand.ng-hide-add {
+  animation:0.5s bounceOutUp ease;
+}
+.navbar-brand.ng-hide-remove {
+  animation:0.5s bounceInDown ease;
+}
+
 @keyframes rotateIn {
   from {
     transform-origin: center;
@@ -227,4 +244,52 @@ a:visited {
 }
 .rotateIn {
   animation-name: rotateIn;
+}
+@keyframes bounceOutUp {
+  20% {
+    transform: translate3d(0, -10px, 0);
+  }
+
+  40%, 45% {
+    opacity: 1;
+    transform: translate3d(0, 20px, 0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, -2000px, 0);
+  }
+}
+.bounceOutUp {
+  animation-name: bounceOutUp;
+}
+@keyframes bounceInDown {
+  from, 60%, 75%, 90%, to {
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  }
+
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -3000px, 0);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translate3d(0, 25px, 0);
+  }
+
+  75% {
+    transform: translate3d(0, -10px, 0);
+  }
+
+  90% {
+    transform: translate3d(0, 5px, 0);
+  }
+
+  to {
+    transform: none;
+  }
+}
+.bounceInDown {
+  animation-name: bounceInDown;
 }

@@ -62,7 +62,7 @@ body {
     height: 100vh;
   }
 }
-.viewWindow-panel-A { background:#372478; }
+.viewWindow-panel-A { background:#372478; color: #FFFFFF; } .viewWindow-panel-container h4 { margin-top: 40px; margin-bottom: 60px;}
 .viewWindow-panel-B { background:#7B057E; }
 .viewWindow-panel-C { background:#BA007C; }
 .viewWindow-panel-D { background:#FFFFFF; }

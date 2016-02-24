@@ -119,7 +119,7 @@ a:active {
   display: block;
   margin-left: -15px;
   margin-right: -15px;
-  padding: 40px;
+  font-size: 1.5em;
 }
 @media (max-width: 768px) {
   .btn-link-theme {
@@ -133,12 +133,14 @@ a:active {
 .btn-link-theme span.glyphicon {
   font-size: 3em;
 }
-.btn-link-theme-A { background-color: #372478;}
-.btn-link-theme-B { background-color: #7B057E; padding: 60px 5px; }
-.btn-link-theme-C { background-color: #BA007C;}
+.btn-link-theme-A { background-color: #372478; padding-top: 100px; padding-bottom: 100px;}
+.btn-link-theme-B { background-color: #7B057E; padding-top: 120px; padding-bottom: 120px;}
+.btn-link-theme-C { background-color: #BA007C; padding-top: 120px;}
 
 @media (max-width: 768px) {
-  .btn-link-theme-B { padding: 40px 25px; }
+  .btn-link-theme-A { padding-top: 30px; padding-bottom: 50px;}
+  .btn-link-theme-B { padding-top: 50px; padding-bottom: 30px;}
+  .btn-link-theme-C { padding-top: 50px;}
 }
 .acordes-container {
   width: 300px; /* to hold 6 hexs*/

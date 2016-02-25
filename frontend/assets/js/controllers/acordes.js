@@ -52,6 +52,7 @@ angular.module('deciframeApp').controller('AcordesController', function($scope, 
   $scope.acordes.push(acordesB);
   $scope.meusAcordes = [];
   $scope.isSearching = false;
+  $scope.esfigeSpeech = 'Vamos lá, escolhe ai!';
   $scope.musicas = [];
 
   $scope.addAcorde = function(acorde) {
@@ -69,13 +70,19 @@ angular.module('deciframeApp').controller('AcordesController', function($scope, 
   $scope.pesquisarPorAcordes = function() {
     $scope.isSearching = true;
     // Developing only >>>
-    $scope.musicas.push(
-      {
-        "titulo": "Californication "+$scope.musicas.length,
-        "artista": "Red Hot Chili Peppers",
-        "link": "http://www.cifraclub.com.br/red-hot-chili-peppers/californication/"
-      }
-    );
+    if ($scope.meusAcordes.length > 0) {
+      $scope.esfigeSpeech = 'Encontrei estas músicas';
+      $scope.musicas.push(
+        {
+          "titulo": "Californication "+$scope.musicas.length,
+          "artista": "Red Hot Chili Peppers",
+          "link": "http://www.cifraclub.com.br/red-hot-chili-peppers/californication/"
+        }
+      );
+    } else {
+      $scope.esfigeSpeech = 'Vamos lá, escolhe ai!';
+      $scope.musicas = [];
+    }
     // Remove later <<<<
     $http.get("")
     .success(function(data) {

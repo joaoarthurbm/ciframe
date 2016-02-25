@@ -2,10 +2,16 @@
   <div class="row">
     <div class="col-sm-3 viewWindow-panel viewWindow-panel-B">
       <div class="viewWindow-panel-container">
+        <h4>Procure por músicas que você já sabe tocar</h4>
         <form name="searchForm" ng-submit="searchForm.$valid && pesquisarPorTitulo()" novalidate>
-          <div class="input-group input-group-lg">
-            <input type="text" class="form-control" placeholder="Pesquisar por..." required>
+          <div class="form-group">
+            <input type="text" class="form-control input-lg" placeholder="Título" required>
           </div>
+          <div class="form-group">
+            <input type="text" class="form-control input-lg" placeholder="Artista" required>
+          </div>
+          <br>
+          <p class="text-right"><button type="submit" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-search"></span></button></p>
         </form>
         <br>
         <a href="#/" class="btn btn-link"><span class="glyphicon glyphicon-menu-left"></span> Voltar</a>
@@ -13,6 +19,7 @@
     </div>
     <div class="col-sm-9 viewWindow-panel viewWindow-panel-D">
       <div class="viewWindow-panel-container">
+        <h4 ng-show="musicas.length > 0">Encontramos estas músicas que você também pode tocar</h4>
         <p ng-repeat="musica in musicas">
           <a ng-href="{{musica.link}}" target="_blank">{{musica.titulo}}
           <br>

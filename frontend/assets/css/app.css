@@ -32,6 +32,11 @@ body {
   -moz-transition: all 1s ease;
   -o-transition: all 1s ease;
 }
+@media (max-width: 768px) {
+  .page {
+    margin-top: -68px;
+  }
+}
 .page.ng-enter {
     animation: slideInRight .5s both ease-in;
 }
@@ -63,11 +68,11 @@ body {
     height: 100vh;
   }
 }
-.viewWindow-panel-A { background:#372478; color: #FFFFFF; } .viewWindow-panel-container h4 { margin-top: 40px; margin-bottom: 60px;}
-.viewWindow-panel-B { background:#7B057E; }
-.viewWindow-panel-C { background:#BA007C; }
-.viewWindow-panel-D { background:#FFFFFF; }
-.viewWindow-panel-E { background:#E9BC00; }
+.viewWindow-panel-A { background:#372478; color: #FFFFFF; } .viewWindow-panel-container h4:first-child { margin-top: 40px; margin-bottom: 60px;}
+.viewWindow-panel-B { background:#7B057E; color: #FFFFFF; }
+.viewWindow-panel-C { background:#BA007C; color: #FFFFFF; }
+.viewWindow-panel-D { background:#FFFFFF; color: #333333; }
+.viewWindow-panel-E { background:#E9BC00; color: #FFFFFF; }
 .viewWindow-panel-F {
   background:#BA007C; color: #FFFFFF
   background: -moz-linear-gradient(top, #372478 0%, #372478 50%, #BA007C 51%, #BA007C 100%, #BA007C 100%);
@@ -94,7 +99,12 @@ body {
   font-size: 0.8em;
 }
 .viewWindow-panel-main-container  {
-  padding: 150px 50px;
+  padding: 200px 150px;
+}
+@media (max-width: 768px) {
+  .viewWindow-panel-main-container  {
+    padding: 50px 20px;
+  }
 }
 .viewWindow-panel-sub-container {
   padding-top: 140px;
@@ -171,12 +181,28 @@ a:active {
   margin-bottom: -38px;
   padding-bottom: 16px;
 }
-/* Esfinge */
-.esfinge svg {
-  width: 200px;
+/* 'Esfinge */
+.esfinge.ng-hide-add {
+  animation:0.5s fadeOutRight ease;
 }
-.esfinge-asa {
-  fill: #FFF;
+.esfinge.ng-hide-remove {
+  animation:0.5s fadeInRight ease;
+}
+.esfinge svg {
+  width: 150px;
+}
+.esfinge-ballon {
+  padding-bottom: 5px;
+  border-bottom: solid 1px;
+  width: 75px;
+  margin: auto;
+  margin-bottom: 30px;
+}
+.esfinge-ballon.ng-hide-add {
+  animation:0.5s fadeOutRight ease;
+}
+.esfinge-ballon.ng-hide-remove {
+  animation:0.5s fadeInRight ease;
 }
 .menu-container {
   margin-top: -63px;
@@ -188,6 +214,11 @@ a:active {
   z-index: 1;
   background-color: #373A47;
   color: #fff;
+}
+@media (max-width: 768px) {
+  .menu-container {
+    margin-top: -68px;
+  }
 }
 .menu-container p {
   padding-bottom: 50px;
@@ -239,12 +270,12 @@ a:active {
 .btn {
   border: none;
 }
-.btn-primary {
-  background-color: #372478;
-}
+.btn-primary,
+.btn-primary:visited,
 .btn-primary:active,
 .btn-primary:hover {
-  background-color: #412478;
+  background-color: #54ACDE;
+  box-shadow: none;
 }
 .btn-link:active,
 .btn-link:hover {
@@ -259,16 +290,16 @@ a:active {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-.input-group > .form-control,
-.input-group > .input-group-addon,
-.input-group-lg > .input-group-btn > .btn {
+.form-group > .form-control,
+.form-group > .form-group-addon,
+.form-group-lg > .form-group-btn > .btn {
   border: none;
   border-radius: 0;
   background: none;
   padding: 10px 5px;
   border-bottom: solid 2px #FFF;
 }
-.input-group-btn > .btn-default {
+.form-group-btn > .btn-default {
   color: #FFF;
 }
 /* Animations */

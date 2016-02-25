@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-sm-3 viewWindow-panel viewWindow-panel-A">
       <div class="viewWindow-panel-container">
-        <h4 class="text-center">Selecione os acordes que você já domina</h4>
+        <h4 class="text-center">Aponte os acordes que você já domina</h4>
         <div class="acordes-container" ng-repeat='acordesCollection in acordes'>
           <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" ng-repeat="acordeon in acordesCollection" ng-click="addAcorde(acordeon)" ng-hide="temAcorde(acordeon)"></df-hex>
         </div>
@@ -14,6 +14,7 @@
     <div class="col-sm-9 viewWindow-panel viewWindow-panel-D">
       <div class="viewWindow-panel-container">
         <div class="text-center">
+          <div class="esfinge-ballon">{{esfigeSpeech}}</div>
           <df-esfinge class="esfinge" df-animated="true"></df-esfinge>
         </div>
         <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" ng-repeat="acordeon in meusAcordes" ng-click="addAcorde(acordeon)"></df-hex>

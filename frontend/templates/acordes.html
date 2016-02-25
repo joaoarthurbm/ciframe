@@ -13,7 +13,9 @@
     </div>
     <div class="col-sm-9 viewWindow-panel viewWindow-panel-D">
       <div class="viewWindow-panel-container">
-        <h4 class="hidden-xs">&nbsp;</h4>
+        <div class="text-center">
+          <df-esfinge class="esfinge" df-animated="true"></df-esfinge>
+        </div>
         <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" ng-repeat="acordeon in meusAcordes" ng-click="addAcorde(acordeon)"></df-hex>
         <br style="clear: both;"><br>
         <p ng-repeat="musica in musicas">

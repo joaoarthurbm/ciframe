@@ -24,6 +24,7 @@ body {
 }
 .page {
   position: absolute;
+  margin-top: -63px;
   width: 100%;
   height: 100%;
   transition: all 1s ease;
@@ -176,12 +177,13 @@ a:active {
   fill: #FFF;
 }
 .menu-container {
+  margin-top: -63px;
   height: 100vh;
   padding: 150px 50px 50px 50px;
   position: absolute;
   right: 0;
   width: 400px;
-  z-index: 999;
+  z-index: 1;
   background-color: #373A47;
   color: #fff;
 }
@@ -208,6 +210,8 @@ a:active {
 .navbar-default {
   background: none;
   border: none;
+  margin: 0;
+  z-index: 2;
 }
 .navbar-default .navbar-nav>li>a,
 .navbar-default .navbar-nav>li>a:active,

@@ -168,6 +168,13 @@ a:active {
   margin-bottom: -38px;
   padding-bottom: 16px;
 }
+/* Esfinge */
+.esfinge svg {
+  width: 200px;
+}
+.esfinge-asa {
+  fill: #FFF;
+}
 .menu-container {
   height: 100vh;
   padding: 150px 50px 50px 50px;
@@ -347,4 +354,69 @@ a:active {
 }
 .fadeOutRight {
   animation-name: fadeOutRight;
+}
+@keyframes rotateInUpLeft {
+  from {
+    transform-origin: left bottom;
+    transform: rotate3d(0, 0, 1, 30deg);
+  }
+  50% {
+    transform-origin: left bottom;
+    transform: rotate3d(0, 0, 1, -10deg);
+  }
+  to {
+    transform-origin: left bottom;
+    transform: rotate3d(0, 0, 1, 30deg);
+  }
+}
+.rotateInUpLeft {
+  animation-name: rotateInUpLeft;
+}
+@keyframes rotateInUpRight {
+  from {
+    transform-origin: right bottom;
+    transform: rotate3d(0, 0, 1, -30deg);
+  }
+  50% {
+    transform-origin: right bottom;
+    transform: rotate3d(0, 0, 1, 10deg);
+  }
+  to {
+    transform-origin: right bottom;
+    transform: rotate3d(0, 0, 1, -30deg);
+  }
+}
+.rotateInUpRight {
+  animation-name: rotateInUpRight;
+}
+@keyframes flyUpDown {
+  from {
+    transform: translate3d(0, 5%, 0);
+  }
+  50% {
+    transform: none;
+  }
+  to {
+    transform: translate3d(0, 5%, 0);
+  }
+}
+.flyUpDown {
+  animation-name: flyUpDown;
+}
+@keyframes flyShadow {
+  from {
+    transform-origin: center;
+    transform: scale3d(1.2, 1.2, 1.2);
+  }
+  50% {
+    transform-origin: center;
+    transform: scale3d(1, 1, 1);
+  }
+  to {
+    transform-origin: center;
+    transform: scale3d(1.2, 1.2, 1.2);
+  }
+}
+.flyShadow {
+  animation-name: flyShadow;
 }

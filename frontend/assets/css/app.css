@@ -24,7 +24,6 @@ body {
 }
 .page {
   position: absolute;
-  margin-top: -63px;
   width: 100%;
   height: 100%;
   transition: all 1s ease;
@@ -32,16 +31,11 @@ body {
   -moz-transition: all 1s ease;
   -o-transition: all 1s ease;
 }
-@media (max-width: 768px) {
-  .page {
-    margin-top: -68px;
-  }
-}
 .page.ng-enter {
-    animation: slideInRight .5s both ease-in;
+    animation: slideInRight .5s both ease-in-out;
 }
 .page.ng-leave {
-    animation: slideInLeft .5s both ease-in;
+    animation: slideInLeft .5s both ease-in-out;
 }
 .navbar-brand > svg {
   width: 200px;
@@ -172,7 +166,7 @@ a:active {
 .acorde-wrapper .acorde {
   color: #fff;
   font-size: 1.1em;
-  z-index: 1;
+  z-index: 0;
   position: relative;
   top: -38px;
   margin-top: 38px;
@@ -229,13 +223,10 @@ a:active {
   color: #E23B56;
 }
 .menu-container.ng-hide-add {
-  animation:0.5s fadeOutRight ease;
+  animation: 0.5s fadeOutRight ease;
 }
 .menu-container.ng-hide-remove {
-  animation:0.5s fadeInRight ease;
-}
-.morph-shape {
-	fill: #373a47;
+  animation: 0.5s fadeInRight ease;
 }
 /* Bootstrap overhide */
 .navbar-default {
@@ -243,6 +234,8 @@ a:active {
   border: none;
   margin: 0;
   z-index: 2;
+  position: absolute;
+  width: 100%;
 }
 .navbar-default .navbar-nav>li>a,
 .navbar-default .navbar-nav>li>a:active,
@@ -258,6 +251,9 @@ a:active {
 }
 .navbar-default .navbar-nav>li>a>span.glyphicon {
   font-size: 2em;
+}
+.navbar-right {
+  float: right;
 }
 .navbar-brand.ng-hide-add {
   animation:0.5s bounceOutUp ease;

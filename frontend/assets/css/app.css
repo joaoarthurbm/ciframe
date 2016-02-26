@@ -62,10 +62,11 @@ body {
 }
 .viewWindow-panel {
   overflow: auto;
+  height: 100vh;
 }
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .viewWindow-panel {
-    height: 100vh;
+    height: 500px;
   }
 }
 .viewWindow-panel-A { background:#372478; color: #FFFFFF; } .viewWindow-panel-container h4:first-child { margin-top: 40px; margin-bottom: 60px;}
@@ -106,17 +107,12 @@ body {
     padding: 50px 20px;
   }
 }
-.viewWindow-panel-sub-container {
-  padding-top: 140px;
-}
-@media (max-width: 768px) {
-  .viewWindow-panel-sub-container {
-    padding-top: 30px;
-  }
-}
 .viewWindow-panel-container {
   padding-top: 70px;
   padding-bottom: 70px;
+}
+.vertical-panel {
+  height: 30%;
 }
 a:link,
 a:visited {
@@ -126,33 +122,31 @@ a:hover,
 a:active {
   text-decoration: none;
 }
-.btn-link-theme {
-  display: block;
+.viewWindow-subpanel {
+  padding-top: 5%;
+}
+.vertical-panel-container {
+  height: 33%;
+  position: relative;
   margin-left: -15px;
   margin-right: -15px;
-  font-size: 1.5em;
 }
-@media (max-width: 768px) {
-  .btn-link-theme {
-    padding: 25px;
-  }
+.vertical-panel-wrap {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: table;
 }
-.btn-link-theme:active,
-.btn-link-theme:hover {
-  text-decoration: none;
+.vertical-panel {
+  display: table-cell;
+  vertical-align: middle;
 }
-.btn-link-theme span.glyphicon {
-  font-size: 3em;
+.vertical-panel-btn {
 }
-.btn-link-theme-A { background-color: #372478; padding-top: 100px; padding-bottom: 100px;}
-.btn-link-theme-B { background-color: #7B057E; padding-top: 120px; padding-bottom: 120px;}
-.btn-link-theme-C { background-color: #BA007C; padding-top: 120px;}
+.vertical-panel-A { background-color: #372478;}
+.vertical-panel-B { background-color: #7B057E;}
+.vertical-panel-C { background-color: #BA007C;}
 
-@media (max-width: 768px) {
-  .btn-link-theme-A { padding-top: 30px; padding-bottom: 50px;}
-  .btn-link-theme-B { padding-top: 50px; padding-bottom: 30px;}
-  .btn-link-theme-C { padding-top: 50px;}
-}
 .acordes-container {
   width: 300px; /* to hold 6 hexs*/
   margin: auto;

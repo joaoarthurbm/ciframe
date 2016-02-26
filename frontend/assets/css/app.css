@@ -62,11 +62,10 @@ body {
 }
 .viewWindow-panel {
   overflow: auto;
-  height: 100vh;
 }
-@media (max-width: 768px) {
+@media (min-width: 768px) {
   .viewWindow-panel {
-    height: 500px;
+    height: 100vh;
   }
 }
 .viewWindow-panel-A { background:#372478; color: #FFFFFF; } .viewWindow-panel-container h4:first-child { margin-top: 40px; margin-bottom: 60px;}
@@ -124,6 +123,11 @@ a:active {
 }
 .viewWindow-subpanel {
   padding-top: 5%;
+}
+@media (max-width: 768px) {
+  .viewWindow-subpanel {
+    height: 500px;
+  }
 }
 .vertical-panel-container {
   height: 33%;

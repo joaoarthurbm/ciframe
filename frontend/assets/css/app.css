@@ -389,15 +389,23 @@ a:active {
 @keyframes rotateInUpLeft {
   from {
     transform-origin: left bottom;
-    transform: rotate3d(0, 0, 1, 30deg);
+    transform: rotate3d(0, 0, 1, 35deg);
+  }
+  25% {
+    transform-origin: left bottom;
+    transform: rotate3d(0, 0, 1, -10deg);
   }
   50% {
+    transform-origin: left bottom;
+    transform: rotate3d(0, 0, 1, 35deg);
+  }
+  75% {
     transform-origin: left bottom;
     transform: rotate3d(0, 0, 1, -10deg);
   }
   to {
     transform-origin: left bottom;
-    transform: rotate3d(0, 0, 1, 30deg);
+    transform: rotate3d(0, 0, 1, 35deg);
   }
 }
 .rotateInUpLeft {
@@ -406,15 +414,23 @@ a:active {
 @keyframes rotateInUpRight {
   from {
     transform-origin: right bottom;
-    transform: rotate3d(0, 0, 1, -30deg);
+    transform: rotate3d(0, 0, 1, -35deg);
+  }
+  25% {
+    transform-origin: right bottom;
+    transform: rotate3d(0, 0, 1, 10deg);
   }
   50% {
+    transform-origin: right bottom;
+    transform: rotate3d(0, 0, 1, -35deg);
+  }
+  75% {
     transform-origin: right bottom;
     transform: rotate3d(0, 0, 1, 10deg);
   }
   to {
     transform-origin: right bottom;
-    transform: rotate3d(0, 0, 1, -30deg);
+    transform: rotate3d(0, 0, 1, -35deg);
   }
 }
 .rotateInUpRight {

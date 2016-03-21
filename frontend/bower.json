@@ -19,5 +19,8 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "ng-material-floating-button": "ng-mfb#~0.6.2"
+  }
 }

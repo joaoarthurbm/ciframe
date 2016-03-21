@@ -197,12 +197,11 @@ a:active {
   animation:0.5s fadeInRight ease;
 }
 .menu-container {
-  margin-top: -63px;
   height: 100vh;
   padding: 150px 50px 50px 50px;
   position: absolute;
   right: 0;
-  width: 400px;
+  width: 320px;
   z-index: 1;
   background-color: #373A47;
   color: #fff;

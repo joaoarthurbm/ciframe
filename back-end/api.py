@@ -2,6 +2,7 @@
 import json
 from flask import Flask, request
 import sys
+from musica import *
 
 app = Flask(__name__)
 
@@ -33,13 +34,16 @@ def init():
 
         musica = line.split(',')
         musica[POPULARIDADE] = int(musica[POPULARIDADE].replace('.', ''))
-        musica[CIFRA] = set(musica[CIFRA].split(';')) if musica[CIFRA] != '' else set()
+        musica[CIFRA] = list(musica[CIFRA].split(';')) if musica[CIFRA] != '' else list()
         musica[SEQ_FAMOSA] = musica[SEQ_FAMOSA].split(";")
         if musica[GENERO] != '' :
             generos.add(musica[GENERO])
         
-        id_musica = '%s_%s' % (musica[ARTISTA_ID],musica[MUSICA_ID])
-        musicas[id_musica] = musica
+        musica_obj = Musica(musica[ARTISTA_ID], musica[MUSICA_ID], musica[ARTISTA], musica[MUSICA],
+                musica[GENERO], musica[POPULARIDADE], musica[SEQ_FAMOSA], musica[TOM], musica[CIFRA])
+
+        musicas[musica_obj.id_musica] = musica_obj
+    
     f.close()
     generos = list(generos)
     #musicas.sort(key = lambda x: -x[POPULARIDADE])

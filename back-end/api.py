@@ -17,115 +17,121 @@ CIFRA = 8
 
 POR_PAGINA = 50
 
-musicas = []
+musicas = {}
 generos = set()
 
 def init():
-	reload(sys)  
-	sys.setdefaultencoding('utf8')
-	global generos
+    reload(sys)  
+    sys.setdefaultencoding('utf8')
+    global generos
 
-	f = open('../data/top/dataset_final.csv')
-	f.readline()
+    f = open('../data/top/dataset_final.csv')
+    f.readline()
 
-	for line in f:
-		line = line.replace('"', '').replace('NA', '')[:-1]
+    for line in f:
+        line = line.replace('"', '').replace('NA', '')[:-1]
 
-		musica = line.split(',')
-		musica[POPULARIDADE] = int(musica[POPULARIDADE].replace('.', ''))
-		musica[CIFRA] = set(musica[CIFRA].split(';')) if musica[CIFRA] != '' else set()
-		musica[SEQ_FAMOSA] = musica[SEQ_FAMOSA].split(";")
-
-		if musica[GENERO] != '' :
-			generos.add(musica[GENERO])
-		musicas.append(musica)
-	f.close()
-	generos = list(generos)
-	musicas.sort(key = lambda x: -x[POPULARIDADE])
+        musica = line.split(',')
+        musica[POPULARIDADE] = int(musica[POPULARIDADE].replace('.', ''))
+        musica[CIFRA] = set(musica[CIFRA].split(';')) if musica[CIFRA] != '' else set()
+        musica[SEQ_FAMOSA] = musica[SEQ_FAMOSA].split(";")
+        if musica[GENERO] != '' :
+            generos.add(musica[GENERO])
+        
+        id_musica = '%s_%s' % (musica[ARTISTA_ID],musica[MUSICA_ID])
+        musicas[id_musica] = musica
+    f.close()
+    generos = list(generos)
+    #musicas.sort(key = lambda x: -x[POPULARIDADE])
 
 def applyFiltro(nome_filtro, colecao, coluna):
-	filtro = request.args.get(nome_filtro, '[]')
-	filtro = set(json.loads(filtro))
+    filtro = request.args.get(nome_filtro, '[]')
+    filtro = set(json.loads(filtro))
 
-	return filter(lambda x: x[coluna] in filtro, colecao) if len(filtro) > 0 else colecao
+    return filter(lambda x: x[coluna] in filtro, colecao) if len(filtro) > 0 else colecao
 
 def pagina(colecao):
-	inicio = (int(request.args.get('pagina', 1))-1) * POR_PAGINA
-	return colecao[inicio:inicio+POR_PAGINA]
+    inicio = (int(request.args.get('pagina', 1))-1) * POR_PAGINA
+    return colecao[inicio:inicio+POR_PAGINA]
 
 def metodo_mestre(acordes):
-	answer = applyFiltro('filtro-artistas', musicas, ARTISTA)
-	answer = applyFiltro('filtro-generos', answer, GENERO)
+    answer = applyFiltro('filtro-artistas', musicas, ARTISTA)
+    answer = applyFiltro('filtro-generos', answer, GENERO)
 
-	answer = [{
-		'artista': m[ARTISTA],
-		'musica': m[MUSICA],
-		'genero': m[GENERO],
-		'artista_id': m[ARTISTA_ID],
-		'musica_id': m[MUSICA_ID],
-		'facilidade': 1.0 * len(m[CIFRA] & acordes) / len(m[CIFRA]),
-		'diferenca': list(m[CIFRA] - acordes)
-	} for m in answer]
+    answer = [{
+        'artista': m[ARTISTA],
+        'musica': m[MUSICA],
+        'genero': m[GENERO],
+        'artista_id': m[ARTISTA_ID],
+        'musica_id': m[MUSICA_ID],
+        'facilidade': 1.0 * len(m[CIFRA] & acordes) / len(m[CIFRA]),
+        'diferenca': list(m[CIFRA] - acordes)
+    } for m in answer]
 
-	minimo = float(request.args.get('min', 0))/ 100
-	maximo = float(request.args.get('max', 100))/ 100
+    minimo = float(request.args.get('min', 0))/ 100
+    maximo = float(request.args.get('max', 100))/ 100
 
-	answer = filter(lambda x: minimo <= x['facilidade'] <= maximo, answer)
+    answer = filter(lambda x: minimo <= x['facilidade'] <= maximo, answer)
 
-	answer.sort(key = lambda x: -x['facilidade'])
-	return json.dumps(pagina(answer))
+    answer.sort(key = lambda x: -x['facilidade'])
+    return json.dumps(pagina(answer))
 
 @app.route('/rankByMusica')
 def get_by_nome():
-	musica = request.args.get('musica')
-	artista = request.args.get('artista')
+    musica = request.args.get('musica')
+    artista = request.args.get('artista')
 
-	for m in musicas:
-		if m[MUSICA] == musica and m[ARTISTA] == artista:
-			return metodo_mestre(m[CIFRA])
-	return '[]'
+    for m in musicas:
+        if m[MUSICA] == musica and m[ARTISTA] == artista:
+	        return metodo_mestre(m[CIFRA])
+    return '[]'
 
 @app.route('/rankByAcordes')
 def conjunto():
-	acordes = request.args.get('acordes', '[]')
-	acordes = set(json.loads(acordes))
-	return metodo_mestre(acordes)
+    acordes = request.args.get('acordes', '[]')
+    acordes = set(json.loads(acordes))
+    return metodo_mestre(acordes)
 
 @app.route('/busca')
 def busca():
-	key = request.args.get('musica').lower()
-	filtered = filter(lambda x: key in x[MUSICA].lower(), musicas)
-	return json.dumps([{
-		'artista': m[ARTISTA],
-		'musica': m[MUSICA],
-		'genero': m[GENERO],
-	} for m in filtered])
+    key = request.args.get('musica').lower()
+    filtered = filter(lambda x: key in x[MUSICA].lower(), musicas)
+    return json.dumps([{
+	    'artista': m[ARTISTA],
+	    'musica': m[MUSICA],
+	    'genero': m[GENERO],
+    } for m in filtered])
 	
 
-@app.route('/generos')
+@app.route('/genero')
 def get_generos():
-	return json.dumps(generos)
+    return json.dumps(generos)
+
+@app.route('/musica')
+def get_musicas():
+    return json.dumps(musicas)
+
 
 @app.route('/porSequencia')
 def por_sequencia():
-	sequencia_famosa = request.args.get('sequencia')
-	answer = filter(lambda x: sequencia_famosa in x[SEQ_FAMOSA], musicas)
-	answer = applyFiltro('filtro-artistas', answer, ARTISTA)
-	answer = applyFiltro('filtro-generos', answer, GENERO)
+    sequencia_famosa = request.args.get('sequencia')
+    answer = filter(lambda x: sequencia_famosa in x[SEQ_FAMOSA], musicas)
+    answer = applyFiltro('filtro-artistas', answer, ARTISTA)
+    answer = applyFiltro('filtro-generos', answer, GENERO)
 
-	return json.dumps(pagina([{
-		'artista': m[ARTISTA],
-		'musica': m[MUSICA],
-		'genero': m[GENERO],
-		'artista_id': m[ARTISTA_ID],
-		'musica_id': m[MUSICA_ID],
-	} for m in answer]))
+    return json.dumps(pagina([{
+        'artista': m[ARTISTA],
+        'musica': m[MUSICA],
+        'genero': m[GENERO],
+        'artista_id': m[ARTISTA_ID],
+        'musica_id': m[MUSICA_ID],
+    } for m in answer]))
 
 @app.after_request
 def add_header(response):
-	response.headers['Access-Control-Allow-Origin'] = '*'
-	return response
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
 
 if __name__ == '__main__':
-	init()
-	app.run(debug=True)
+    init()
+    app.run(debug=True)

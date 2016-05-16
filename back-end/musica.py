@@ -10,7 +10,7 @@ class Musica:
             self.pop = pop
             self.tom = tom
             self.cifra = cifra
-            self.acordes = set(cifra)
+            self.acordes = list(set(cifra))
             self.seqs_famosas = seqs_famosas
 
             self.id_musica = '%s_%s' % (artista_id, musica_id)

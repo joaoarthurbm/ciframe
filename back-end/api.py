@@ -106,15 +106,17 @@ def busca():
 	    'genero': m[GENERO],
     } for m in filtered])
 	
-
 @app.route('/genero')
 def get_generos():
     return json.dumps(generos)
 
 @app.route('/musica')
 def get_musicas():
-    return json.dumps(musicas)
+    return json.dumps([v.__dict__ for v in musicas.values()])
 
+@app.route('/musica/<m_id>/')
+def get_musica(m_id):
+    return json.dumps(musicas[m_id].__dict__)
 
 @app.route('/porSequencia')
 def por_sequencia():

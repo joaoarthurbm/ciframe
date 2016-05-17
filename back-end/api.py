@@ -112,7 +112,7 @@ def get_musica(m_id):
 def get_similares():
     # tratando request
     acordes_tag = request.args.get('acordes')
-    id_musica_tag = request.args.get('id_musica')
+    id_musica_tag = request.args.get('id_unico_musica')
     sequencia_tag = request.args.get('sequencias')
     pagina_tag = request.args.get('pagina','1')
     
@@ -164,7 +164,7 @@ def get_similares(acordes, generos_key, is_sequencia):
             
             similares.append(similar)
 
-    # ordenados por menor diferença e maior interseção
+    # ordenados por menor diferença, maior interseção e maior popularidade.
     return sorted(similares, key=lambda x: (len(x['diferenca']), -len(x['intersecao'])))
 
 

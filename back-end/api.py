@@ -3,6 +3,7 @@ import json
 from flask import Flask, request
 import sys
 from musica import *
+from collections import OrderedDict
 
 app = Flask(__name__)
 
@@ -16,18 +17,20 @@ TOM = 6
 SEQ_FAMOSA = 7
 CIFRA = 8
 
-POR_PAGINA = 50
+TAM_PAGINA = 100
 
-musicas = {}
 generos = set()
 
 def init():
     reload(sys)  
     sys.setdefaultencoding('utf8')
-    global generos
-
+    
     f = open('../data/top/dataset_final.csv')
     f.readline()
+    
+    musicas_dict = {}
+    global generos
+    global musicas
 
     for line in f:
         line = line.replace('"', '').replace('NA', '')[:-1]
@@ -36,27 +39,30 @@ def init():
         musica[POPULARIDADE] = int(musica[POPULARIDADE].replace('.', ''))
         musica[CIFRA] = list(musica[CIFRA].split(';')) if musica[CIFRA] != '' else list()
         musica[SEQ_FAMOSA] = musica[SEQ_FAMOSA].split(";")
+    
         if musica[GENERO] != '' :
             generos.add(musica[GENERO])
         
-        musica_obj = Musica(musica[ARTISTA_ID], musica[MUSICA_ID], musica[ARTISTA], musica[MUSICA],
-                musica[GENERO], musica[POPULARIDADE], musica[SEQ_FAMOSA], musica[TOM], musica[CIFRA])
+        musica_obj = Musica(musica[ARTISTA_ID], musica[ARTISTA], musica[MUSICA_ID], musica[MUSICA],
+                musica[GENERO], int(musica[POPULARIDADE]), musica[SEQ_FAMOSA], musica[TOM], musica[CIFRA])
+        musicas_dict[musica_obj.id_unico_musica] = musica_obj
 
-        musicas[musica_obj.id_musica] = musica_obj
+    # dictionary sorted by popularity
+    musicas = OrderedDict(sorted(musicas_dict.items(), key=lambda x: x[1].popularidade, reverse = True))
+    generos = list(generos)
     
     f.close()
-    generos = list(generos)
-    #musicas.sort(key = lambda x: -x[POPULARIDADE])
+    
 
-def applyFiltro(nome_filtro, colecao, coluna):
+def apply_filtro(nome_filtro, colecao, coluna):
     filtro = request.args.get(nome_filtro, '[]')
     filtro = set(json.loads(filtro))
 
     return filter(lambda x: x[coluna] in filtro, colecao) if len(filtro) > 0 else colecao
 
 def pagina(colecao):
-    inicio = (int(request.args.get('pagina', 1))-1) * POR_PAGINA
-    return colecao[inicio:inicio+POR_PAGINA]
+    inicio = (int(request.args.get('pagina', 1))-1) * TAM_PAGINA
+    return colecao[inicio:inicio+TAM__PAGINA]
 
 def metodo_mestre(acordes):
     answer = applyFiltro('filtro-artistas', musicas, ARTISTA)
@@ -80,22 +86,6 @@ def metodo_mestre(acordes):
     answer.sort(key = lambda x: -x['facilidade'])
     return json.dumps(pagina(answer))
 
-@app.route('/rankByMusica')
-def get_by_nome():
-    musica = request.args.get('musica')
-    artista = request.args.get('artista')
-
-    for m in musicas:
-        if m[MUSICA] == musica and m[ARTISTA] == artista:
-	        return metodo_mestre(m[CIFRA])
-    return '[]'
-
-@app.route('/rankByAcordes')
-def conjunto():
-    acordes = request.args.get('acordes', '[]')
-    acordes = set(json.loads(acordes))
-    return metodo_mestre(acordes)
-
 @app.route('/busca')
 def busca():
     key = request.args.get('musica').lower()
@@ -106,32 +96,77 @@ def busca():
 	    'genero': m[GENERO],
     } for m in filtered])
 	
-@app.route('/genero')
-def get_generos():
-    return json.dumps(generos)
-
 @app.route('/musica')
 def get_musicas():
     return json.dumps([v.__dict__ for v in musicas.values()])
+
+@app.route('/genero')
+def get_generos():
+    return json.dumps(list(generos))
 
 @app.route('/musica/<m_id>/')
 def get_musica(m_id):
     return json.dumps(musicas[m_id].__dict__)
 
-@app.route('/porSequencia')
-def por_sequencia():
-    sequencia_famosa = request.args.get('sequencia')
-    answer = filter(lambda x: sequencia_famosa in x[SEQ_FAMOSA], musicas)
-    answer = applyFiltro('filtro-artistas', answer, ARTISTA)
-    answer = applyFiltro('filtro-generos', answer, GENERO)
+@app.route('/similares')
+def get_similares():
+    # tratando request
+    acordes_tag = request.args.get('acordes')
+    id_musica_tag = request.args.get('id_musica')
+    sequencia_tag = request.args.get('sequencias')
+    pagina_tag = request.args.get('pagina','1')
+    
+    # se não existir, filtra por todos.
+    generos_tag = request.args.get('generos')
+    generos_key = generos
+    if generos_tag:
+        generos_key = generos_tag.encode('utf-8').split(',')
+    
+    acordes = []
+    is_sequencia = False
+    if acordes_tag:
+        acordes = acordes_tag.encode('utf-8').split(',')
+    elif id_musica_tag:
+        musica = musicas[id_musica_tag]
+        acordes = musica.acordes
+    elif sequencia_tag:
+        acordes = sequencia_tag.encode('utf-8').split(',')
+        is_sequencia = True
 
-    return json.dumps(pagina([{
-        'artista': m[ARTISTA],
-        'musica': m[MUSICA],
-        'genero': m[GENERO],
-        'artista_id': m[ARTISTA_ID],
-        'musica_id': m[MUSICA_ID],
-    } for m in answer]))
+    similares = get_similares(acordes, generos_key, is_sequencia)
+    sl = (int(pagina_tag) - 1)*TAM_PAGINA
+
+    return json.dumps(similares[sl:sl+TAM_PAGINA])
+
+
+def get_similares(acordes, generos_key, is_sequencia):
+    similares = []
+    for musica in musicas.values():
+        inter = set(acordes).intersection(set(musica.acordes))
+        diff = set(musica.acordes) - set(acordes)
+
+        # somente as que tiverem interseção e as que forem dos generos solicitados
+        if len(inter) > 0 and musica.genero in generos_key:
+            similar = {
+                    'id_unico_musica' : musica.id_unico_musica,
+                    'id_artista' : musica.id_artista,
+                    'id_musica' : musica.id_musica,
+                    'nome_artista' : musica.nome_artista,
+                    'nome_musica' : musica.nome_musica,
+                    'genero' : musica.genero,
+                    'popularidade' : musica.popularidade,
+                    'acordes' : musica.acordes,
+                    'genero' : musica.genero,
+                    'url' : musica.url,
+                    'diferenca' : list(diff),
+                    'intersecao' : list(inter)
+            }
+            
+            similares.append(similar)
+
+    # ordenados por menor diferença e maior interseção
+    return sorted(similares, key=lambda x: (len(x['diferenca']), -len(x['intersecao'])))
+
 
 @app.after_request
 def add_header(response):

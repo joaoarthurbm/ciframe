@@ -1,18 +1,20 @@
 class Musica:
-    def __init__(self, artista_id, musica_id, artista, 
-            musica, genero, pop, seqs_famosas, tom, cifra):
+    def __init__(self, id_artista, nome_artista, id_musica, nome_musica,
+            genero, popularidade, seqs_famosas, tom, cifra):
 
-            self.artista_id = artista_id
-            self.musica_id = musica_id
-            self.artista = artista
-            self.musica = musica
+            self.id_artista = id_artista
+            self.nome_artista = nome_artista
+            
+            self.id_musica = id_musica
+            self.nome_musica = nome_musica
+
             self.genero = genero
-            self.pop = pop
+            self.popularidade = popularidade
             self.tom = tom
             self.cifra = cifra
             self.acordes = list(set(cifra))
             self.seqs_famosas = seqs_famosas
 
-            self.id_musica = '%s_%s' % (artista_id, musica_id)
+            self.id_unico_musica = '%s_%s' % (id_artista, id_musica)
 
-            self.url = 'http://www.cifraclub.com.br/%s/%s' % (artista_id, musica_id)
+            self.url = 'http://www.cifraclub.com.br/%s/%s' % (id_artista, id_musica)

@@ -19,7 +19,6 @@ CIFRA = 8
 
 TAM_PAGINA = 100
 
-generos = set()
 
 def init():
     reload(sys)  
@@ -31,7 +30,15 @@ def init():
     musicas_dict = {}
     global generos
     global musicas
-
+    global sequencias
+    generos = set()
+    sequencias = {'BmGDA' : 0,
+            'CGAmF' : 1,
+            'EmG' : 2,
+            'CA7DmG7' : 3, 
+            'GmF' : 4, 
+            'CC7FFm' : 5}
+    
     for line in f:
         line = line.replace('"', '').replace('NA', '')[:-1]
 
@@ -51,16 +58,16 @@ def init():
     musicas = OrderedDict(sorted(musicas_dict.items(), key=lambda x: x[1].popularidade, reverse = True))
     generos = list(generos)
     
-    print [m.seqs_famosas for m in musicas.values()]
-
     f.close()
     
 
-def apply_filtro(nome_filtro, colecao, coluna):
-    filtro = request.args.get(nome_filtro, '[]')
-    filtro = set(json.loads(filtro))
+def apply_filtro_generos(lista_musicas, lista_generos):
+    match = []
+    for m in lista_musicas:
+        if m.genero in lista_generos:
+            match.append(m)
+    return match
 
-    return filter(lambda x: x[coluna] in filtro, colecao) if len(filtro) > 0 else colecao
 
 @app.route('/busca')
 def busca():
@@ -89,7 +96,7 @@ def get_similares():
     # tratando request
     acordes_tag = request.args.get('acordes')
     id_musica_tag = request.args.get('id_unico_musica')
-    sequencia_tag = request.args.get('sequencias')
+    sequencia_tag = request.args.get('sequencia')
     pagina_tag = request.args.get('pagina','1')
     
     # se não existir, filtra por todos.
@@ -99,23 +106,50 @@ def get_similares():
         generos_key = generos_tag.encode('utf-8').split(',')
     
     acordes = []
-    is_sequencia = False
     if acordes_tag:
         acordes = acordes_tag.encode('utf-8').split(',')
     elif id_musica_tag:
         musica = musicas[id_musica_tag]
         acordes = musica.acordes
     elif sequencia_tag:
-        acordes = sequencia_tag.encode('utf-8').split(',')
-        is_sequencia = True
+        acordes = sequencia_tag.encode('utf-8').replace(',','')
+        similares = []
+        
+        if acordes in sequencias:
+            id_seq = sequencias[acordes]
+            similares = get_pagina(get_similares_por_sequencia(id_seq, generos_key), pagina_tag)
+        return json.dumps(similares)
 
-    similares = get_similares(acordes, generos_key, is_sequencia)
+    similares = get_similares(acordes, generos_key)
+
+    return json.dumps(get_pagina(similares, pagina_tag))
+
+def get_similares_por_sequencia(id_seq, generos_key):
+    similares = []
+    for musica in musicas.values():
+        if str(id_seq) in musica.seqs_famosas and musica.genero in generos_key:
+            similar = {
+                'id_unico_musica' : musica.id_unico_musica,
+                'id_artista' : musica.id_artista,
+                'id_musica' : musica.id_musica,
+                'nome_artista' : musica.nome_artista,
+                'nome_musica' : musica.nome_musica,
+                'genero' : musica.genero,
+                'popularidade' : musica.popularidade,
+                'acordes' : musica.acordes,
+                'genero' : musica.genero,
+                'url' : musica.url,
+            }
+            similares.append(similar)
+
+    return similares
+
+
+def get_pagina(colecao, pagina_tag):
     sl = (int(pagina_tag) - 1)*TAM_PAGINA
+    return colecao[sl:sl+TAM_PAGINA]
 
-    return json.dumps(similares[sl:sl+TAM_PAGINA])
-
-
-def get_similares(acordes, generos_key, is_sequencia):
+def get_similares(acordes, generos_key):
     similares = []
     for musica in musicas.values():
         inter = set(acordes).intersection(set(musica.acordes))
@@ -153,3 +187,4 @@ def add_header(response):
 if __name__ == '__main__':
     init()
     app.run(debug=True)
+

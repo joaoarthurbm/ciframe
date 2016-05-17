@@ -46,11 +46,13 @@ def init():
         musica_obj = Musica(musica[ARTISTA_ID], musica[ARTISTA], musica[MUSICA_ID], musica[MUSICA],
                 musica[GENERO], int(musica[POPULARIDADE]), musica[SEQ_FAMOSA], musica[TOM], musica[CIFRA])
         musicas_dict[musica_obj.id_unico_musica] = musica_obj
-
+    
     # dictionary sorted by popularity
     musicas = OrderedDict(sorted(musicas_dict.items(), key=lambda x: x[1].popularidade, reverse = True))
     generos = list(generos)
     
+    print [m.seqs_famosas for m in musicas.values()]
+
     f.close()
     
 
@@ -59,32 +61,6 @@ def apply_filtro(nome_filtro, colecao, coluna):
     filtro = set(json.loads(filtro))
 
     return filter(lambda x: x[coluna] in filtro, colecao) if len(filtro) > 0 else colecao
-
-def pagina(colecao):
-    inicio = (int(request.args.get('pagina', 1))-1) * TAM_PAGINA
-    return colecao[inicio:inicio+TAM__PAGINA]
-
-def metodo_mestre(acordes):
-    answer = applyFiltro('filtro-artistas', musicas, ARTISTA)
-    answer = applyFiltro('filtro-generos', answer, GENERO)
-
-    answer = [{
-        'artista': m[ARTISTA],
-        'musica': m[MUSICA],
-        'genero': m[GENERO],
-        'artista_id': m[ARTISTA_ID],
-        'musica_id': m[MUSICA_ID],
-        'facilidade': 1.0 * len(m[CIFRA] & acordes) / len(m[CIFRA]),
-        'diferenca': list(m[CIFRA] - acordes)
-    } for m in answer]
-
-    minimo = float(request.args.get('min', 0))/ 100
-    maximo = float(request.args.get('max', 100))/ 100
-
-    answer = filter(lambda x: minimo <= x['facilidade'] <= maximo, answer)
-
-    answer.sort(key = lambda x: -x['facilidade'])
-    return json.dumps(pagina(answer))
 
 @app.route('/busca')
 def busca():
@@ -145,7 +121,8 @@ def get_similares(acordes, generos_key, is_sequencia):
         inter = set(acordes).intersection(set(musica.acordes))
         diff = set(musica.acordes) - set(acordes)
 
-        # somente as que tiverem interseção e as que forem dos generos solicitados
+        # somente as que tiverem interseção e as que forem 
+        # dos generos solicitados.
         if len(inter) > 0 and musica.genero in generos_key:
             similar = {
                     'id_unico_musica' : musica.id_unico_musica,

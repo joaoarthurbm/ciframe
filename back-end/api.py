@@ -72,14 +72,20 @@ def apply_filtro_generos(lista_musicas, lista_generos):
 
 @app.route('/search')
 def busca():
+    generos_tag = request.args.get('generos', [])
+    generos_key = generos
+    if generos_tag:
+        generos_key = generos_tag.encode('utf-8').split(',')
+
+    pagina_tag = request.args.get('pagina','1')
+    
     key = request.args.get('key').lower()
     key = remover_combinantes(key)
-    pagina_tag = request.args.get('pagina','1')
-
+    
     out = []
     for musica in musicas.values():
         text = '%s %s' % (musica.nome_artista.lower(), musica.nome_musica.lower())
-        if key in remover_combinantes(unicode(text)):
+        if key in remover_combinantes(unicode(text)) and musica.genero in generos_key:
             matches = {
                 'id_unico_musica' : musica.id_unico_musica,
                 'id_artista' : musica.id_artista,

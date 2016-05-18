@@ -1,0 +1,34 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-6 col-md-4 col-lg-3 viewWindow-panel viewWindow-panel-A">
+      <div class="viewWindow-panel-container">
+        <h4 class="text-center">Aponte os acordes que você já domina</h4>
+        <div class="acordes-container" ng-repeat='acordesCollection in acordes'>
+          <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" ng-repeat="acordeon in acordesCollection" ng-click="addAcorde(acordeon)" ng-hide="temAcorde(acordeon)"></df-hex>
+        </div>
+        <br style="clear: both;">
+        <br><br>
+        <p><a href="#/" class="btn btn-link"><span class="glyphicon glyphicon-menu-left"></span> Voltar</a></p>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-8 col-lg-9 viewWindow-panel viewWindow-panel-D">
+      <div class="viewWindow-panel-container">
+        <div class="text-center">
+          <div class="esfinge-ballon">{{esfigeSpeech}}</div>
+          <div style="width: 150px; margin: auto;">
+            <df-esfinge class="esfinge" df-animated="true"></df-esfinge>
+          </div>
+        </div>
+        <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" ng-repeat="acordeon in meusAcordes" ng-click="addAcorde(acordeon)"></df-hex>
+        <br style="clear: both;"><br>
+        <p ng-repeat="musica in musicas">
+          <a ng-href="{{musica.link}}" target="_blank">{{musica.titulo}}
+          <br>
+          <small>{{musica.artista}}</small>
+          </a>
+        </p>
+        <p ng-show="isSearching" class="text-center"><span class="glyphicon glyphicon-refresh animated infinite rotateIn"></span></p>
+      </div>
+    </div>
+  </div>
+</div>

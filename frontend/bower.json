@@ -1,0 +1,26 @@
+{
+  "name": "Deciframe",
+  "homepage": "https://github.com/jeffersonrpn/ciframe",
+  "authors": [
+    "Jefferson Neves <jefferson.rpn@gmail.com>"
+  ],
+  "description": "Encontre as músicas que você já manja",
+  "main": "index.html",
+  "moduleType": [],
+  "keywords": [
+    "cifra",
+    "musica"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ng-material-floating-button": "ng-mfb#~0.6.2"
+  }
+}

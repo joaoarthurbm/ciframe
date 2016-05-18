@@ -47,15 +47,17 @@ def init():
         musica[CIFRA] = list(musica[CIFRA].split(';')) if musica[CIFRA] != '' else list()
         musica[SEQ_FAMOSA] = musica[SEQ_FAMOSA].split(";")
     
-        if musica[GENERO] != '' :
-            generos.add(musica[GENERO])
+        generos.add(musica[GENERO])
         
+        # inclui música no dict de músicas
         musica_obj = Musica(musica[ARTISTA_ID], musica[ARTISTA], musica[MUSICA_ID], musica[MUSICA],
                 musica[GENERO], int(musica[POPULARIDADE]), musica[SEQ_FAMOSA], musica[TOM], musica[CIFRA])
         musicas_dict[musica_obj.id_unico_musica] = musica_obj
     
-    # dictionary sorted by popularity
+    # dicionário cujos valores são ordenados por popularidade
     musicas = OrderedDict(sorted(musicas_dict.items(), key=lambda x: x[1].popularidade, reverse = True))
+    
+    # para trabalhar melhor com json
     generos = list(generos)
     
     f.close()
@@ -100,7 +102,7 @@ def get_musicas():
 
 @app.route('/genero')
 def get_generos():
-    return json.dumps(list(generos))
+    return json.dumps(generos)
 
 @app.route('/musica/<m_id>/')
 def get_musica(m_id):

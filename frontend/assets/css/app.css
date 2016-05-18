@@ -51,6 +51,18 @@ body {
 .logo-dot,
 .logo-m,
 .logo-e { fill:#FFF; }
+
+.logo-d-color,
+.logo-e1-color { fill:#791459; }
+.logo-c-color,
+.logo-i-color,
+.logo-dot1-color,
+.logo-f-color,
+.logo-r-color,
+.logo-a-color { fill:#9C0A5D; }
+.logo-dot-color,
+.logo-m-color,
+.logo-e-color { fill:#791459; }
 .vertical-img-wrapper {
   line-height: 500px;
 }
@@ -93,7 +105,8 @@ body {
   font-size: 0.8em;
 }
 .viewWindow-panel-main-container  {
-  padding: 200px 150px;
+  padding: 200px 0;
+  overflow: hidden;
 }
 @media (max-width: 768px) {
   .viewWindow-panel-main-container  {
@@ -181,7 +194,7 @@ a:active {
   animation:0.5s fadeInRight ease;
 }
 .esfinge svg {
-  width: 150px;
+  width: 100%;
 }
 .esfinge-ballon {
   padding-bottom: 5px;

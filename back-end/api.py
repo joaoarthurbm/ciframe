@@ -79,7 +79,6 @@ def busca():
     out = []
     for musica in musicas.values():
         text = '%s %s' % (musica.nome_artista.lower(), musica.nome_musica.lower())
-        print key, text
         if key in remover_combinantes(unicode(text)):
             matches = {
                 'id_unico_musica' : musica.id_unico_musica,

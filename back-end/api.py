@@ -89,6 +89,7 @@ def busca():
             out.append(matches)
     return json.dumps(get_pagina(out, pagina_tag))
 
+# cópia
 def remover_combinantes(string):
     string = unicodedata.normalize('NFD', string)
     return u''.join(ch for ch in string if unicodedata.category(ch) != 'Mn')

@@ -62,14 +62,6 @@ def init():
     f.close()
     
 
-def apply_filtro_generos(lista_musicas, lista_generos):
-    match = []
-    for m in lista_musicas:
-        if m.genero in lista_generos:
-            match.append(m)
-    return match
-
-
 @app.route('/search')
 def busca():
     generos_tag = request.args.get('generos', [])

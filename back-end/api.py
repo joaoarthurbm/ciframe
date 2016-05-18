@@ -4,6 +4,7 @@ from flask import Flask, request
 import sys
 from musica import *
 from collections import OrderedDict
+import unicodedata
 
 app = Flask(__name__)
 
@@ -69,16 +70,33 @@ def apply_filtro_generos(lista_musicas, lista_generos):
     return match
 
 
-@app.route('/busca')
+@app.route('/search')
 def busca():
-    key = request.args.get('musica').lower()
-    filtered = filter(lambda x: key in x[MUSICA].lower(), musicas)
-    return json.dumps([{
-	    'artista': m[ARTISTA],
-	    'musica': m[MUSICA],
-	    'genero': m[GENERO],
-    } for m in filtered])
-	
+    key = request.args.get('key').lower()
+    key = remover_combinantes(key)
+    pagina_tag = request.args.get('pagina','1')
+
+    out = []
+    for musica in musicas.values():
+        text = '%s %s' % (musica.nome_artista.lower(), musica.nome_musica.lower())
+        print key, text
+        if key in remover_combinantes(unicode(text)):
+            matches = {
+                'id_unico_musica' : musica.id_unico_musica,
+                'id_artista' : musica.id_artista,
+                'id_musica' : musica.id_musica,
+                'nome_artista' : musica.nome_artista,
+                'nome_musica' : musica.nome_musica,
+                'genero' : musica.genero,
+                'url' : musica.url,
+            }
+            out.append(matches)
+    return json.dumps(get_pagina(out, pagina_tag))
+
+def remover_combinantes(string):
+    string = unicodedata.normalize('NFD', string)
+    return u''.join(ch for ch in string if unicodedata.category(ch) != 'Mn')
+
 @app.route('/musica')
 def get_musicas():
     return json.dumps([v.__dict__ for v in musicas.values()])
@@ -134,7 +152,6 @@ def get_similares_por_sequencia(id_seq, generos_key):
                 'id_musica' : musica.id_musica,
                 'nome_artista' : musica.nome_artista,
                 'nome_musica' : musica.nome_musica,
-                'genero' : musica.genero,
                 'popularidade' : musica.popularidade,
                 'acordes' : musica.acordes,
                 'genero' : musica.genero,
@@ -164,7 +181,6 @@ def get_similares(acordes, generos_key):
                     'id_musica' : musica.id_musica,
                     'nome_artista' : musica.nome_artista,
                     'nome_musica' : musica.nome_musica,
-                    'genero' : musica.genero,
                     'popularidade' : musica.popularidade,
                     'acordes' : musica.acordes,
                     'genero' : musica.genero,

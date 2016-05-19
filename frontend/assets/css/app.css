@@ -283,6 +283,11 @@ a:active {
   background-color: #54ACDE;
   box-shadow: none;
 }
+.btn-link,
+.btn-link:visited {
+  text-decoration: none;
+  color: #FFF;
+}
 .btn-link:active,
 .btn-link:hover {
   text-decoration: none;
@@ -299,11 +304,10 @@ a:active {
 .form-group > .form-control,
 .form-group > .form-group-addon,
 .form-group-lg > .form-group-btn > .btn {
-  border: none;
-  border-radius: 0;
+  border: solid 2px #FFF;
+  border-radius: 4px;
   background: none;
   padding: 10px 5px;
-  border-bottom: solid 2px #FFF;
 }
 .form-group-btn > .btn-default {
   color: #FFF;

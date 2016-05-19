@@ -81,23 +81,25 @@ def busca():
 
     pagina_tag = request.args.get('pagina','1')
     
-    key = request.args.get('key').lower()
-    key = remover_combinantes(key)
+    keys = request.args.get('key').lower()
+    keys = remover_combinantes(keys).split(' ')
     
     out = []
     for musica in musicas.values():
         text = '%s %s' % (musica.nome_artista.lower(), musica.nome_musica.lower())
-        if key in remover_combinantes(unicode(text)) and musica.genero in generos_key:
-            matches = {
-                'id_unico_musica' : musica.id_unico_musica,
-                'id_artista' : musica.id_artista,
-                'id_musica' : musica.id_musica,
-                'nome_artista' : musica.nome_artista,
-                'nome_musica' : musica.nome_musica,
-                'genero' : musica.genero,
-                'url' : musica.url,
-            }
-            out.append(matches)
+        text_list = remover_combinantes(unicode(text)).split(' ')
+        for key in keys:
+            if key in text_list and musica.genero in generos_key:
+                matches = {
+                    'id_unico_musica' : musica.id_unico_musica,
+                    'id_artista' : musica.id_artista,
+                    'id_musica' : musica.id_musica,
+                    'nome_artista' : musica.nome_artista,
+                    'nome_musica' : musica.nome_musica,
+                    'genero' : musica.genero,
+                    'url' : musica.url,
+                }
+                out.append(matches)
     return json.dumps(get_pagina(out, pagina_tag))
 
 # cópia

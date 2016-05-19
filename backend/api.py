@@ -88,18 +88,17 @@ def busca():
     for musica in musicas.values():
         text = '%s %s' % (musica.nome_artista.lower(), musica.nome_musica.lower())
         text_list = remover_combinantes(unicode(text)).split(' ')
-        for key in keys:
-            if key in text_list and musica.genero in generos_key:
-                matches = {
-                    'id_unico_musica' : musica.id_unico_musica,
-                    'id_artista' : musica.id_artista,
-                    'id_musica' : musica.id_musica,
-                    'nome_artista' : musica.nome_artista,
-                    'nome_musica' : musica.nome_musica,
-                    'genero' : musica.genero,
-                    'url' : musica.url,
-                }
-                out.append(matches)
+        if musica.genero in generos_key and all(key in text_list for key in keys):
+            matches = {
+                'id_unico_musica' : musica.id_unico_musica,
+                'id_artista' : musica.id_artista,
+                'id_musica' : musica.id_musica,
+                'nome_artista' : musica.nome_artista,
+                'nome_musica' : musica.nome_musica,
+                'genero' : musica.genero,
+                'url' : musica.url,
+            }
+            out.append(matches)
     return json.dumps(get_pagina(out, pagina_tag))
 
 # cópia

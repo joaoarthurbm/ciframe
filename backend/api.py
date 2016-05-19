@@ -81,13 +81,14 @@ def busca():
 
     pagina_tag = request.args.get('pagina','1')
     
-    key = request.args.get('key').lower()
-    key = remover_combinantes(key)
+    keys = request.args.get('key').lower()
+    keys = remover_combinantes(keys).split(' ')
     
     out = []
     for musica in musicas.values():
         text = '%s %s' % (musica.nome_artista.lower(), musica.nome_musica.lower())
-        if key in remover_combinantes(unicode(text)) and musica.genero in generos_key:
+        text_list = remover_combinantes(unicode(text)).split(' ')
+        if musica.genero in generos_key and all(key in text_list for key in keys):
             matches = {
                 'id_unico_musica' : musica.id_unico_musica,
                 'id_artista' : musica.id_artista,

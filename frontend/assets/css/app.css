@@ -251,6 +251,10 @@ a:active {
 }
 .music-card-footer {
   background-color: #D8D9DD;
+  margin: 10px -10px -10px -10px;
+  padding: 10px;
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
 .music-lock {
   float: left;
@@ -261,12 +265,17 @@ a:active {
   margin: 10px 0 0 0;
   font-weight: bold;
   font-size: 1.2em;
+  height: 50px;
+  overflow: hidden;
 }
 .music-artist {
   margin: 0;
 }
 .music-gender {
   margin: 15px 0 0 0;
+}
+.music-separator {
+  margin: 50px 50px;
 }
 /* Bootstrap overhide */
 .navbar-default {

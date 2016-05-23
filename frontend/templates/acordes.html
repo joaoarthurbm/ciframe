@@ -16,8 +16,27 @@
         <h4>{{Chords.esfigeSpeech}}</h4>
         <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" ng-repeat="acordeon in Chords.meusAcordes" ng-click="Chords.addAcorde(acordeon)"></df-hex>
         <br style="clear: both;"><br>
+
         <div class="row row-in">
-          <div class="col-sm-6 col-lg-4" ng-repeat="music in Chords.musics">
+          <div class="col-sm-6 col-lg-4"
+            ng-repeat="music in Chords.musics"
+            ng-hide="music.diferenca.length">
+            <div class="music-card">
+              <!-- <div class="music-lock"><span class="glyphicon glyphicon-lock"></span></div> -->
+              <p class="music-title">{{music.nome_musica}}</p>
+              <p class="music-artist">{{music.nome_artista}}</p>
+              <p class="music-gender">{{music.genero}}</p>
+            </div>
+          </div>
+        </div>
+
+        <hr class="music-separator" ng-show="Chords.musics.length">
+        <h4 ng-show="Chords.musics.length">Aprenda mais alguns acordes para tocar:</h4>
+
+        <div class="row row-in">
+          <div class="col-sm-6 col-lg-4"
+            ng-repeat="music in Chords.musics"
+            ng-show="music.diferenca.length">
             <div class="music-card">
               <!-- <div class="music-lock"><span class="glyphicon glyphicon-lock"></span></div> -->
               <p class="music-title">{{music.nome_musica}}</p>
@@ -25,11 +44,13 @@
               <p class="music-gender">{{music.genero}}</p>
               <div class="music-card-footer">
                 <!-- <div class="music-lock"><span class="glyphicon glyphicon-lock"></span></div> -->
-                <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" ng-repeat="acordeon in Chords.meusAcordes" ng-click="Chords.addAcorde(acordeon)"></df-hex>
+                <df-hex acorde="{{chord}}" acorde-color="'#7D7A7D'" ng-repeat="chord in music.diferenca"></df-hex>
+                <br style="clear: both;">
               </div>
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>

@@ -47,7 +47,12 @@ def init():
 
         musica = line.split(',')
         musica[POPULARIDADE] = int(musica[POPULARIDADE].replace('.', ''))
-        musica[CIFRA] = list(musica[CIFRA].split(';')) if musica[CIFRA] != '' else list()
+        
+        if musica[CIFRA] != '':
+            musica[CIFRA] = limpa_cifra(musica[CIFRA].split(';'))
+        else:
+            musica[CIFRA] = []
+
         musica[SEQ_FAMOSA] = musica[SEQ_FAMOSA].split(";")
     
         generos.add(musica[GENERO])
@@ -67,7 +72,17 @@ def init():
     generos = list(generos)
     
     f.close()
-    
+
+def limpa_cifra(raw_cifra):
+    cifra = []
+    for m in raw_cifra:
+        if m.strip() != '':
+            tokens = m.split()
+            for token in tokens:
+                if '|' not in token:
+                    cifra.append(token)
+    return cifra
+
 ''' Busca por músicas que possuem no título ou no nome do artista o argumento passado por key.
     params: key e generos (opcional). Caso generos não sejam definidos, a busca não irá filtrar por gênero.
     exemplo 1: /search?key=no dia em que eu saí de casa

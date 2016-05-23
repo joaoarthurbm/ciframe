@@ -78,7 +78,7 @@ body {
 .viewWindow-panel-B { background:#7B057E; color: #FFFFFF; }
 .viewWindow-panel-C { background:#BA007C; color: #FFFFFF; }
 .viewWindow-panel-D { background:#FFFFFF; color: #333333; }
-.viewWindow-panel-E { background:#E9BC00; color: #FFFFFF; }
+.viewWindow-panel-E { background:#E9BC00; color: #FFFFFF; overflow: hidden; }
 .viewWindow-panel-F {
   background:#BA007C; color: #FFFFFF
   background: -moz-linear-gradient(top, #372478 0%, #372478 50%, #BA007C 51%, #BA007C 100%, #BA007C 100%);
@@ -186,7 +186,7 @@ a:active {
   margin-bottom: -38px;
   padding-bottom: 16px;
 }
-/* 'Esfinge */
+/* Esfinge */
 .esfinge.ng-hide-add {
   animation:0.5s fadeOutRight ease;
 }
@@ -239,6 +239,34 @@ a:active {
 }
 .menu-container.ng-hide-remove {
   animation: 0.5s fadeInRight ease;
+}
+.music-card {
+  background-color: #EDEEEF;
+  color: #3C3B3C;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 4px;
+  min-height: 150px;
+}
+.music-card-footer {
+  background-color: #D8D9DD;
+}
+.music-lock {
+  float: left;
+  margin: 20px 20px 0 15px;
+  height: 90px;
+}
+.music-title {
+  margin: 10px 0 0 0;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+.music-artist {
+  margin: 0;
+}
+.music-gender {
+  margin: 15px 0 0 0;
 }
 /* Bootstrap overhide */
 .navbar-default {
@@ -311,6 +339,14 @@ a:active {
 }
 .form-group-btn > .btn-default {
   color: #FFF;
+}
+.row-in {
+  margin-left: -5px;
+  margin-right: -5px;
+}
+.row-in > .col-xs-1, .row-in > .col-sm-1, .row-in > .col-md-1, .row-in > .col-lg-1, .row-in > .col-xs-2, .row-in > .col-sm-2, .row-in > .col-md-2, .row-in > .col-lg-2, .row-in > .col-xs-3, .row-in > .col-sm-3, .row-in > .col-md-3, .row-in > .col-lg-3, .row-in > .col-xs-4, .row-in > .col-sm-4, .row-in > .col-md-4, .row-in > .col-lg-4, .row-in > .col-xs-5, .row-in > .col-sm-5, .row-in > .col-md-5, .row-in > .col-lg-5, .row-in > .col-xs-6, .row-in > .col-sm-6, .row-in > .col-md-6, .row-in > .col-lg-6, .row-in > .col-xs-7, .row-in > .col-sm-7, .row-in > .col-md-7, .row-in > .col-lg-7, .row-in > .col-xs-8, .row-in > .col-sm-8, .row-in > .col-md-8, .row-in > .col-lg-8, .row-in > .col-xs-9, .row-in > .col-sm-9, .row-in > .col-md-9, .row-in > .col-lg-9, .row-in > .col-xs-10, .row-in > .col-sm-10, .row-in > .col-md-10, .row-in > .col-lg-10, .row-in > .col-xs-11, .row-in > .col-sm-11, .row-in > .col-md-11, .row-in > .col-lg-11, .row-in > .col-xs-12, .row-in > .col-sm-12, .row-in > .col-md-12, .row-in > .col-lg-12 {
+  padding-right: 5px;
+  padding-left: 5px;
 }
 /* Animations */
 .animated {

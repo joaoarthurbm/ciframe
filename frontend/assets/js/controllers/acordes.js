@@ -1,4 +1,4 @@
-angular.module('deciframeApp').controller('AcordesController', function($scope, $http) {
+angular.module('deciframeApp').controller('AcordesController', function($http) {
   var acordesC = [
     { 'acorde': 'C',  'cor': '#e6b300' },
     { 'acorde': 'C#', 'cor': '#e6b300' },
@@ -42,55 +42,59 @@ angular.module('deciframeApp').controller('AcordesController', function($scope, 
     { 'acorde': 'B',  'cor': '#a3bd31' },
     { 'acorde': 'Bm', 'cor': '#cdd54f' },
     { 'acorde': 'B7', 'cor': '#96b02f' }];
-  $scope.acordes = [];
-  $scope.acordes.push(acordesC);
-  $scope.acordes.push(acordesD);
-  $scope.acordes.push(acordesE);
-  $scope.acordes.push(acordesF);
-  $scope.acordes.push(acordesG);
-  $scope.acordes.push(acordesA);
-  $scope.acordes.push(acordesB);
-  $scope.meusAcordes = [];
-  $scope.isSearching = false;
-  $scope.esfigeSpeech = 'Vamos lá, escolhe ai!';
-  $scope.musicas = [];
+  var vm = this;
+  vm.acordes = [];
+  vm.acordes.push(acordesC);
+  vm.acordes.push(acordesD);
+  vm.acordes.push(acordesE);
+  vm.acordes.push(acordesF);
+  vm.acordes.push(acordesG);
+  vm.acordes.push(acordesA);
+  vm.acordes.push(acordesB);
+  vm.meusAcordes = [];
+  vm.isSearching = false;
+  vm.esfigeSpeech =  "";
+  vm.musics = [];
 
-  $scope.addAcorde = function(acorde) {
-    if ($scope.meusAcordes.indexOf(acorde) == -1) {
-      $scope.meusAcordes.push(acorde);
+  vm.addAcorde = function(acorde) {
+    if (vm.meusAcordes.indexOf(acorde) == -1) {
+      vm.meusAcordes.push(acorde);
     } else {
-      var index = $scope.meusAcordes.indexOf(acorde);
-      if (index > -1) $scope.meusAcordes.splice(index, 1);
+      var index = vm.meusAcordes.indexOf(acorde);
+      if (index > -1) vm.meusAcordes.splice(index, 1);
     }
-    $scope.pesquisarPorAcordes();
+    vm.pesquisarPorAcordes();
   }
-  $scope.temAcorde = function(acorde) {
-    return ($scope.meusAcordes.indexOf(acorde) > -1);
+  vm.temAcorde = function(acorde) {
+    return (vm.meusAcordes.indexOf(acorde) > -1);
   }
-  $scope.pesquisarPorAcordes = function() {
-    $scope.isSearching = true;
-    // Developing only >>>
-    if ($scope.meusAcordes.length > 0) {
-      $scope.esfigeSpeech = 'Encontrei estas músicas';
-      $scope.musicas.push(
-        {
-          "titulo": "Californication "+$scope.musicas.length,
-          "artista": "Red Hot Chili Peppers",
-          "link": "http://www.cifraclub.com.br/red-hot-chili-peppers/californication/"
-        }
-      );
+
+  var createChordsString = function(chords) {
+    var str = "";
+    for (var i = 0; i < chords.length; i++) {
+      str = str.concat(chords[i].acorde, ',');
+    }
+    return str.substring(0, str.length-1);
+  }
+
+  vm.pesquisarPorAcordes = function() {
+    if (vm.meusAcordes.length) {
+      vm.esfigeSpeech = "Procurando músicas com base nos acordes...";
+      vm.isSearching = true;
+
+      var apiUrl = "http://127.0.0.1:5000/";
+      $http.get(apiUrl.concat("similares?acordes=").concat(createChordsString(vm.meusAcordes)))
+        .success(function(data) {
+          vm.esfigeSpeech = "Encontrei essas músicas";
+          vm.isSearching = false;
+          vm.musics = data;
+        })
+        .error(function(data) {
+          vm.esfigeSpeech = "Ops! Algo errado.";
+          vm.isSearching = false;
+        });
     } else {
-      $scope.esfigeSpeech = 'Vamos lá, escolhe ai!';
-      $scope.musicas = [];
+      vm.musics = [];
     }
-    // Remove later <<<<
-    $http.get("")
-    .success(function(data) {
-      // $scope.musicas = data;
-      $scope.isSearching = false;
-    })
-    .error(function(data) {
-      $scope.isSearching = false;
-    });
   }
 });

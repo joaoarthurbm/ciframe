@@ -6,7 +6,8 @@ angular.module('deciframeApp').config(function($routeProvider) {
     })
     .when('/poracordes', {
       templateUrl: "templates/acordes.html",
-      controller: "AcordesController"
+      controller: "AcordesController",
+      controllerAs: "Chords"
     })
     .when('/pormusica', {
       templateUrl: "templates/musica.html",

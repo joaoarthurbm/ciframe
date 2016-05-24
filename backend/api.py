@@ -77,10 +77,14 @@ def limpa_cifra(raw_cifra):
     cifra = []
     for m in raw_cifra:
         if m.strip() != '':
-            tokens = m.split()
-            for token in tokens:
-                if '|' not in token:
-                    cifra.append(token)
+            # filtra tablaturas
+            if '|' in m:
+                acorde = m.split('|')[0].split()[0]
+                cifra.append(acorde)
+            # lida com acordes separados por espaço
+            else:
+                tokens = [token for token in m.split()]
+                cifra += tokens
     return cifra
 
 ''' Busca por músicas que possuem no título ou no nome do artista o argumento passado por key.

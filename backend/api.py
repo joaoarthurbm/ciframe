@@ -31,7 +31,9 @@ def init():
     global musicas
     global sequencias
     global acordes
+    global genero_musicas
     
+    genero_musicas = {}
     generos = set()
     acordes = set()
     sequencias = {'BmGDA' : 0,
@@ -54,23 +56,40 @@ def init():
             musica[CIFRA] = []
 
         musica[SEQ_FAMOSA] = musica[SEQ_FAMOSA].split(";")
-    
+        
+        # conjunto único de gêneros
         generos.add(musica[GENERO])
         
         # inclui música no dict de músicas
-        musica_obj = Musica(musica[ARTISTA_ID], musica[ARTISTA], musica[MUSICA_ID], musica[MUSICA],
-                musica[GENERO], int(musica[POPULARIDADE]), musica[SEQ_FAMOSA], musica[TOM], musica[CIFRA])
+        musica_obj = Musica(musica[ARTISTA_ID], musica[ARTISTA], 
+                musica[MUSICA_ID], musica[MUSICA], musica[GENERO], 
+                int(musica[POPULARIDADE]), musica[SEQ_FAMOSA], 
+                musica[TOM], musica[CIFRA])
+        
         musicas_dict[musica_obj.id_unico_musica] = musica_obj
-
+        
+        # conjunto único de acordes
         for acorde in musica_obj.acordes:
             acordes.add(acorde)
-    
-    # dicionário cujos valores são ordenados por popularidade
-    musicas = OrderedDict(sorted(musicas_dict.items(), key=lambda x: x[1].popularidade, reverse = True))
+        
+        # constrói dict mapeando gênero para músicas
+        # deve ser usado para melhorar o desempenho das buscas
+        if musica_obj.genero in genero_musicas:
+            genero_musicas[musica_obj.genero].append(musica_obj)
+        else:
+            genero_musicas[musica_obj.genero] = [musica_obj]
+
+    # dicionário de músicas cujos valores são ordenados por popularidade
+    musicas = OrderedDict(sorted(musicas_dict.items(), 
+        key=lambda x: x[1].popularidade, reverse = True))
     
     # para trabalhar melhor com json
     generos = list(generos)
     
+    # ordena genero_musicas por popularidade
+    for k,v in genero_musicas.items():
+        genero_musicas[k].sort(key = lambda x : x.popularidade, reverse = True)
+
     f.close()
 
 def limpa_cifra(raw_cifra):
@@ -130,7 +149,7 @@ def remover_combinantes(string):
     params: pagina. Caso não seja definida a página, o valor default é 1.
     exemplo 1: /musica?pagina=2
     exemplo 2: /musica'''
-@app.route('/musica')
+@app.route('/musicas')
 def get_musicas():
     return json.dumps([v.__dict__ for v in musicas.values()])
 

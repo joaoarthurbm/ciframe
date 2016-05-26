@@ -18,3 +18,6 @@ class Musica:
             self.id_unico_musica = '%s_%s' % (id_artista, id_musica)
 
             self.url = 'http://www.cifraclub.com.br/%s/%s' % (id_artista, id_musica)
+
+    def __str__(self):
+        return '%s,%s,%s' % (self.id_unico_musica, self.genero, self.popularidade)

@@ -113,24 +113,17 @@ def limpa_cifra(raw_cifra):
 @app.route('/search')
 def busca():
     generos_tag = request.args.get('generos', [])
-    generos_key = generos
-   
-    # Se houver filtro por gênero, utiliza o dict genero_musica
-    # para melhor desempenho.
-    collection = musicas.values()
-    if generos_tag:
-        collection = []
-        generos_key = generos_tag.encode('utf-8').split(',')
-        for g in generos_key:
-            if g in generos:
-                collection += genero_musicas[g]
-
     pagina_tag = request.args.get('pagina','1')
-    
     keys = request.args.get('key').lower()
     keys = remover_combinantes(keys).split(' ')
     
+    generos_key = generos
+    if generos_tag:
+        generos_key = generos_tag.encode('utf-8').split(',')
+    
+    collection = apply_filtro(musicas.values, generos_key)
     out = []
+    
     for musica in collection:
         text = '%s %s' % (musica.nome_artista.lower(), musica.nome_musica.lower())
         text_list = remover_combinantes(unicode(text)).split(' ')
@@ -265,6 +258,7 @@ def get_similares(acordes, generos_key):
     # ordenados por menor diferença, maior interseção e maior popularidade.
     return sorted(similares, key=lambda x: (len(x['diferenca']), -len(x['intersecao'])))
 
+## Filtra a coleção de músicas por gênero.
 def apply_filtro(musicas, generos_key):
     # filtra para melhor desempenho 
     collection = []

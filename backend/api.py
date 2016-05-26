@@ -114,8 +114,16 @@ def limpa_cifra(raw_cifra):
 def busca():
     generos_tag = request.args.get('generos', [])
     generos_key = generos
+   
+    # Se houver filtro por gênero, utiliza o dict genero_musica
+    # para melhor desempenho.
+    collection = musicas.values()
     if generos_tag:
+        collection = []
         generos_key = generos_tag.encode('utf-8').split(',')
+        for g in generos_key:
+            if g in generos:
+                collection += genero_musicas[g]
 
     pagina_tag = request.args.get('pagina','1')
     
@@ -123,10 +131,10 @@ def busca():
     keys = remover_combinantes(keys).split(' ')
     
     out = []
-    for musica in musicas.values():
+    for musica in collection:
         text = '%s %s' % (musica.nome_artista.lower(), musica.nome_musica.lower())
         text_list = remover_combinantes(unicode(text)).split(' ')
-        if musica.genero in generos_key and all(key in text_list for key in keys):
+        if all(key in text_list for key in keys):
             matches = {
                 'id_unico_musica' : musica.id_unico_musica,
                 'id_artista' : musica.id_artista,
@@ -199,9 +207,12 @@ def get_similares():
     return json.dumps(get_pagina(similares, pagina_tag))
 
 def get_similares_por_sequencia(id_seq, generos_key):
+    # filtra para melhor desempenho 
+    collection = apply_filtro(musicas.values(), generos_key)
+    
     similares = []
-    for musica in musicas.values():
-        if str(id_seq) in musica.seqs_famosas and musica.genero in generos_key:
+    for musica in collection:
+        if str(id_seq) in musica.seqs_famosas:
             similar = {
                 'id_unico_musica' : musica.id_unico_musica,
                 'id_artista' : musica.id_artista,
@@ -223,14 +234,18 @@ def get_pagina(colecao, pagina_tag):
     return colecao[sl:sl+TAM_PAGINA]
 
 def get_similares(acordes, generos_key):
+    
+    # filtra para melhor desempenho 
+    collection = apply_filtro(musicas.values(), generos_key)
+    
     similares = []
-    for musica in musicas.values():
+    for musica in collection:
         inter = set(acordes).intersection(set(musica.acordes))
         diff = set(musica.acordes) - set(acordes)
 
         # somente as que tiverem interseção e as que forem 
         # dos generos solicitados.
-        if len(inter) > 0 and musica.genero in generos_key:
+        if len(inter) > 0:
             similar = {
                     'id_unico_musica' : musica.id_unico_musica,
                     'id_artista' : musica.id_artista,
@@ -250,6 +265,13 @@ def get_similares(acordes, generos_key):
     # ordenados por menor diferença, maior interseção e maior popularidade.
     return sorted(similares, key=lambda x: (len(x['diferenca']), -len(x['intersecao'])))
 
+def apply_filtro(musicas, generos_key):
+    # filtra para melhor desempenho 
+    collection = []
+    for genero in generos_key:
+        if genero in generos:
+            collection += genero_musicas[genero]
+    return collection 
 
 @app.after_request
 def add_header(response):

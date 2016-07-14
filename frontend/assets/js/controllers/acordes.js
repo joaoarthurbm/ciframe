@@ -1,4 +1,4 @@
-angular.module('deciframeApp').controller('AcordesController', function($http) {
+angular.module('deciframeApp').controller('AcordesController', function($http, $window) {
   var acordesC = [
     { 'acorde': 'C',  'cor': '#e6b300' },
     { 'acorde': 'C#', 'cor': '#e6b300' },
@@ -97,4 +97,9 @@ angular.module('deciframeApp').controller('AcordesController', function($http) {
       vm.musics = [];
     }
   }
+
+  vm.goToLirics = function(music) {
+    console.log(music);
+    $window.open(music.url);
+  };
 });

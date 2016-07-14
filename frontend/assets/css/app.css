@@ -248,6 +248,7 @@ a:active {
   margin-bottom: 5px;
   border-radius: 4px;
   min-height: 150px;
+  cursor: pointer;
 }
 .music-card-footer {
   background-color: #D8D9DD;
@@ -257,9 +258,7 @@ a:active {
   border-bottom-left-radius: 4px;
 }
 .music-lock {
-  float: left;
-  margin: 20px 20px 0 15px;
-  height: 90px;
+  margin-top: 15px;
 }
 .music-title {
   margin: 10px 0 0 0;

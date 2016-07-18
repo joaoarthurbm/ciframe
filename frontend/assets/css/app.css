@@ -276,6 +276,9 @@ a:active {
 .music-separator {
   margin: 50px 50px;
 }
+.icon-lg {
+  font-size: 2em;
+}
 /* Bootstrap overhide */
 .navbar-default {
   background: none;
@@ -355,6 +358,11 @@ a:active {
 .row-in > .col-xs-1, .row-in > .col-sm-1, .row-in > .col-md-1, .row-in > .col-lg-1, .row-in > .col-xs-2, .row-in > .col-sm-2, .row-in > .col-md-2, .row-in > .col-lg-2, .row-in > .col-xs-3, .row-in > .col-sm-3, .row-in > .col-md-3, .row-in > .col-lg-3, .row-in > .col-xs-4, .row-in > .col-sm-4, .row-in > .col-md-4, .row-in > .col-lg-4, .row-in > .col-xs-5, .row-in > .col-sm-5, .row-in > .col-md-5, .row-in > .col-lg-5, .row-in > .col-xs-6, .row-in > .col-sm-6, .row-in > .col-md-6, .row-in > .col-lg-6, .row-in > .col-xs-7, .row-in > .col-sm-7, .row-in > .col-md-7, .row-in > .col-lg-7, .row-in > .col-xs-8, .row-in > .col-sm-8, .row-in > .col-md-8, .row-in > .col-lg-8, .row-in > .col-xs-9, .row-in > .col-sm-9, .row-in > .col-md-9, .row-in > .col-lg-9, .row-in > .col-xs-10, .row-in > .col-sm-10, .row-in > .col-md-10, .row-in > .col-lg-10, .row-in > .col-xs-11, .row-in > .col-sm-11, .row-in > .col-md-11, .row-in > .col-lg-11, .row-in > .col-xs-12, .row-in > .col-sm-12, .row-in > .col-md-12, .row-in > .col-lg-12 {
   padding-right: 5px;
   padding-left: 5px;
+}
+@media (min-width: 768px) {
+  .navbar-right {
+    margin: 0;
+  }
 }
 /* Animations */
 .animated {

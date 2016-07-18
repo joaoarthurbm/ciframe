@@ -25,7 +25,7 @@
               <div class="music-card" ng-click="Chords.goToLirics(music)">
                 <div class="row row-in">
                   <div class="col-xs-2 text-center">
-                    <div class="music-lock"><span class="glyphicon glyphicon-lock"></span></div>
+                    <div class="music-lock"><span class="icon-lg icon-lock-open"></span></div>
                   </div>
                   <div class="col-xs-10">
                     <p class="music-title">{{music.nome_musica}}</p>
@@ -48,7 +48,7 @@
             <div class="music-card">
               <div class="row row-in">
                 <div class="col-xs-2 text-center">
-                  <div class="music-lock"><span class="glyphicon glyphicon-lock"></span></div>
+                  <div class="music-lock"><span class="icon-lg icon-lock"></span></div>
                 </div>
                 <div class="col-xs-10">
                   <p class="music-title">{{music.nome_musica}}</p>
@@ -59,10 +59,10 @@
               <div class="music-card-footer">
                 <div class="row row-in">
                   <div class="col-xs-2 text-center">
-                    <div class="music-lock"><span class="glyphicon glyphicon-lock"></span></div>
+                    <div class="music-lock"><span class="icon-lg icon-key"></span></div>
                   </div>
                   <div class="col-xs-10">
-                    <df-hex acorde="{{chord}}" acorde-color="'#7D7A7D'" ng-repeat="chord in music.diferenca"></df-hex>
+                    <df-hex acorde="{{chord}}" acorde-color="#777777" acorde-checked="false" ng-repeat="chord in music.diferenca"></df-hex>
                     <br style="clear: both;">
                   </div>
               </div>

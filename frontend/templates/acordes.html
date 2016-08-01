@@ -7,11 +7,14 @@
           <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" acorde-checked="Chords.temAcorde(acordeon)" ng-repeat="acordeon in acordesCollection" ng-click="Chords.addAcorde(acordeon)"></df-hex>
         </div>
         <br style="clear: both;">
-        <br><br>
-        <p><a href="#/" class="btn btn-link"><span class="glyphicon glyphicon-menu-left"></span> Voltar</a></p>
+        <button class="search-results-count" ng-if="Chords.musics.length && !Chords.isSearching" ng-click="Chords.goToResults()">
+          <span class="glyphicon glyphicon-triangle-bottom bounce animated infinite"></span>
+          <br>
+          {{Chords.musics.length}} músicas encontradas
+        </button>
       </div>
     </div>
-    <div class="col-sm-6 col-md-8 viewWindow-panel viewWindow-panel-D">
+    <div id="results" class="col-sm-6 col-md-8 viewWindow-panel viewWindow-panel-D">
       <div class="viewWindow-panel-container">
         <h4>{{Chords.esfigeSpeech}}</h4>
         <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" ng-repeat="acordeon in Chords.meusAcordes" ng-click="Chords.addAcorde(acordeon)"></df-hex>

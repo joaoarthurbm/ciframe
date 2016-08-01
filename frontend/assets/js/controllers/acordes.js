@@ -1,4 +1,4 @@
-angular.module('deciframeApp').controller('AcordesController', function($http, $window, ngProgressFactory) {
+angular.module('deciframeApp').controller('AcordesController', function($http, $window, ngProgressFactory, $anchorScroll, $location) {
   var acordesC = [
     { 'acorde': 'C',  'cor': '#e6b300' },
     { 'acorde': 'C#', 'cor': '#e6b300' },
@@ -91,6 +91,7 @@ angular.module('deciframeApp').controller('AcordesController', function($http, $
           vm.esfigeSpeech = "Encontrei essas músicas";
           vm.isSearching = false;
           vm.musics = data;
+          console.log(vm.musics.length);
         })
         .error(function(data) {
           vm.esfigeSpeech = "Ops! Algo errado.";
@@ -98,11 +99,17 @@ angular.module('deciframeApp').controller('AcordesController', function($http, $
         });
     } else {
       vm.musics = [];
+      vm.esfigeSpeech = "";
+      vm.isSearching = false;
     }
   }
 
   vm.goToLirics = function(music) {
     console.log(music);
     $window.open(music.url);
+  };
+
+  vm.goToResults = function() {
+    $("body").animate({scrollTop: $("#results").offset().top}, "slow");
   };
 });

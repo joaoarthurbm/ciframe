@@ -365,7 +365,6 @@ a:active {
   }
 }
 
-/* Styling for the ngProgress itself */
 #ngProgress {
     margin: 0;
     padding: 0;
@@ -384,7 +383,6 @@ a:active {
     transition: all 0.5s ease-in-out;
 }
 
-/* Styling for the ngProgress-container */
 #ngProgress-container {
     position: fixed;
     margin: 0;
@@ -394,7 +392,23 @@ a:active {
     right: 0;
     z-index: 99999;
 }
-
+.search-results-count {
+  z-index: 999;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 90px;
+  padding: 0;
+  margin: 0;
+  background: #B72C52;
+  color: #fff;
+  text-align: center;
+  border: none;
+}
+.search-results-count > .glyphicon {
+  font-size: 2em;
+}
 
 /* Animations */
 .animated {
@@ -406,6 +420,31 @@ a:active {
 .animated.infinite {
   -webkit-animation-iteration-count: infinite;
   animation-iteration-count: infinite;
+}
+@keyframes bounce {
+  from, 20%, 53%, 80%, to {
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    transform: translate3d(0,0,0);
+  }
+
+  40%, 43% {
+    animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    transform: translate3d(0, -15px, 0);
+  }
+
+  70% {
+    animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    transform: translate3d(0, -15px, 0);
+  }
+
+  90% {
+    transform: translate3d(0,-4px,0);
+  }
+}
+
+.bounce {
+  animation-name: bounce;
+  transform-origin: center bottom;
 }
 @keyframes rotateIn {
   from {

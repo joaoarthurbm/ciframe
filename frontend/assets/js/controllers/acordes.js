@@ -1,4 +1,4 @@
-angular.module('deciframeApp').controller('AcordesController', function($http, $window) {
+angular.module('deciframeApp').controller('AcordesController', function($http, $window, ngProgressFactory) {
   var acordesC = [
     { 'acorde': 'C',  'cor': '#e6b300' },
     { 'acorde': 'C#', 'cor': '#e6b300' },
@@ -55,6 +55,7 @@ angular.module('deciframeApp').controller('AcordesController', function($http, $
   vm.isSearching = false;
   vm.esfigeSpeech =  "";
   vm.musics = [];
+  vm.progressbar = ngProgressFactory.createInstance();
 
   vm.addAcorde = function(acorde) {
     if (vm.meusAcordes.indexOf(acorde) == -1) {
@@ -79,12 +80,14 @@ angular.module('deciframeApp').controller('AcordesController', function($http, $
 
   vm.pesquisarPorAcordes = function() {
     if (vm.meusAcordes.length) {
+      vm.progressbar.start();
       vm.esfigeSpeech = "Procurando músicas com base nos acordes...";
       vm.isSearching = true;
 
       var apiUrl = "http://127.0.0.1:5000/";
       $http.get(apiUrl.concat("similares?acordes=").concat(createChordsString(vm.meusAcordes)))
         .success(function(data) {
+          vm.progressbar.complete();
           vm.esfigeSpeech = "Encontrei essas músicas";
           vm.isSearching = false;
           vm.musics = data;

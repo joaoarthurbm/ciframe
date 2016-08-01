@@ -1,1 +1,1 @@
-var app = angular.module('deciframeApp', ['ngRoute', 'ngAnimate', 'ng-mfb']);
+var app = angular.module('deciframeApp', ['ngRoute', 'ngAnimate', 'ng-mfb', 'ngProgress']);

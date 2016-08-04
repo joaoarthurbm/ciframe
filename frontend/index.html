@@ -18,7 +18,7 @@
   <nav class="navbar navbar-default">
     <div class="container-fluid">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="" ng-click="toggleMenu()"><span class="glyphicon glyphicon-menu-hamburger"></span></a></li>
+        <li><a href="" ng-click="toggleMenu()"><df-hex acorde="?" acorde-color="#97BF13" acorde-checked="false" small="true" class="navbar-icon"></df-hex></a></li>
       </ul>
       <div class="navbar-header">
         <a class="navbar-brand" href="#/" ng-hide="isActive('/')">
@@ -72,18 +72,30 @@
   </nav>
 
   <div class="menu-container" ng-show="showMenu">
-      <p class="text-center">Aumente seu repertório com o deciframe! Descubra as músicas que você já sabe tocar e ainda não faz ideia.
-      O deciframe é um app em que você aponta quais acordes sabe tocar e recebe uma lista de canções com esses acordes.
-
-      A equipe deciframe só espera que você não exagere e toque muito U2.
-      No mais, de nada, pessoal. De nada.</p>
-    <nav>
-      <ul class="list-unstyled">
-        <li><a href="#/" ng-click="toggleMenu()">Home</a></li>
-        <li><a href="#/" ng-click="toggleMenu()">Outros projetos</a></li>
-        <li><a href="#/sobre" ng-click="toggleMenu()">Sobre</a></li>
-      </ul>
-    </nav>
+    <p>Aumente seu repertório musical com o <strong>Decifra-me</strong>! Descubra as músicas que você já sabe tocar e ainda não faz ideia.</p>
+    <p>No <strong>Decifra-me</strong> você aponta quais acordes domina e recebe uma lista de canções compostas por esses acordes.</p>
+    <br>
+    <br>
+    <br>
+    <h4 class="text-center">Time</h4>
+    <br>
+    <div class="row">
+      <div class="col-xs-6 text-center team">
+        <a href="https://github.com/jeffersonrpn" target="_blank"><img src="https://avatars3.githubusercontent.com/u/5334905?v=3&s=100" alt="Jefferson Neves" class="img-circle img-team" width="100%"></a>
+        <a href="https://github.com/jeffersonrpn" target="_blank">Jeff</a>
+        <div class="team-role">Desenvolvedor frontend</div>
+      </div>
+      <div class="col-xs-6 text-center team">
+        <a href="https://github.com/joaoarthurbm" target="_blank"><img src="https://avatars1.githubusercontent.com/u/5099338?v=3&s=100" alt="João Arthur" class="img-circle img-team" width="100%"></a>
+        <a href="https://github.com/joaoarthurbm" target="_blank">João Arthur</a>
+        <div class="team-role">Desenvolvedor backend</div>
+      </div>
+      <div class="col-xs-6 text-center team">
+        <a href="https://www.behance.net/msouto" target="_blank"><img src="https://avatars3.githubusercontent.com/u/15800324?v=3&s=100" alt="Mariana Souto" class="img-circle img-team" width="100%"></a>
+        <a href="https://www.behance.net/msouto" target="_blank">Mariana</a>
+        <div class="team-role">Designer</div>
+      </div>
+    </div>
   </div>
 
   <div class="page" ng-view></div>

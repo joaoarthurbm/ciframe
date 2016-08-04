@@ -1,4 +1,4 @@
-angular.module('deciframeApp').controller('AcordesController', function($http, $window, ngProgressFactory, $anchorScroll, $location) {
+angular.module('deciframeApp').controller('AcordesController', function($http, $window, ngProgressFactory, $anchorScroll, $location, GENEROS) {
   var acordesC = [
     { 'acorde': 'C',  'cor': '#e6b300' },
     { 'acorde': 'C#', 'cor': '#e6b300' },
@@ -55,6 +55,8 @@ angular.module('deciframeApp').controller('AcordesController', function($http, $
   vm.isSearching = false;
   vm.esfigeSpeech =  "";
   vm.musics = [];
+  vm.generos = GENEROS;
+  vm.meuGenero = "";
   vm.progressbar = ngProgressFactory.createInstance();
 
   vm.addAcorde = function(acorde) {
@@ -85,13 +87,17 @@ angular.module('deciframeApp').controller('AcordesController', function($http, $
       vm.isSearching = true;
 
       var apiUrl = "http://127.0.0.1:5000/";
-      $http.get(apiUrl.concat("similares?acordes=").concat(createChordsString(vm.meusAcordes)))
+      var searchString = "similares?acordes=".concat(createChordsString(vm.meusAcordes));
+      if (vm.meuGenero !== "" && vm.meuGenero !== null) {
+        searchString += "&generos="+vm.meuGenero;
+      }
+      console.log("["+vm.meuGenero+"]");
+      $http.get(apiUrl.concat(searchString))
         .success(function(data) {
           vm.progressbar.complete();
           vm.esfigeSpeech = "Encontrei essas músicas";
           vm.isSearching = false;
           vm.musics = data;
-          console.log(vm.musics.length);
         })
         .error(function(data) {
           vm.esfigeSpeech = "Ops! Algo errado.";
@@ -105,7 +111,6 @@ angular.module('deciframeApp').controller('AcordesController', function($http, $
   }
 
   vm.goToLirics = function(music) {
-    console.log(music);
     $window.open(music.url);
   };
 

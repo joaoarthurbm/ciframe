@@ -336,6 +336,9 @@ a:active {
   box-shadow: none;
   color: #FFF;
 }
+.form-control-inverse {
+  color: #333;
+}
 .form-control:focus{
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -347,6 +350,9 @@ a:active {
   border-radius: 4px;
   background: none;
   padding: 10px 5px;
+}
+.form-group > .form-control-inverse {
+  border: solid 2px #333;
 }
 .form-group-btn > .btn-default {
   color: #FFF;
@@ -408,6 +414,11 @@ a:active {
 }
 .search-results-count > .glyphicon {
   font-size: 2em;
+}
+@media (min-width: 768px) {
+  .search-results-count {
+    display: none;
+  }
 }
 
 /* Animations */

@@ -10,15 +10,32 @@
         <button class="search-results-count" ng-if="Chords.musics.length && !Chords.isSearching" ng-click="Chords.goToResults()">
           <span class="glyphicon glyphicon-triangle-bottom bounce animated infinite"></span>
           <br>
-          {{Chords.musics.length}} músicas encontradas
+          Encontrei essas músicas
         </button>
       </div>
     </div>
     <div id="results" class="col-sm-6 col-md-8 viewWindow-panel viewWindow-panel-D">
       <div class="viewWindow-panel-container">
-        <h4>{{Chords.esfigeSpeech}}</h4>
-        <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" ng-repeat="acordeon in Chords.meusAcordes" ng-click="Chords.addAcorde(acordeon)"></df-hex>
-        <br style="clear: both;"><br>
+        <div ng-show="Chords.meusAcordes.length">
+          <h4>{{Chords.esfigeSpeech}}</h4>
+          <div class="row">
+            <div class="col-xs-3">
+              <div class="form-group">
+                <select
+                  class="form-control form-control-inverse input-lg"
+                  ng-options="genero for genero in Chords.generos | orderBy:'genero'"
+                  ng-model="Chords.meuGenero"
+                  ng-change="Chords.pesquisarPorAcordes()">
+                  <option value="">-- Gênero --</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-xs-9">
+              <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" ng-repeat="acordeon in Chords.meusAcordes" ng-click="Chords.addAcorde(acordeon)"></df-hex>
+              <br style="clear: both;"><br>
+            </div>
+          </div>
+        </div>
 
         <div class="row row-in">
           <div class="col-sm-6 col-lg-4"

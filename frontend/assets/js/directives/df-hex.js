@@ -4,7 +4,8 @@ angular.module('deciframeApp').directive('dfHex', function() {
     scope: {
       acorde: '@',
       acordeColor: '@',
-      acordeChecked: '='
+      acordeChecked: '=',
+      small: '='
     },
     templateUrl: 'templates/directives/df-hex.html'
   }

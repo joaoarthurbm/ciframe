@@ -169,12 +169,11 @@ a:active {
   width: 50px;
   cursor: pointer;
 }
+.acorde-wrapper.small {
+  width: 30px;
+}
 .acorde-wrapper > svg {
   float: left;
-  width: 50px;
-  position: relative;
-  top: 0;
-  left: 0;
 }
 .acorde-wrapper .acorde {
   color: #fff;
@@ -185,6 +184,10 @@ a:active {
   margin-top: 38px;
   margin-bottom: -38px;
   padding-bottom: 16px;
+}
+.acorde-wrapper .acorde.small {
+  font-size: 0.8em;
+  top: -27px;
 }
 /* Esfinge */
 .esfinge.ng-hide-add {
@@ -258,7 +261,7 @@ a:active {
   border-bottom-left-radius: 4px;
 }
 .music-lock {
-  margin-top: 15px;
+  margin-top: 6px;
 }
 .music-title {
   margin: 10px 0 0 0;
@@ -277,7 +280,7 @@ a:active {
   margin: 50px 50px;
 }
 .icon-lg {
-  font-size: 2em;
+  font-size: 2.5em;
 }
 /* Bootstrap overhide */
 .navbar-default {

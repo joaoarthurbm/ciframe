@@ -91,7 +91,6 @@ angular.module('deciframeApp').controller('AcordesController', function($http, $
       if (vm.meuGenero !== "" && vm.meuGenero !== null) {
         searchString += "&generos="+vm.meuGenero;
       }
-      console.log("["+vm.meuGenero+"]");
       $http.get(apiUrl.concat(searchString))
         .success(function(data) {
           vm.progressbar.complete();

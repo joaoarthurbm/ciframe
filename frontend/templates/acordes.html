@@ -39,7 +39,7 @@
 
         <div class="row row-in">
           <div class="col-sm-6 col-lg-4"
-            ng-repeat="music in Chords.musics"
+            ng-repeat="music in Chords.musics | orderBy:'-popularidade'"
             ng-hide="music.diferenca.length">
 
               <div class="music-card" ng-click="Chords.goToLirics(music)">
@@ -63,7 +63,7 @@
 
         <div class="row row-in">
           <div class="col-sm-6 col-lg-4"
-            ng-repeat="music in Chords.musics"
+            ng-repeat="music in Chords.musics | orderBy:'-popularidade'"
             ng-show="music.diferenca.length">
             <div class="music-card" ng-click="Chords.goToLirics(music)">
               <div class="row row-in">

@@ -53,6 +53,7 @@ angular.module('deciframeApp').controller('AcordesController', function($http, $
   vm.acordes.push(acordesB);
   vm.meusAcordes = [];
   vm.isSearching = false;
+  vm.showSearchResultsCount = false;
   vm.esfigeSpeech =  "";
   vm.musics = [];
   vm.generos = GENEROS;
@@ -96,16 +97,19 @@ angular.module('deciframeApp').controller('AcordesController', function($http, $
           vm.progressbar.complete();
           vm.esfigeSpeech = "Encontrei essas músicas";
           vm.isSearching = false;
+          vm.showSearchResultsCount = true;
           vm.musics = data;
         })
         .error(function(data) {
           vm.esfigeSpeech = "Ops! Algo errado.";
           vm.isSearching = false;
+          vm.showSearchResultsCount = false;
         });
     } else {
       vm.musics = [];
       vm.esfigeSpeech = "";
       vm.isSearching = false;
+      vm.showSearchResultsCount = false;
     }
   }
 
@@ -114,6 +118,7 @@ angular.module('deciframeApp').controller('AcordesController', function($http, $
   };
 
   vm.goToResults = function() {
+    vm.showSearchResultsCount = false;
     $("body").animate({scrollTop: $("#results").offset().top}, "slow");
   };
 });

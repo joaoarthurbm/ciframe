@@ -7,7 +7,7 @@
           <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" acorde-checked="Chords.temAcorde(acordeon)" ng-repeat="acordeon in acordesCollection" ng-click="Chords.addAcorde(acordeon)"></df-hex>
         </div>
         <br style="clear: both;">
-        <button class="search-results-count" ng-if="Chords.musics.length && !Chords.isSearching" ng-click="Chords.goToResults()">
+        <button class="search-results-count" ng-if="Chords.showSearchResultsCount" ng-click="Chords.goToResults()">
           <span class="glyphicon glyphicon-triangle-bottom bounce animated infinite"></span>
           <br>
           Encontrei essas músicas
@@ -19,7 +19,7 @@
         <div ng-show="Chords.meusAcordes.length">
           <h4>{{Chords.esfigeSpeech}}</h4>
           <div class="row">
-            <div class="col-xs-3">
+            <div class="col-md-3">
               <div class="form-group">
                 <select
                   class="form-control form-control-inverse input-lg"
@@ -30,7 +30,7 @@
                 </select>
               </div>
             </div>
-            <div class="col-xs-9">
+            <div class="col-md-9">
               <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" ng-repeat="acordeon in Chords.meusAcordes" ng-click="Chords.addAcorde(acordeon)"></df-hex>
               <br style="clear: both;"><br>
             </div>

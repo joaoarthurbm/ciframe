@@ -5,6 +5,8 @@ threadsafe: yes
 handlers:
 - url: .*
   script: main.app
+- url: /app
+  static_dir: frontend
 
 libraries:
 - name: jinja2

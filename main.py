@@ -21,57 +21,57 @@ TAM_PAGINA = 100
 
 
 def init():
-    reload(sys)  
+    reload(sys)
     sys.setdefaultencoding('utf8')
-    
-    f = open('../data/top/dataset_final.csv')
+
+    f = open('data/top/dataset_final.csv')
     f.readline()
-    
+
     global generos
     global musicas
     global sequencias
     global acordes
     global genero_musicas
-    
+
     genero_musicas = {}
     generos = set()
     acordes = set()
     sequencias = {'BmGDA' : 0,
             'CGAmF' : 1,
             'EmG' : 2,
-            'CA7DmG7' : 3, 
-            'GmF' : 4, 
+            'CA7DmG7' : 3,
+            'GmF' : 4,
             'CC7FFm' : 5}
-    
+
     musicas_dict = {}
     for line in f:
         line = line.replace('"', '').replace('NA', '')[:-1]
 
         musica = line.split(',')
         musica[POPULARIDADE] = int(musica[POPULARIDADE].replace('.', ''))
-        
+
         if musica[CIFRA] != '':
             musica[CIFRA] = limpa_cifra(musica[CIFRA].split(';'))
         else:
             musica[CIFRA] = []
 
         musica[SEQ_FAMOSA] = musica[SEQ_FAMOSA].split(";")
-        
+
         # conjunto único de gêneros
         generos.add(musica[GENERO])
-        
+
         # inclui música no dict de músicas
-        musica_obj = Musica(musica[ARTISTA_ID], musica[ARTISTA], 
-                musica[MUSICA_ID], musica[MUSICA], musica[GENERO], 
-                int(musica[POPULARIDADE]), musica[SEQ_FAMOSA], 
+        musica_obj = Musica(musica[ARTISTA_ID], musica[ARTISTA],
+                musica[MUSICA_ID], musica[MUSICA], musica[GENERO],
+                int(musica[POPULARIDADE]), musica[SEQ_FAMOSA],
                 musica[TOM], musica[CIFRA])
-        
+
         musicas_dict[musica_obj.id_unico_musica] = musica_obj
-        
+
         # conjunto único de acordes
         for acorde in musica_obj.acordes:
             acordes.add(acorde)
-        
+
         # constrói dict mapeando gênero para músicas
         # deve ser usado para melhorar o desempenho das buscas
         if musica_obj.genero in genero_musicas:
@@ -80,12 +80,12 @@ def init():
             genero_musicas[musica_obj.genero] = [musica_obj]
 
     # dicionário de músicas cujos valores são ordenados por popularidade
-    musicas = OrderedDict(sorted(musicas_dict.items(), 
+    musicas = OrderedDict(sorted(musicas_dict.items(),
         key=lambda x: x[1].popularidade, reverse = True))
-    
+
     # para trabalhar melhor com json
     generos = list(generos)
-    
+
     # ordena genero_musicas por popularidade
     for k,v in genero_musicas.items():
         genero_musicas[k].sort(key = lambda x : x.popularidade, reverse = True)
@@ -116,14 +116,14 @@ def busca():
     pagina_tag = request.args.get('pagina','1')
     keys = request.args.get('key').lower()
     keys = remover_combinantes(keys).split(' ')
-    
+
     generos_key = generos
     if generos_tag:
         generos_key = generos_tag.encode('utf-8').split(',')
-    
+
     collection = apply_filtro(musicas.values, generos_key)
     out = []
-    
+
     for musica in collection:
         text = '%s %s' % (musica.nome_artista.lower(), musica.nome_musica.lower())
         text_list = remover_combinantes(unicode(text)).split(' ')
@@ -145,7 +145,7 @@ def remover_combinantes(string):
     string = unicodedata.normalize('NFD', string)
     return u''.join(ch for ch in string if unicodedata.category(ch) != 'Mn')
 
-''' Retorna as músicas armazenadas no sistema (ordenados por popularidade). 
+''' Retorna as músicas armazenadas no sistema (ordenados por popularidade).
     O serviço é paginado. Cada página tem tamanho 100, por default.
     params: pagina. Caso não seja definida a página, o valor default é 1.
     exemplo 1: /musica?pagina=2
@@ -173,13 +173,13 @@ def get_similares():
     id_musica_tag = request.args.get('id_unico_musica')
     sequencia_tag = request.args.get('sequencia')
     pagina_tag = request.args.get('pagina','1')
-    
+
     # se não existir, filtra por todos.
     generos_tag = request.args.get('generos')
     generos_key = generos
     if generos_tag:
         generos_key = generos_tag.encode('utf-8').split(',')
-    
+
     acordes = []
     if acordes_tag:
         acordes = acordes_tag.encode('utf-8').split(',')
@@ -189,7 +189,7 @@ def get_similares():
     elif sequencia_tag:
         acordes = sequencia_tag.encode('utf-8').replace(',','')
         similares = []
-        
+
         if acordes in sequencias:
             id_seq = sequencias[acordes]
             similares = get_pagina(get_similares_por_sequencia(id_seq, generos_key), pagina_tag)
@@ -200,9 +200,9 @@ def get_similares():
     return json.dumps(get_pagina(similares, pagina_tag))
 
 def get_similares_por_sequencia(id_seq, generos_key):
-    # filtra para melhor desempenho 
+    # filtra para melhor desempenho
     collection = apply_filtro(musicas.values(), generos_key)
-    
+
     similares = []
     for musica in collection:
         if str(id_seq) in musica.seqs_famosas:
@@ -227,16 +227,16 @@ def get_pagina(colecao, pagina_tag):
     return colecao[sl:sl+TAM_PAGINA]
 
 def get_similares(acordes, generos_key):
-    
-    # filtra para melhor desempenho 
+
+    # filtra para melhor desempenho
     collection = apply_filtro(musicas.values(), generos_key)
-    
+
     similares = []
     for musica in collection:
         inter = set(acordes).intersection(set(musica.acordes))
         diff = set(musica.acordes) - set(acordes)
 
-        # somente as que tiverem interseção e as que forem 
+        # somente as que tiverem interseção e as que forem
         # dos generos solicitados.
         if len(inter) > 0:
             similar = {
@@ -252,7 +252,7 @@ def get_similares(acordes, generos_key):
                     'diferenca' : list(diff),
                     'intersecao' : list(inter)
             }
-            
+
             similares.append(similar)
 
     # ordenados por menor diferença, maior interseção e maior popularidade.
@@ -260,12 +260,12 @@ def get_similares(acordes, generos_key):
 
 ## Filtra a coleção de músicas por gênero.
 def apply_filtro(musicas, generos_key):
-    # filtra para melhor desempenho 
+    # filtra para melhor desempenho
     collection = []
     for genero in generos_key:
         if genero in generos:
             collection += genero_musicas[genero]
-    return collection 
+    return collection
 
 @app.after_request
 def add_header(response):
@@ -275,4 +275,3 @@ def add_header(response):
 if __name__ == '__main__':
     init()
     app.run(debug=True)
-

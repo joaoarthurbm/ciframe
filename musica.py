@@ -1,5 +1,7 @@
 class Musica:
+
     def __init__(self, id_artista, nome_artista, id_musica, nome_musica,
+    
             genero, popularidade, seqs_famosas, tom, cifra):
 
             self.id_artista = id_artista

@@ -8,6 +8,7 @@ import unicodedata
 
 app = Flask(__name__)
 
+# colunas do csv
 ARTISTA_ID = 0
 MUSICA_ID = 1
 ARTISTA = 2
@@ -107,8 +108,7 @@ def limpa_cifra(raw_cifra):
 
 @app.route('/')
 def index():
-    init()
-    return ''
+    return str(ARTISTA_ID)
 ''' Busca por músicas que possuem no título ou no nome do artista o argumento passado por key.
     params: key e generos (opcional). Caso generos não sejam definidos, a busca não irá filtrar por gênero.
     exemplo 1: /search?key=no dia em que eu saí de casa
@@ -277,4 +277,5 @@ def add_header(response):
     return response
 
 if __name__ == '__main__':
+    init()
     app.run(debug=True)

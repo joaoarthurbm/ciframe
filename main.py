@@ -1,4 +1,3 @@
-
 # coding: utf-8
 import json
 from flask import Flask, request
@@ -109,7 +108,7 @@ def limpa_cifra(raw_cifra):
 
 @app.route('/')
 def index():
-    return "ok"
+    return str(musicas)
 ''' Busca por músicas que possuem no título ou no nome do artista o argumento passado por key.
     params: key e generos (opcional). Caso generos não sejam definidos, a busca não irá filtrar por gênero.
     exemplo 1: /search?key=no dia em que eu saí de casa

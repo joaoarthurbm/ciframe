@@ -27,11 +27,11 @@ def init():
     f = open('data/top/dataset_final.csv')
     f.readline()
 
-    global generos
-    global musicas
-    global sequencias
-    global acordes
-    global genero_musicas
+#    global generos
+#    global musicas
+#    global sequencias
+#    global acordes
+#    global genero_musicas
 
     genero_musicas = {}
     generos = set()
@@ -278,4 +278,9 @@ def add_header(response):
     return response
 
 if __name__ == '__main__':
+    global generos
+    global musicas
+    global sequencias
+    global acordes
+    global genero_musicas
     app.run(debug=True)

@@ -22,6 +22,9 @@ def limpa_cifra(raw_cifra):
                 cifra += tokens
     return cifra
 
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 # colunas do csv
 ARTISTA_ID = 0
 MUSICA_ID = 1
@@ -34,18 +37,6 @@ SEQ_FAMOSA = 7
 CIFRA = 8
 TAM_PAGINA = 100
 
-reload(sys)
-sys.setdefaultencoding('utf8')
-
-f = open('data/top/dataset_final.csv')
-f.readline()
-
-#global generos
-#global musicas
-#global sequencias
-#global acordes
-#global genero_musicas
-
 genero_musicas = {}
 generos = set()
 acordes = set()
@@ -57,6 +48,10 @@ sequencias = {'BmGDA' : 0,
         'CC7FFm' : 5}
 
 musicas_dict = {}
+
+f = open('data/top/dataset_final.csv')
+f.readline()
+
 for line in f:
     line = line.replace('"', '').replace('NA', '')[:-1]
 

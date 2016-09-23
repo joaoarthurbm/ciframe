@@ -8,90 +8,6 @@ import unicodedata
 
 app = Flask(__name__)
 
-# colunas do csv
-ARTISTA_ID = 0
-MUSICA_ID = 1
-ARTISTA = 2
-MUSICA = 3
-GENERO = 4
-POPULARIDADE = 5
-TOM = 6
-SEQ_FAMOSA = 7
-CIFRA = 8
-TAM_PAGINA = 100
-
-def init():
-    reload(sys)
-    sys.setdefaultencoding('utf8')
-
-    f = open('data/top/dataset_final.csv')
-    f.readline()
-
-    global generos
-    global musicas
-    global sequencias
-    global acordes
-    global genero_musicas
-
-    genero_musicas = {}
-    generos = set()
-    acordes = set()
-    sequencias = {'BmGDA' : 0,
-            'CGAmF' : 1,
-            'EmG' : 2,
-            'CA7DmG7' : 3,
-            'GmF' : 4,
-            'CC7FFm' : 5}
-
-    musicas_dict = {}
-    for line in f:
-        line = line.replace('"', '').replace('NA', '')[:-1]
-
-        musica = line.split(',')
-        musica[POPULARIDADE] = int(musica[POPULARIDADE].replace('.', ''))
-
-        if musica[CIFRA] != '':
-            musica[CIFRA] = limpa_cifra(musica[CIFRA].split(';'))
-        else:
-            musica[CIFRA] = []
-
-        musica[SEQ_FAMOSA] = musica[SEQ_FAMOSA].split(";")
-
-        # conjunto único de gêneros
-        generos.add(musica[GENERO])
-
-        # inclui música no dict de músicas
-        musica_obj = Musica(musica[ARTISTA_ID], musica[ARTISTA],
-                musica[MUSICA_ID], musica[MUSICA], musica[GENERO],
-                int(musica[POPULARIDADE]), musica[SEQ_FAMOSA],
-                musica[TOM], musica[CIFRA])
-
-        musicas_dict[musica_obj.id_unico_musica] = musica_obj
-
-        # conjunto único de acordes
-        for acorde in musica_obj.acordes:
-            acordes.add(acorde)
-
-        # constrói dict mapeando gênero para músicas
-        # deve ser usado para melhorar o desempenho das buscas
-        if musica_obj.genero in genero_musicas:
-            genero_musicas[musica_obj.genero].append(musica_obj)
-        else:
-            genero_musicas[musica_obj.genero] = [musica_obj]
-
-    # dicionário de músicas cujos valores são ordenados por popularidade
-    musicas = OrderedDict(sorted(musicas_dict.items(),
-        key=lambda x: x[1].popularidade, reverse = True))
-
-    # para trabalhar melhor com json
-    generos = list(generos)
-
-    # ordena genero_musicas por popularidade
-    for k,v in genero_musicas.items():
-        genero_musicas[k].sort(key = lambda x : x.popularidade, reverse = True)
-
-    f.close()
-
 def limpa_cifra(raw_cifra):
     cifra = []
     for m in raw_cifra:
@@ -106,13 +22,97 @@ def limpa_cifra(raw_cifra):
                 cifra += tokens
     return cifra
 
+# colunas do csv
+ARTISTA_ID = 0
+MUSICA_ID = 1
+ARTISTA = 2
+MUSICA = 3
+GENERO = 4
+POPULARIDADE = 5
+TOM = 6
+SEQ_FAMOSA = 7
+CIFRA = 8
+TAM_PAGINA = 100
+
+reload(sys)
+sys.setdefaultencoding('utf8')
+
+f = open('data/top/dataset_final.csv')
+f.readline()
+
+#global generos
+#global musicas
+#global sequencias
+#global acordes
+#global genero_musicas
+
+genero_musicas = {}
+generos = set()
+acordes = set()
+sequencias = {'BmGDA' : 0,
+        'CGAmF' : 1,
+        'EmG' : 2,
+        'CA7DmG7' : 3,
+        'GmF' : 4,
+        'CC7FFm' : 5}
+
+musicas_dict = {}
+for line in f:
+    line = line.replace('"', '').replace('NA', '')[:-1]
+
+    musica = line.split(',')
+    musica[POPULARIDADE] = int(musica[POPULARIDADE].replace('.', ''))
+
+    if musica[CIFRA] != '':
+        musica[CIFRA] = limpa_cifra(musica[CIFRA].split(';'))
+    else:
+        musica[CIFRA] = []
+
+    musica[SEQ_FAMOSA] = musica[SEQ_FAMOSA].split(";")
+
+    # conjunto único de gêneros
+    generos.add(musica[GENERO])
+
+    # inclui música no dict de músicas
+    musica_obj = Musica(musica[ARTISTA_ID], musica[ARTISTA],
+            musica[MUSICA_ID], musica[MUSICA], musica[GENERO],
+            int(musica[POPULARIDADE]), musica[SEQ_FAMOSA],
+            musica[TOM], musica[CIFRA])
+
+    musicas_dict[musica_obj.id_unico_musica] = musica_obj
+
+    # conjunto único de acordes
+    for acorde in musica_obj.acordes:
+        acordes.add(acorde)
+
+    # constrói dict mapeando gênero para músicas
+    # deve ser usado para melhorar o desempenho das buscas
+    if musica_obj.genero in genero_musicas:
+        genero_musicas[musica_obj.genero].append(musica_obj)
+    else:
+        genero_musicas[musica_obj.genero] = [musica_obj]
+
+# dicionário de músicas cujos valores são ordenados por popularidade
+musicas = OrderedDict(sorted(musicas_dict.items(),
+    key=lambda x: x[1].popularidade, reverse = True))
+
+# para trabalhar melhor com json
+generos = list(generos)
+
+# ordena genero_musicas por popularidade
+for k,v in genero_musicas.items():
+    genero_musicas[k].sort(key = lambda x : x.popularidade, reverse = True)
+
+f.close()
+
+
 @app.route('/')
 def index():
-    return str(ARTISTA_ID)
+    return str(musicas)
 ''' Busca por músicas que possuem no título ou no nome do artista o argumento passado por key.
-    params: key e generos (opcional). Caso generos não sejam definidos, a busca não irá filtrar por gênero.
-    exemplo 1: /search?key=no dia em que eu saí de casa
-    exemplo 2: /search?key=no dia em que eu saí de casa&generos=Rock,Samba '''
+params: key e generos (opcional). Caso generos não sejam definidos, a busca não irá filtrar por gênero.
+exemplo 1: /search?key=no dia em que eu saí de casa
+exemplo 2: /search?key=no dia em que eu saí de casa&generos=Rock,Samba '''
 
 @app.route('/search')
 def busca():
@@ -277,5 +277,4 @@ def add_header(response):
     return response
 
 if __name__ == '__main__':
-    init()
     app.run(debug=True)

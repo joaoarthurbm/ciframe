@@ -282,4 +282,5 @@ if __name__ == '__main__':
     global sequencias
     global acordes
     global genero_musicas
+    init()
     app.run(debug=True)

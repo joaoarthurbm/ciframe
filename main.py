@@ -19,7 +19,6 @@ SEQ_FAMOSA = 7
 CIFRA = 8
 TAM_PAGINA = 100
 
-
 def init():
     reload(sys)
     sys.setdefaultencoding('utf8')
@@ -27,11 +26,11 @@ def init():
     f = open('data/top/dataset_final.csv')
     f.readline()
 
-#    global generos
-#    global musicas
-#    global sequencias
-#    global acordes
-#    global genero_musicas
+    global generos
+    global musicas
+    global sequencias
+    global acordes
+    global genero_musicas
 
     genero_musicas = {}
     generos = set()
@@ -108,7 +107,7 @@ def limpa_cifra(raw_cifra):
 
 @app.route('/')
 def index():
-    print 'ok'
+    init()
 ''' Busca por músicas que possuem no título ou no nome do artista o argumento passado por key.
     params: key e generos (opcional). Caso generos não sejam definidos, a busca não irá filtrar por gênero.
     exemplo 1: /search?key=no dia em que eu saí de casa
@@ -277,10 +276,5 @@ def add_header(response):
     return response
 
 if __name__ == '__main__':
-    global generos
-    global musicas
-    global sequencias
-    global acordes
-    global genero_musicas
     init()
     app.run(debug=True)

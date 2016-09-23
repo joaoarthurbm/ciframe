@@ -108,6 +108,7 @@ def limpa_cifra(raw_cifra):
 
 @app.route('/')
 def index():
+    init()
     return str(musicas)
 ''' Busca por músicas que possuem no título ou no nome do artista o argumento passado por key.
     params: key e generos (opcional). Caso generos não sejam definidos, a busca não irá filtrar por gênero.
@@ -277,5 +278,4 @@ def add_header(response):
     return response
 
 if __name__ == '__main__':
-    init()
     app.run(debug=True)

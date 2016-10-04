@@ -225,32 +225,35 @@ def get_pagina(colecao, pagina_tag):
     sl = (int(pagina_tag) - 1)*TAM_PAGINA
     return colecao[sl:sl+TAM_PAGINA]
 
-def get_similares(acordes, generos_key):
+def get_similares(acordes, generos_key, id_musica = None):
 
     # filtra para melhor desempenho
     collection = apply_filtro(musicas.values(), generos_key)
 
     similares = []
     for musica in collection:
-        inter = set(acordes).intersection(set(musica.acordes))
-        diff = set(musica.acordes) - set(acordes)
 
-        # somente as que tiverem interseção e as que forem
-        # dos generos solicitados.
-        if len(inter) > 0:
-            similar = {
-                    'id_unico_musica' : musica.id_unico_musica,
-                    'id_artista' : musica.id_artista,
-                    'id_musica' : musica.id_musica,
-                    'nome_artista' : musica.nome_artista,
-                    'nome_musica' : musica.nome_musica,
-                    'popularidade' : musica.popularidade,
-                    'acordes' : musica.acordes,
-                    'genero' : musica.genero,
-                    'url' : musica.url,
-                    'diferenca' : list(diff),
-                    'intersecao' : list(inter)
-            }
+        if musica.id_unico_musica != id_musica:
+
+            inter = set(acordes).intersection(set(musica.acordes))
+            diff = set(musica.acordes) - set(acordes)
+
+            # somente as que tiverem interseção e as que forem
+            # dos generos solicitados.
+            if len(inter) > 0:
+                similar = {
+                        'id_unico_musica' : musica.id_unico_musica,
+                        'id_artista' : musica.id_artista,
+                        'id_musica' : musica.id_musica,
+                        'nome_artista' : musica.nome_artista,
+                        'nome_musica' : musica.nome_musica,
+                        'popularidade' : musica.popularidade,
+                        'acordes' : musica.acordes,
+                        'genero' : musica.genero,
+                        'url' : musica.url,
+                        'diferenca' : list(diff),
+                        'intersecao' : list(inter)
+                }
 
             similares.append(similar)
 

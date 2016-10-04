@@ -440,6 +440,11 @@ a:active {
   }
 }
 
+.dropdown-menu {
+  width: 290px;
+  overflow: hidden;
+}
+
 /* Animations */
 .animated {
   -webkit-animation-duration: 1s;

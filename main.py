@@ -194,7 +194,7 @@ def get_similares():
             similares = get_pagina(get_similares_por_sequencia(id_seq, generos_key), pagina_tag)
         return json.dumps(similares)
 
-    similares = get_similares(acordes, generos_key)
+    similares = get_similares(acordes, generos_key, id_musica_tag)
 
     return json.dumps(get_pagina(similares, pagina_tag))
 

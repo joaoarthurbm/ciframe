@@ -1,5 +1,5 @@
 var app = angular
-  .module('deciframeApp', ['ngRoute', 'ngAnimate', 'ng-mfb', 'ngProgress', 'ui.bootstrap'])
+  .module('deciframeApp', ['ngRoute', 'ngAnimate', 'ngProgress', 'ui.bootstrap'])
   .constant('RESTAPI', {
     url: 'http://localhost:5003'
   })

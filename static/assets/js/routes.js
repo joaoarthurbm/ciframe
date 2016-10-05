@@ -11,11 +11,13 @@ angular.module('deciframeApp').config(function($routeProvider) {
     })
     .when('/pormusica', {
       templateUrl: "templates/musica.html",
-      controller: "SearchController"
+      controller: "MusicaController",
+      controllerAs: "Musica"
     })
     .when('/porsequencia', {
       templateUrl: "templates/sequencia.html",
-      controller: "SequenciaController"
+      controller: "SequenciaController",
+      controllerAs: "Sequencia"
     })
     .when('/sobre', {
       templateUrl: "templates/about.html",

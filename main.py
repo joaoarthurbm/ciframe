@@ -255,7 +255,7 @@ def get_similares(acordes, generos_key, id_musica = None):
                         'intersecao' : list(inter)
                 }
 
-            similares.append(similar)
+                similares.append(similar)
 
     # ordenados por menor diferença, maior interseção e maior popularidade.
     return sorted(similares, key=lambda x: (len(x['diferenca']), -len(x['intersecao'])))

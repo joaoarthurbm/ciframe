@@ -88,7 +88,7 @@ angular.module('deciframeApp').controller('AcordesController', function($http, $
       vm.isSearching = true;
       vm.musics = [];
 
-      var apiUrl = "http://127.0.0.1:5000/";
+      var apiUrl = "https://ciframe.herokuapp.com/";
       var searchString = "similares?acordes=".concat(createChordsString(vm.meusAcordes));
       if (vm.meuGenero !== "" && vm.meuGenero !== null) {
         searchString += "&generos="+vm.meuGenero;

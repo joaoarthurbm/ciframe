@@ -16,7 +16,8 @@ angular.module('deciframeApp').config(function($routeProvider) {
     })
     .when('/porsequencia', {
       templateUrl: "templates/sequencia.html",
-      controller: "SequenciaController"
+      controller: "SequenciaController",
+      controllerAs: "Sequencia"
     })
     .when('/sobre', {
       templateUrl: "templates/about.html",

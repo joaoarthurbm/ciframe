@@ -9,7 +9,7 @@ angular.module('deciframeApp').controller('MusicaController', function($http, $w
   vm.generos = GENEROS;
   vm.meuGenero = "";
   vm.progressbar = ngProgressFactory.createInstance();
-  var apiUrl = "http://127.0.0.1:5000/";
+  var apiUrl = "https://ciframe.herokuapp.com/";
 
   vm.getMusicas = function(val) {
     vm.progressbar.start();

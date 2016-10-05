@@ -103,11 +103,16 @@ f.close()
 
 @app.route('/')
 def index():
-    return 'API Running!'
+    return app.send_static_file('index.html')
 ''' Busca por músicas que possuem no título ou no nome do artista o argumento passado por key.
 params: key e generos (opcional). Caso generos não sejam definidos, a busca não irá filtrar por gênero.
 exemplo 1: /search?key=no dia em que eu saí de casa
 exemplo 2: /search?key=no dia em que eu saí de casa&generos=Rock,Samba '''
+
+@app.route('/<path:path>')
+def static_proxy(path):
+  # send_static_file will guess the correct MIME type
+  return app.send_static_file(path)
 
 @app.route('/search')
 def busca():

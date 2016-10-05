@@ -1,0 +1,63 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-6 col-md-4 viewWindow-panel viewWindow-panel-C">
+      <div class="viewWindow-panel-container">
+        <h4 class="text-center">Aponte uma sequencia de acordes</h4>
+        <div class="acordes-container" ng-repeat='sequencia in Sequencia.sequenciasFamosas' ng-click="Sequencia.pesquisarPorSequencia(sequencia)">
+          <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" acorde-checked="Sequencia.temAcorde(acordeon)" ng-repeat="acordeon in sequencia.acordes"></df-hex>
+        </div>
+        <br style="clear: both;">
+        <button class="search-results-count" ng-if="Sequencia.showSearchResultsCount" ng-click="Sequencia.goToResults()">
+          <span class="glyphicon glyphicon-triangle-bottom bounce animated infinite"></span>
+          <br>
+          Encontrei essas músicas
+        </button>
+      </div>
+    </div>
+    <div id="results" class="col-sm-6 col-md-8 viewWindow-panel viewWindow-panel-D">
+      <div class="viewWindow-panel-container">
+        <div ng-show="Sequencia.minhaSequencia.acordes.length">
+          <h4>{{Sequencia.esfigeSpeech}}</h4>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="form-group">
+                <select
+                  class="form-control form-control-inverse input-lg"
+                  ng-options="genero for genero in Sequencia.generos | orderBy:'genero'"
+                  ng-model="Sequencia.meuGenero"
+                  ng-change="Sequencia.pesquisarPorSequencia()">
+                  <option value="">-- Gênero --</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-9">
+              <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" ng-repeat="acordeon in Sequencia.minhaSequencia.acordes" ng-click="Sequencia.limparPesquisa()"></df-hex>
+              <br style="clear: both;"><br>
+            </div>
+          </div>
+        </div>
+
+        <div class="row row-in">
+          <div class="col-sm-6 col-lg-4"
+            ng-repeat="music in Sequencia.musics | orderBy:'-popularidade'"
+            ng-hide="music.diferenca.length">
+
+              <div class="music-card" ng-click="Sequencia.goToLirics(music)">
+                <div class="row row-in">
+                  <div class="col-xs-2 text-center">
+                    <div class="music-lock"><span class="icon-lg icon-lock-open"></span></div>
+                  </div>
+                  <div class="col-xs-10">
+                    <p class="music-title">{{music.nome_musica}}</p>
+                    <p class="music-artist">{{music.nome_artista}}</p>
+                    <p class="music-gender"><span class="label label-default">{{music.genero}}</span></p>
+                  </div>
+                </div>
+              </div>
+
+          </div>
+        </div>
+
+    </div>
+  </div>
+</div>

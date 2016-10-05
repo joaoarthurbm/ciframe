@@ -268,6 +268,11 @@ a:active {
   min-height: 150px;
   cursor: pointer;
 }
+
+.music-card-highlight {
+  background-color: #3C3B3C;
+  color: #EDEEEF;
+}
 .music-card-footer {
   background-color: #D8D9DD;
   margin: 10px -10px -10px -10px;
@@ -440,9 +445,11 @@ a:active {
   }
 }
 
-.dropdown-menu {
-  width: 290px;
-  overflow: hidden;
+@media (max-width: 768px) {
+  .dropdown-menu {
+    width: 290px;
+    overflow: hidden;
+  }
 }
 
 /* Animations */

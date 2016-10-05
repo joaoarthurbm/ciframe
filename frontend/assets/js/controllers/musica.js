@@ -41,29 +41,31 @@ angular.module('deciframeApp').controller('MusicaController', function($http, $w
   }
 
   vm.pesquisarPorMusica = function(musica) {
-    vm.minhaMusica = musica;
-    console.log(musica);
+    if (musica) {
+      vm.minhaMusica = musica;
+    }
     vm.progressbar.start();
-    vm.esfigeSpeech = "Procurando músicas similares à "+musica.nome_musica+" ("+musica.nome_artista+")"+"...";
+    vm.esfigeSpeech = "Procurando músicas similares à "+vm.minhaMusica.nome_musica+" ("+vm.minhaMusica.nome_artista+")"+"...";
     vm.isSearching = true;
+    vm.musics = [];
 
-    // var searchString = "similares?acordes=".concat(createChordsString(vm.meusAcordes));
-    // if (vm.meuGenero !== "" && vm.meuGenero !== null) {
-    //   searchString += "&generos="+vm.meuGenero;
-    // }
-    // $http.get(apiUrl.concat(searchString))
-    //   .success(function(data) {
-    //     vm.progressbar.complete();
-    //     vm.esfigeSpeech = "Encontrei essas músicas";
-    //     vm.isSearching = false;
-    //     vm.showSearchResultsCount = true;
-    //     vm.musics = data;
-    //   })
-    //   .error(function(data) {
-    //     vm.esfigeSpeech = "Ops! Algo errado.";
-    //     vm.isSearching = false;
-    //     vm.showSearchResultsCount = false;
-    //   });
+    var searchString = "similares?id_unico_musica=".concat(vm.minhaMusica.id_unico_musica);
+    if (vm.meuGenero !== "" && vm.meuGenero !== null) {
+      searchString += "&generos="+vm.meuGenero;
+    }
+    $http.get(apiUrl.concat(searchString))
+      .success(function(data) {
+        vm.progressbar.complete();
+        vm.esfigeSpeech = "Encontrei essas músicas";
+        vm.isSearching = false;
+        vm.showSearchResultsCount = true;
+        vm.musics = data;
+      })
+      .error(function(data) {
+        vm.esfigeSpeech = "Ops! Algo errado.";
+        vm.isSearching = false;
+        vm.showSearchResultsCount = false;
+      });
 
   }
 

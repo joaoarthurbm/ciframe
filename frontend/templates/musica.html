@@ -14,7 +14,8 @@
               typeahead-min-length="6"
               typeahead-on-select="Musica.pesquisarPorMusica(minhaMusica)"
               typeahead-loading="loadingLocations"
-              typeahead-no-results="noResults">
+              typeahead-no-results="noResults"
+              typeahead-wait-ms="1000">
           </div>
           <p ng-show="loadingLocations"><span class="glyphicon glyphicon-refresh animated infinite rotateIn"></span></p>
           <div ng-show="noResults">
@@ -34,7 +35,7 @@
                   class="form-control form-control-inverse input-lg"
                   ng-options="genero for genero in Musica.generos | orderBy:'genero'"
                   ng-model="Musica.meuGenero"
-                  ng-change="Musica.pesquisarPorAcordes()">
+                  ng-change="Musica.pesquisarPorMusica()">
                   <option value="">-- Gênero --</option>
                 </select>
               </div>
@@ -43,6 +44,22 @@
         </div>
 
         <div class="row row-in">
+          <div class="col-sm-6 col-lg-4" ng-show="Musica.minhaMusica.id_unico_musica">
+
+              <div class="music-card music-card-highlight" ng-click="Musica.goToLirics(Musica.minhaMusica)">
+                <div class="row row-in">
+                  <div class="col-xs-2 text-center">
+                    <div class="music-lock"><span class="icon-lg icon-lock-open"></span></div>
+                  </div>
+                  <div class="col-xs-10">
+                    <p class="music-title">{{Musica.minhaMusica.nome_musica}}</p>
+                    <p class="music-artist">{{Musica.minhaMusica.nome_artista}}</p>
+                    <p class="music-gender"><span class="label label-default">{{Musica.minhaMusica.genero}}</span></p>
+                  </div>
+                </div>
+              </div>
+
+          </div>
           <div class="col-sm-6 col-lg-4"
             ng-repeat="music in Musica.musics | orderBy:'-popularidade'"
             ng-hide="music.diferenca.length">

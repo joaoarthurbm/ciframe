@@ -69,7 +69,7 @@ angular.module('deciframeApp').controller('SequenciaController', function($http,
     vm.isSearching = true;
     vm.musics = [];
 
-    var apiUrl = "https://ciframe.herokuapp.com/";
+    var apiUrl = "https://ciframe-api.herokuapp.com/";
     var searchString = "similares?sequencia=".concat(createChordsString(vm.minhaSequencia.acordes));
     if (vm.meuGenero !== "" && vm.meuGenero !== null) {
       searchString += "&generos="+vm.meuGenero;

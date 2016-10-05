@@ -11,7 +11,7 @@
               placeholder="Pesquisar..."
               ng-model="minhaMusica"
               uib-typeahead="musica as musica.nome_musica+' ('+musica.nome_artista+')' for musica in Musica.getMusicas($viewValue)"
-              typeahead-min-length="6"
+              typeahead-min-length="3"
               typeahead-on-select="Musica.pesquisarPorMusica(minhaMusica)"
               typeahead-loading="loadingLocations"
               typeahead-no-results="noResults"

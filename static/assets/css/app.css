@@ -219,13 +219,14 @@ a:active {
 }
 .menu-container {
   height: 100vh;
-  padding: 80px 50px 50px 50px;
+  padding: 150px 50px 50px 50px;
   position: absolute;
   right: 0;
   width: 320px;
   z-index: 1;
   background-color: #373A47;
   color: #fff;
+  overflow: auto;
 }
 @media (max-width: 768px) {
   .menu-container {
@@ -256,7 +257,8 @@ a:active {
   margin-bottom: 20px;
 }
 .team-role {
-  line-height: 1.3em;
+  line-height: 1.2em;
+  font-size: 0.8em;
 }
 .music-card {
   background-color: #EDEEEF;

@@ -219,7 +219,7 @@ a:active {
 }
 .menu-container {
   height: 100vh;
-  padding: 150px 50px 50px 50px;
+  padding: 80px 50px 50px 50px;
   position: absolute;
   right: 0;
   width: 320px;
@@ -250,7 +250,7 @@ a:active {
   animation: 0.5s fadeInRight ease;
 }
 .team {
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 .img-team {
   margin-bottom: 20px;

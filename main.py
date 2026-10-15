@@ -22,9 +22,6 @@ def limpa_cifra(raw_cifra):
                 cifra += tokens
     return cifra
 
-reload(sys)
-sys.setdefaultencoding('utf8')
-
 # colunas do csv
 ARTISTA_ID = 0
 MUSICA_ID = 1
@@ -123,14 +120,14 @@ def busca():
 
     generos_key = generos
     if generos_tag:
-        generos_key = generos_tag.encode('utf-8').split(',')
+        generos_key = generos_tag.split(',')
 
-    collection = apply_filtro(musicas.values, generos_key)
+    collection = apply_filtro(musicas.values(), generos_key)
     out = []
 
     for musica in collection:
         text = '%s %s' % (musica.nome_artista.lower(), musica.nome_musica.lower())
-        text_list = remover_combinantes(unicode(text)).split(' ')
+        text_list = remover_combinantes(text).split(' ')
         if all(key in text_list for key in keys):
             matches = {
                 'id_unico_musica' : musica.id_unico_musica,
@@ -182,16 +179,16 @@ def get_similares():
     generos_tag = request.args.get('generos')
     generos_key = generos
     if generos_tag:
-        generos_key = generos_tag.encode('utf-8').split(',')
+        generos_key = generos_tag.split(',')
 
     acordes = []
     if acordes_tag:
-        acordes = acordes_tag.encode('utf-8').split(',')
+        acordes = acordes_tag.split(',')
     elif id_musica_tag:
         musica = musicas[id_musica_tag]
         acordes = musica.acordes
     elif sequencia_tag:
-        acordes = sequencia_tag.encode('utf-8').replace(',','')
+        acordes = sequencia_tag.replace(',','')
         similares = []
 
         if acordes in sequencias:

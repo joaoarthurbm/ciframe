@@ -11,44 +11,30 @@ repos](https://github.com/GoogleCloudPlatform) for sample applications and
 scaffolding for other python frameworks and use cases.
 
 ## Run Locally
-1. Install the [App Engine Python SDK](https://developers.google.com/appengine/downloads).
-See the README file for directions. You'll need python 2.7 and [pip 1.4 or later](http://www.pip-installer.org/en/latest/installing.html) installed too.
 
-2. Clone this repo with
+### With a virtualenv
 
-   ```
-   git clone https://github.com/GoogleCloudPlatform/appengine-python-flask-skeleton.git
-   ```
-3. Install dependencies in the project's lib directory.
-   Note: App Engine can only import libraries from inside your project directory.
+```
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python main.py
+```
 
-   ```
-   cd appengine-python-flask-skeleton
-   pip install -r requirements.txt -t lib
-   ```
-4. Run this project locally from the command line:
+Visit the application at [http://localhost:5000](http://localhost:5000).
 
-   ```
-   dev_appserver.py .
-   ```
+### With Docker
 
-Visit the application [http://localhost:8080](http://localhost:8080)
+```
+docker build -t ciframe .
+docker run -p 8080:8080 ciframe
+```
 
-See [the development server documentation](https://developers.google.com/appengine/docs/python/tools/devserver)
-for options when running dev_appserver.
+Visit the application at [http://localhost:8080](http://localhost:8080).
 
 ## Deploy
-To deploy the application:
-
-1. Use the [Admin Console](https://appengine.google.com) to create a
-   project/app id. (App id and project id are identical)
-1. [Deploy the
-   application](https://developers.google.com/appengine/docs/python/tools/uploadinganapp) with
-
-   ```
-   appcfg.py -A <your-project-id> --oauth2 update .
-   ```
-1. Congratulations!  Your application is now live at your-app-id.appspot.com
+Cloud deployment isn't set up yet — this repo currently only targets running
+locally (see [docs/adr/0001-local-only-docker-deploy.md](docs/adr/0001-local-only-docker-deploy.md)).
 
 ## Next Steps
 This skeleton includes `TODO` markers to help you find basic areas you will want

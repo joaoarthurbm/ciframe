@@ -1,4 +1,4 @@
-# Tarefa: Sequências de Acordes Customizadas — deciframe
+# Tarefa: Sequências de Acordes Customizadas
 
 ## Contexto
 
@@ -9,6 +9,14 @@ Como disse, temos 3 bons candidatos: o RePPIT, o do Matt Pocock (o que mais uso 
 Vamos começar com o RePPIT por dois motivos: é um framework que está alinhado com o que a gente vem discutindo e, principalmente, há uma implementação dele que ainda é incipiente. 
 
 A ideia é usarmos como está agora e tentarmos sugerir mudanças nos comandos que ele definiu aqui: (https://github.com/levelup-labs-ai/reppit-framework/tree/main/commands)
+
+## Como instalar os comandos do reppit no opencode
+
+`git clone https://github.com/levelup-labs-ai/reppit-framework.git ~/reppit-framework`
+
+`mkdir -p ~/.config/opencode/commands`
+
+`cp ~/reppit-framework/commands/*.md ~/.config/opencode/commands/`
 
 # A tarefa
 
@@ -71,7 +79,15 @@ Esta é uma tarefa **full-stack**: ela toca o backend (Flask), a persistência
 ## Fluxo de trabalho obrigatório
 
 Este exercício avalia principalmente o **processo**, não só o resultado final.
-Siga as 5 fases usando [este ferramental](https://github.com/levelup-labs-ai/reppit-framework/tree/main/commands), nesta ordem, e documente cada uma antes de passar para a próxima:
+Siga as 5 fases usando [este ferramental](https://github.com/levelup-labs-ai/reppit-framework/tree/main/commands), nesta ordem, e documente cada uma antes de passar para a próxima.
+
+# Como instalar os comandos do reppit no opencode
+`git clone https://github.com/levelup-labs-ai/reppit-framework.git ~/reppit-framework` 
+
+`mkdir -p ~/.config/opencode/commands`
+
+`cp ~/reppit-framework/commands/*.md ~/.config/opencode/commands/`
+
 
 1. **Pesquisa** — investigue as perguntas em
    [`01-research.md`](01-research.md) com evidência real, não suposição.

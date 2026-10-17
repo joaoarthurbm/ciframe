@@ -2,17 +2,24 @@
 
 ## Contexto
 
-O deciframe é uma ferramenta de descoberta de músicas para músicos: busca por
-título/artista, gênero, acordes que você já sabe tocar, ou por uma sequência de
-acordes famosa — e encontra músicas parecidas. Veja [README.md](../../../README.md)
-e [AGENTS.md](../../../AGENTS.md) na raiz do projeto para a stack e as
+Vimos em sala de aula que os princípios de engenharia é que são fundamentais, independente da tecnologia. Então vamos focar em exercitar nossas habilidades de engenheiros através dos workflows que apresentei em sala de aula.
+
+Como disse, temos 3 bons candidatos: o RePPIT, o do Matt Pocock (o que mais uso até agora) e o /pstack da @poteto.
+
+Vamos começar com o RePPIT por dois motivos: é um framework que está alinhado com o que a gente vem discutindo e, principalmente, há uma implementação dele que ainda é incipiente. 
+
+A ideia é usarmos como está agora e tentarmos sugerir mudanças nos comandos que ele definiu aqui: (https://github.com/levelup-labs-ai/reppit-framework/tree/main/commands)
+
+# A tarefa
+
+Há muito tempo atrás, eu fiz o deciframe, um app em que você lista os acordes que você sabe tocar e ele minera músicas do cifraclub para mostrar quais você pode já sabe tocar com os acordes que você apontou. Também lista algumas músicas que, se você aprender alguns acordes a mais, você saberá tocar. Veja [README.md](../../../README.md) e [AGENTS.md](../../../AGENTS.md) na raiz do projeto para a stack e as
 convenções do backend antes de começar.
 
 Hoje, a busca por "sequência famosa" (`GET /similares?sequencia=...`) só
-reconhece 6 sequências *hardcoded* no backend (`main.py`, linhas 40-45), e o
+reconhece 6 sequências *hardcoded* no backend (`main.py`), e o
 frontend (`#/porsequencia`) mostra apenas 4 delas, também hardcoded em
 JavaScript. Essas sequências vêm de uma tag pré-computada no CSV
-(`SEQ_FAMOSA`) — não existe nenhuma lógica que calcule, em tempo real, se uma
+(`SEQ_FAMOSA`). Não existe nenhuma lógica que calcule, em tempo real, se uma
 sequência de acordes aparece em uma música.
 
 ## O que você vai construir
@@ -25,36 +32,32 @@ sobreviver a reinícios do servidor e poder crescer sem precisar de um novo
 deploy.
 
 Esta é uma tarefa **full-stack**: ela toca o backend (Flask), a persistência
-(novo: um banco de dados) e o frontend (AngularJS). A restrição que havia no
-AGENTS.md contra tocar no frontend foi removida (ver
-[`docs/adr/0003-lift-frontend-freeze.md`](../../adr/0003-lift-frontend-freeze.md))
-— vocês têm liberdade para mexer em `static/`.
+(novo: um banco de dados) e o frontend (AngularJS).
 
 ## O que é obrigatório (requisitos funcionais)
 
 - Qualquer pessoa pode cadastrar uma nova sequência de acordes (lista ordenada
-  de acordes), sem login — catálogo aberto e anônimo.
+  de acordes). Sem login. Catálogo aberto e anônimo.
 - Qualquer sequência cadastrada (as 6 originais + as novas) pode ser usada para
   buscar músicas, com os mesmos resultados esperados de hoje para as 6
   originais.
-- O catálogo de sequências é persistido em um banco de dados — não volta a ser
+- O catálogo de sequências é persistido em um banco de dados. Não volta a ser
   perdido ao reiniciar o container.
 - A página `#/porsequencia` do frontend reflete o catálogo real (vindo do
   backend, não mais hardcoded em JS) e permite cadastrar uma sequência nova.
 
 ## O que está fixo (não é decisão sua)
 
+- É obrigado o uso do `opencode` e do modelo `BigPickle`.
 - O catálogo de **músicas e gêneros continua vindo do CSV**, carregado em
-  memória como hoje — não migre `musicas`/`generos` para o banco. Só o
+  memória como hoje. Não migre `musicas`/`generos` para o banco. Só o
   catálogo de sequências precisa de persistência.
 - A aplicação continua rodando via o `Dockerfile` único e local-only já
   documentado em `docs/adr/0001-local-only-docker-deploy.md` (container único,
   sem serviços externos adicionais).
 - As 6 sequências hoje hardcoded precisam continuar produzindo os mesmos
-  resultados de busca depois da sua mudança — é o seu critério de regressão.
-- Endpoints continuam retornando `json.dumps(...)` como string, não `jsonify`
-  (convenção documentada em AGENTS.md) — a menos que você justifique e
-  documente por que está mudando isso.
+  resultados de busca depois da sua mudança. É o seu critério para teste de regressão.
+- Endpoints continuam retornando `json.dumps(...)` como string, não `jsonify`.
 
 ## O que é decisão sua (faz parte do trabalho)
 
@@ -68,8 +71,7 @@ AGENTS.md contra tocar no frontend foi removida (ver
 ## Fluxo de trabalho obrigatório
 
 Este exercício avalia principalmente o **processo**, não só o resultado final.
-Siga as 5 fases, nesta ordem, e documente cada uma antes de passar para a
-próxima:
+Siga as 5 fases usando [este ferramental](https://github.com/levelup-labs-ai/reppit-framework/tree/main/commands), nesta ordem, e documente cada uma antes de passar para a próxima:
 
 1. **Pesquisa** — investigue as perguntas em
    [`01-research.md`](01-research.md) com evidência real, não suposição.
@@ -89,10 +91,12 @@ próxima:
 
 ### O que você vai entregar
 
-Os templates de cada fase já existem no diretório docs/features/sequencias-customizadas. Preencha-os (e apague as
+- Os templates de cada fase já existem no diretório docs/features/sequencias-customizadas. Preencha-os (e apague as
 instruções em bloco de citação de cada um antes de entregar).
 
-Faça um vídeo/gif demonstrando a feature funcionando no browser.
+- Um vídeo/gif demonstrando a feature funcionando no browser.
+
+- O arquivo da sessão.
 
 Suba tudo para o seu fork e compartilhe o link no form. 
 

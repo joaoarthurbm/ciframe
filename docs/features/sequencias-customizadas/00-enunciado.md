@@ -25,9 +25,10 @@ sobreviver a reinícios do servidor e poder crescer sem precisar de um novo
 deploy.
 
 Esta é uma tarefa **full-stack**: ela toca o backend (Flask), a persistência
-(novo: um banco de dados) e o frontend (AngularJS). A ADR que antes mantinha o
-frontend congelado foi para uma decisão anterior que não se aplica mais a este
-exercício — vocês têm liberdade para mexer em `static/`.
+(novo: um banco de dados) e o frontend (AngularJS). A restrição que havia no
+AGENTS.md contra tocar no frontend foi removida (ver
+[`docs/adr/0003-lift-frontend-freeze.md`](../../adr/0003-lift-frontend-freeze.md))
+— vocês têm liberdade para mexer em `static/`.
 
 ## O que é obrigatório (requisitos funcionais)
 

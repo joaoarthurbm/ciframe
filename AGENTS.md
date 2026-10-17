@@ -10,9 +10,9 @@ similar songs. Full description: [README.md](README.md).
   loads `data/top/dataset_final.csv` into memory once at startup — there is
   no database.
 - Frontend: AngularJS 1.4.9 + jQuery, loaded from CDN in `static/index.html`,
-  no build step. This is legacy and was deliberately left untouched during
-  the last modernization pass — don't upgrade it in passing; see
-  [docs/adr/0001-local-only-docker-deploy.md](docs/adr/0001-local-only-docker-deploy.md).
+  no build step. Legacy, and there's no plan to modernize the stack itself —
+  but touching it is no longer off-limits when a task needs it; see
+  [docs/adr/0003-lift-frontend-freeze.md](docs/adr/0003-lift-frontend-freeze.md).
 - Deploy: local-only via Docker for now. No cloud target has been chosen.
 
 ## Run locally
@@ -44,4 +44,4 @@ Done when this returns a JSON array of genre names (e.g. `["Rock", "Samba", ...]
 
 - Editing `data/top/*.csv` requires a restart: it's read once at import time, not per-request.
 - Every endpoint returns `json.dumps(...)` as a plain string, not `jsonify` — responses come back `Content-Type: text/html`. This is intentional legacy behavior; changing it is a real API change, not a cleanup.
-- Check `docs/adr/` before changing the deploy setup or touching the frontend stack — both have a documented reason for their current state.
+- Check `docs/adr/` before changing the deploy setup — it has a documented reason for its current state.

@@ -1,5 +1,9 @@
 # coding: utf-8
 import json
+import os
+import sqlite3
+from contextlib import contextmanager
+from datetime import datetime, timezone
 from flask import Flask, request
 import sys
 from musica import *
@@ -34,17 +38,167 @@ SEQ_FAMOSA = 7
 CIFRA = 8
 TAM_PAGINA = 100
 
+# limites do catálogo aberto: guardrails de entrada, não de moderação
+MIN_ACORDES_SEQUENCIA = 2
+MAX_ACORDES_SEQUENCIA = 12
+MAX_NOME_SEQUENCIA = 80
+
 genero_musicas = {}
 generos = set()
 acordes = set()
-sequencias = {'BmGDA' : 0,
-        'CGAmF' : 1,
-        'EmG' : 2,
-        'CA7DmG7' : 3,
-        'GmF' : 4,
-        'CC7FFm' : 5}
+
+# Catálogo inicial, na ordem das tags que existiam na coluna SEQ_FAMOSA (0..5).
+# Os nomes vêm de data/mapeamento_sequencias_famosas.txt, que até então nenhum
+# código lia. Recebem ids 1..6 na primeira subida.
+SEQUENCIAS_LEGADO = [
+    {'nome': 'Sequência de Bm', 'acordes': ['Bm', 'G', 'D', 'A']},
+    {'nome': 'Sequência de C', 'acordes': ['C', 'G', 'Am', 'F']},
+    {'nome': 'Sequência Em', 'acordes': ['Em', 'G']},
+    {'nome': 'Sequência de C (Samba)', 'acordes': ['C', 'A7', 'Dm', 'G7']},
+    {'nome': 'Sequência de Gm', 'acordes': ['Gm', 'F']},
+    {'nome': 'Sequência de C (Samba cont.)', 'acordes': ['C', 'C7', 'F', 'Fm']},
+]
+
+
+def normalizar_chave(acordes):
+    """Forma canônica usada no matching e na detecção de duplicata.
+
+    Preserva ordem e repetições: 'C;C7;F;Fm' != 'C;F;C7;Fm' e 'C;C' != 'C',
+    porque a regra de matching é sobre a cifra, que também preserva repetições.
+    """
+    return ';'.join(acorde.strip().casefold() for acorde in acordes)
+
+
+# Forma canônica de uma sequência: ';' + casefold, preservando ordem e repetições.
+SCHEMA = """
+CREATE TABLE IF NOT EXISTS sequencias (
+    id        INTEGER PRIMARY KEY,
+    nome      TEXT NOT NULL,
+    acordes   TEXT NOT NULL,
+    chave     TEXT NOT NULL UNIQUE,
+    criado_em TEXT NOT NULL
+)
+"""
+
+
+def criar_schema():
+    with conexao() as conn:
+        conn.executescript(SCHEMA)
+
+
+def seed_sequencias_legado():
+    """Insere as 6 sequências originais. Idempotente por `chave` (UNIQUE)."""
+    agora = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+    with conexao() as conn:
+        for sequencia in SEQUENCIAS_LEGADO:
+            conn.execute(
+                'INSERT OR IGNORE INTO sequencias (nome, acordes, chave, criado_em)'
+                ' VALUES (?, ?, ?, ?)',
+                (
+                    sequencia['nome'],
+                    json.dumps(sequencia['acordes'], ensure_ascii=False),
+                    normalizar_chave(sequencia['acordes']),
+                    agora,
+                ),
+            )
+
+
+def _registro(row):
+    """Linha do banco -> dict do catálogo (acordes desserializados)."""
+    return {
+        'id': row['id'],
+        'nome': row['nome'],
+        'acordes': json.loads(row['acordes']),
+        'chave': row['chave'],
+        'criado_em': row['criado_em'],
+    }
+
+
+def listar_sequencias():
+    with conexao() as conn:
+        return [_registro(row) for row in
+                conn.execute('SELECT * FROM sequencias ORDER BY id')]
+
+
+def por_chave(chave):
+    with conexao() as conn:
+        row = conn.execute(
+            'SELECT * FROM sequencias WHERE chave = ?', (chave,)).fetchone()
+    return _registro(row) if row else None
+
+
+def por_id(seq_id):
+    with conexao() as conn:
+        row = conn.execute(
+            'SELECT * FROM sequencias WHERE id = ?', (seq_id,)).fetchone()
+    return _registro(row) if row else None
+
+
+def resolver_chave(sequencia_tag):
+    """Resolve o parâmetro legado `?sequencia=` para uma chave do catálogo.
+
+    Aceita as duas formas que já circularam: acordes separados por vírgula
+    (`Bm,G,D,A`, o que o frontend envia) e a concatenação sem separador
+    (`BmGDA`, forma antiga da chave do dict hardcoded).
+    """
+    chave = normalizar_chave(sequencia_tag.split(','))
+    if por_chave(chave):
+        return chave
+
+    alvo = ''.join(sequencia_tag.split()).casefold()
+    if not alvo:
+        return None
+    for registro in listar_sequencias():
+        if ''.join(registro['acordes']).casefold() == alvo:
+            return registro['chave']
+    return None
+
+
+
 
 musicas_dict = {}
+
+# --- catálogo de sequências: banco de dados ---------------------------------------
+# Só o catálogo de sequências vai para o banco; músicas e gêneros continuam vindo
+# do CSV em memória. Ver docs/adr/0002-persist-custom-sequences.md.
+# O arquivo fica fora de /app/data de propósito: aquele diretório contém o CSV, e
+# um volume montado ali esconderia o dataset e derrubaria o import.
+DB_PADRAO = '/var/lib/ciframe/ciframe.db'
+
+
+def db_path():
+    """Caminho do arquivo do banco. `CIFRAME_DB` permite isolar os testes."""
+    return os.environ.get('CIFRAME_DB', DB_PADRAO)
+
+
+@contextmanager
+def conexao():
+    conn = sqlite3.connect(db_path())
+    conn.row_factory = sqlite3.Row
+    try:
+        yield conn
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def prepara_diretorio_db():
+    """Falha no boot, não na primeira requisição, se o volume não for gravável."""
+    diretorio = os.path.dirname(os.path.abspath(db_path()))
+    try:
+        os.makedirs(diretorio, exist_ok=True)
+    except OSError as erro:
+        raise SystemExit(
+            'não foi possível criar o diretório do banco (%s): %s. '
+            'Aponte CIFRAME_DB para um diretório gravável ou monte o volume: '
+            'docker run -v ciframe-data:/var/lib/ciframe ciframe' % (diretorio, erro)
+        )
+    if not os.access(diretorio, os.W_OK):
+        raise SystemExit(
+            'o diretório do banco (%s) não é gravável. '
+            'Aponte CIFRAME_DB para um diretório gravável ou monte o volume: '
+            'docker run -v ciframe-data:/var/lib/ciframe ciframe' % diretorio
+        )
 
 f = open('data/top/dataset_final.csv')
 f.readline()
@@ -96,6 +250,14 @@ for k,v in genero_musicas.items():
     genero_musicas[k].sort(key = lambda x : x.popularidade, reverse = True)
 
 f.close()
+
+# vocabulário para validar acordes de sequências cadastradas
+ACORDES_CANONICOS = {acorde.casefold() for acorde in acordes}
+
+# valida o diretório do banco no boot: melhor não subir do que subir e não cadastrar
+prepara_diretorio_db()
+criar_schema()
+seed_sequencias_legado()
 
 
 @app.route('/')
@@ -163,6 +325,111 @@ def get_generos():
 def get_acordes():
     return json.dumps(list(acordes))
 
+@app.route('/sequencias', methods=['GET', 'POST'])
+def catalogo_sequencias():
+    if request.method == 'POST':
+        return criar_sequencia()
+    return json.dumps(listar_sequencias())
+
+def _erro(mensagem, campo=None, acorde=None):
+    """Corpo de erro. Continua sendo json.dumps: o contrato é o formato, não o MIME."""
+    payload = {'erro': mensagem}
+    if campo:
+        payload['campo'] = campo
+    if acorde:
+        payload['acorde'] = acorde
+    return payload
+
+
+def validar_sequencia(corpo):
+    """Valida o corpo de POST /sequencias.
+
+    Devolve `((nome, acordes), None)` quando aceita, ou `(None, (status, payload))`
+    quando recusa. O catálogo é aberto e anônimo, então a validação é o único
+    guardrail que existe: 2 a 12 acordes e todos presentes no vocabulário que a
+    aplicação já carrega do CSV.
+    """
+    if not isinstance(corpo, dict):
+        return None, (400, _erro('corpo deve ser um objeto JSON'))
+
+    recebidos = corpo.get('acordes')
+    if not isinstance(recebidos, list):
+        return None, (400, _erro('acordes deve ser uma lista', campo='acordes'))
+
+    acordes_limpos = []
+    for item in recebidos:
+        if not isinstance(item, str):
+            return None, (400, _erro('cada acorde deve ser uma string', campo='acordes'))
+        acorde = item.strip()
+        if not acorde:
+            return None, (400, _erro('acorde vazio', campo='acordes'))
+        acordes_limpos.append(acorde)
+
+    if not (MIN_ACORDES_SEQUENCIA <= len(acordes_limpos) <= MAX_ACORDES_SEQUENCIA):
+        return None, (400, _erro(
+            'a sequência deve ter entre %d e %d acordes'
+            % (MIN_ACORDES_SEQUENCIA, MAX_ACORDES_SEQUENCIA), campo='acordes'))
+
+    for acorde in acordes_limpos:
+        if acorde.casefold() not in ACORDES_CANONICOS:
+            return None, (400, _erro(
+                'acorde desconhecido: %s' % acorde, campo='acordes', acorde=acorde))
+
+    nome = corpo.get('nome')
+    if nome is not None:
+        if not isinstance(nome, str):
+            return None, (400, _erro('nome deve ser uma string', campo='nome'))
+        nome = nome.strip()
+        if len(nome) > MAX_NOME_SEQUENCIA:
+            return None, (400, _erro(
+                'nome deve ter no máximo %d caracteres' % MAX_NOME_SEQUENCIA,
+                campo='nome'))
+    if not nome:
+        nome = ' - '.join(acordes_limpos)
+
+    return (nome, acordes_limpos), None
+
+
+def _conflito(chave):
+    existente = por_chave(chave)
+    payload = _erro('essa sequência já está no catálogo')
+    if existente:
+        payload['id'] = existente['id']
+        payload['chave'] = existente['chave']
+        payload['nome'] = existente['nome']
+    return json.dumps(payload), 409
+
+
+def criar_sequencia():
+    validado, erro = validar_sequencia(request.get_json(silent=True))
+    if erro:
+        status, payload = erro
+        return json.dumps(payload), status
+
+    nome, acordes_limpos = validado
+    chave = normalizar_chave(acordes_limpos)
+
+    if por_chave(chave):
+        return _conflito(chave)
+
+    try:
+        with conexao() as conn:
+            conn.execute(
+                'INSERT INTO sequencias (nome, acordes, chave, criado_em)'
+                ' VALUES (?, ?, ?, ?)',
+                (
+                    nome,
+                    json.dumps(acordes_limpos, ensure_ascii=False),
+                    chave,
+                    datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
+                ),
+            )
+    except sqlite3.IntegrityError:
+        # duas requisições simultâneas com a mesma chave: o UNIQUE decide
+        return _conflito(chave)
+
+    return json.dumps(por_chave(chave)), 201
+
 @app.route('/musica/<m_id>/')
 def get_musica(m_id):
     return json.dumps(musicas[m_id].__dict__)
@@ -172,6 +439,7 @@ def get_similares():
     # tratando request
     acordes_tag = request.args.get('acordes')
     id_musica_tag = request.args.get('id_unico_musica')
+    sequencia_id_tag = request.args.get('sequencia_id')
     sequencia_tag = request.args.get('sequencia')
     pagina_tag = request.args.get('pagina','1')
 
@@ -187,26 +455,64 @@ def get_similares():
     elif id_musica_tag:
         musica = musicas[id_musica_tag]
         acordes = musica.acordes
+    elif sequencia_id_tag:
+        # contrato novo: id do catálogo, 404 quando não existe
+        try:
+            seq_id = int(sequencia_id_tag)
+        except ValueError:
+            return json.dumps(_erro('sequencia_id deve ser um número',
+                                    campo='sequencia_id')), 400
+
+        registro = por_id(seq_id)
+        if not registro:
+            return json.dumps(_erro('sequência não encontrada',
+                                    campo='sequencia_id')), 404
+
+        similares = get_similares_por_chave(registro['chave'], generos_key)
+        return json.dumps(get_pagina(similares, pagina_tag))
     elif sequencia_tag:
-        acordes = sequencia_tag.replace(',','')
         similares = []
 
-        if acordes in sequencias:
-            id_seq = sequencias[acordes]
-            similares = get_pagina(get_similares_por_sequencia(id_seq, generos_key), pagina_tag)
+        chave = resolver_chave(sequencia_tag)
+        if chave:
+            similares = get_pagina(get_similares_por_chave(chave, generos_key), pagina_tag)
         return json.dumps(similares)
 
     similares = get_similares(acordes, generos_key, id_musica_tag)
 
     return json.dumps(get_pagina(similares, pagina_tag))
 
-def get_similares_por_sequencia(id_seq, generos_key):
-    # filtra para melhor desempenho
+def musica_contem_sequencia(musica, chave):
+    """A sequência `chave` aparece nesta música?
+
+    Reproduz exatamente a regra que gerava a coluna SEQ_FAMOSA
+    (`scripts/generate_data_set.py`):
+
+    1. **contiguidade** — `chave` é substring contígua da cifra normalizada;
+    2. **vocabulário contido** — todo acorde usado na música está entre os
+       acordes da sequência.
+
+    As duas condições juntas é que dão o resultado atual (ver 01-research.md).
+    Usa `musica.cifra` — ordenada e com repetições — e não `musica.acordes`, que
+    é `list(set(cifra))` e perdeu a ordem.
+    """
+    if not musica.cifra:
+        return False
+
+    cifra = ';'.join(acorde.casefold() for acorde in musica.cifra)
+    if chave not in cifra:
+        return False
+
+    return set(cifra.split(';')).issubset(chave.split(';'))
+
+
+def get_similares_por_chave(chave, generos_key):
+    # filtra por gênero para melhor desempenho
     collection = apply_filtro(musicas.values(), generos_key)
 
     similares = []
     for musica in collection:
-        if str(id_seq) in musica.seqs_famosas:
+        if musica_contem_sequencia(musica, chave):
             similar = {
                 'id_unico_musica' : musica.id_unico_musica,
                 'id_artista' : musica.id_artista,

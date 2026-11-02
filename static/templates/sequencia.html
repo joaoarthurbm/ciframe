@@ -3,7 +3,30 @@
     <div class="col-sm-6 col-md-4 viewWindow-panel viewWindow-panel-C">
       <div class="viewWindow-panel-container">
         <h4 class="text-center">Aponte uma sequencia de acordes</h4>
-        <div class="acordes-container" ng-repeat='sequencia in Sequencia.sequenciasFamosas' ng-click="Sequencia.pesquisarPorSequencia(sequencia)">
+
+        <form class="sequencia-form" ng-submit="Sequencia.adicionarSequencia()">
+          <div class="form-group">
+            <input type="text"
+                   class="form-control input-lg"
+                   placeholder="Ex.: Em G D A"
+                   aria-label="Nova sequência de acordes"
+                   ng-model="Sequencia.novaSequencia"
+                   ng-disabled="Sequencia.salvando">
+          </div>
+          <div class="text-center">
+            <button type="submit"
+                    class="btn btn-link"
+                    ng-disabled="Sequencia.salvando || !Sequencia.novaSequencia">
+              Cadastrar sequência
+            </button>
+          </div>
+          <p class="text-center sequencia-dica">2 a 12 acordes, separados por espaço ou vírgula.</p>
+          <p class="text-center sequencia-erro" ng-if="Sequencia.erroCadastro">{{Sequencia.erroCadastro}}</p>
+          <p class="text-center sequencia-erro" ng-if="Sequencia.erroCatalogo">{{Sequencia.erroCatalogo}}</p>
+        </form>
+
+        <div class="acordes-container sequencia-item" ng-repeat='sequencia in Sequencia.sequenciasFamosas' ng-click="Sequencia.pesquisarPorSequencia(sequencia)" title="{{sequencia.nome}}">
+          <p class="sequencia-nome">{{sequencia.nome}}</p>
           <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" acorde-checked="Sequencia.temAcorde(acordeon)" ng-repeat="acordeon in sequencia.acordes"></df-hex>
         </div>
         <br style="clear: both;">
@@ -31,6 +54,7 @@
               </div>
             </div>
             <div class="col-md-9">
+              <p class="sequencia-selecionada" ng-if="Sequencia.minhaSequencia.nome">{{Sequencia.minhaSequencia.nome}}</p>
               <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" ng-repeat="acordeon in Sequencia.minhaSequencia.acordes" ng-click="Sequencia.limparPesquisa()"></df-hex>
               <br style="clear: both;"><br>
             </div>
@@ -61,3 +85,5 @@
     </div>
   </div>
 </div>
+</div>
+

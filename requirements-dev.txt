@@ -1,0 +1,9 @@
+# Dependências de desenvolvimento e teste.
+# A aplicação roda apenas com requirements.txt (Flask + gunicorn).
+
+pytest==8.4.2
+pytest-cov==7.0.0
+
+# A verificação manual de UI (tests/manual/verifica_ui.py) usa websocket-client
+# para falar com o Chrome headless. Não entra na suíte; se for rodar o script:
+# pip install websocket-client

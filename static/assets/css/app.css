@@ -163,6 +163,33 @@ a:active {
   margin: auto;
   clear: both;
 }
+/* Catálogo de sequências: rótulo, formulário de cadastro e avisos */
+.sequencia-nome {
+  text-align: center;
+  font-size: 0.85em;
+  margin: 0 0 4px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sequencia-item {
+  margin-bottom: 12px;
+}
+.sequencia-dica {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.85em;
+  margin-top: 4px;
+}
+.sequencia-erro {
+  color: #E9BC00;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+.sequencia-selecionada {
+  color: #7B057E;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+}
 /* Acorde directive*/
 .acorde-wrapper {
   float: left;

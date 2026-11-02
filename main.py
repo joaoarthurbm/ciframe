@@ -1,5 +1,9 @@
 # coding: utf-8
 import json
+import os
+import sqlite3
+from contextlib import contextmanager
+from datetime import datetime, timezone
 from flask import Flask, request
 import sys
 from musica import *
@@ -45,6 +49,48 @@ sequencias = {'BmGDA' : 0,
         'CC7FFm' : 5}
 
 musicas_dict = {}
+
+# --- catálogo de sequências: banco de dados ---------------------------------------
+# Só o catálogo de sequências vai para o banco; músicas e gêneros continuam vindo
+# do CSV em memória. Ver docs/adr/0002-persist-custom-sequences.md.
+# O arquivo fica fora de /app/data de propósito: aquele diretório contém o CSV, e
+# um volume montado ali esconderia o dataset e derrubaria o import.
+DB_PADRAO = '/var/lib/ciframe/ciframe.db'
+
+
+def db_path():
+    """Caminho do arquivo do banco. `CIFRAME_DB` permite isolar os testes."""
+    return os.environ.get('CIFRAME_DB', DB_PADRAO)
+
+
+@contextmanager
+def conexao():
+    conn = sqlite3.connect(db_path())
+    conn.row_factory = sqlite3.Row
+    try:
+        yield conn
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def prepara_diretorio_db():
+    """Falha no boot, não na primeira requisição, se o volume não for gravável."""
+    diretorio = os.path.dirname(os.path.abspath(db_path()))
+    try:
+        os.makedirs(diretorio, exist_ok=True)
+    except OSError as erro:
+        raise SystemExit(
+            'não foi possível criar o diretório do banco (%s): %s. '
+            'Aponte CIFRAME_DB para um diretório gravável ou monte o volume: '
+            'docker run -v ciframe-data:/var/lib/ciframe ciframe' % (diretorio, erro)
+        )
+    if not os.access(diretorio, os.W_OK):
+        raise SystemExit(
+            'o diretório do banco (%s) não é gravável. '
+            'Aponte CIFRAME_DB para um diretório gravável ou monte o volume: '
+            'docker run -v ciframe-data:/var/lib/ciframe ciframe' % diretorio
+        )
 
 f = open('data/top/dataset_final.csv')
 f.readline()
@@ -96,6 +142,9 @@ for k,v in genero_musicas.items():
     genero_musicas[k].sort(key = lambda x : x.popularidade, reverse = True)
 
 f.close()
+
+# valida o diretório do banco no boot: melhor não subir do que subir e não cadastrar
+prepara_diretorio_db()
 
 
 @app.route('/')

@@ -29,10 +29,12 @@
    arquivo é a única coisa que prova "igual a antes" depois; por isso vem antes
    de tudo.
 2. [ ] **Caminho e conexão do banco.** `CIFRAME_DB` (default
-   `/var/lib/ciframe/ciframe.db`), `db_path()`, `db()` (conexão por chamada,
-   `row_factory = sqlite3.Row`), `os.makedirs(..., exist_ok=True)`. Leitura da
-   env var no import, com `SystemExit` e mensagem explícita se o diretório não
-   for gravável — falha no boot, não no primeiro `POST`.
+   `/var/lib/ciframe/ciframe.db`), `db_path()`, `conexao()` (context manager:
+   conexão por chamada, `row_factory = sqlite3.Row`, commit no fim),
+   `prepara_diretorio_db()` com `os.makedirs(..., exist_ok=True)` e checagem de
+   escrita. O caminho é resolvido a cada conexão; a checagem de gravabilidade
+   acontece **no import**, terminando o processo com mensagem explícita — falha
+   no boot, não no primeiro `POST`.
 3. [ ] **Schema + seed idempotente.** `CREATE TABLE IF NOT EXISTS sequencias`,
    `SEQUENCIAS_LEGADO` em `main.py` (substitui o `dict sequencias` de
    `main.py:40-45`, com os nomes de

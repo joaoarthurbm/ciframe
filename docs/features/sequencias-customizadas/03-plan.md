@@ -2,7 +2,7 @@
 
 > Fase **P** do RePPIT (`commands/make-plan.md`): nenhuma mudança de código nesta
 > fase, só o roteiro. A ordem abaixo é a ordem de execução e **cada passo é um
-> commit** — a mensagem cita o passo (`passo 3/9: ...`). Se um passo se revelar
+> commit** — a mensagem cita o passo (`passo 3/10: ...`). Se um passo se revelar
 > errado no meio, o commit seguinte corrige **este arquivo antes** do código.
 
 ## Decisões estruturais que o plano assume
@@ -20,7 +20,7 @@
 
 ## Passos
 
-1. [ ] **Baseline de regressão, antes de qualquer mudança.** Criar
+1. [x] **Baseline de regressão, antes de qualquer mudança.** Criar
    `requirements-dev.txt` (`pytest`, `pytest-cov`, `flask`, `gunicorn` já em
    `requirements.txt`), `.venv` local, `tests/conftest.py` com fixture de sessão
    que importa `main` e expõe o test client. Gerar
@@ -28,46 +28,46 @@
    ordenados]}` para as 6, **executando o código atual**, e commitar. Este
    arquivo é a única coisa que prova "igual a antes" depois; por isso vem antes
    de tudo.
-2. [ ] **Caminho e conexão do banco.** `CIFRAME_DB` (default
+2. [x] **Caminho e conexão do banco.** `CIFRAME_DB` (default
    `/var/lib/ciframe/ciframe.db`), `db_path()`, `conexao()` (context manager:
    conexão por chamada, `row_factory = sqlite3.Row`, commit no fim),
    `prepara_diretorio_db()` com `os.makedirs(..., exist_ok=True)` e checagem de
    escrita. O caminho é resolvido a cada conexão; a checagem de gravabilidade
    acontece **no import**, terminando o processo com mensagem explícita — falha
    no boot, não no primeiro `POST`.
-3. [ ] **Schema + seed idempotente.** `CREATE TABLE IF NOT EXISTS sequencias`,
+3. [x] **Schema + seed idempotente.** `CREATE TABLE IF NOT EXISTS sequencias`,
    `SEQUENCIAS_LEGADO` em `main.py` (substitui o `dict sequencias` de
    `main.py:40-45`, com os nomes de
    `data/mapeamento_sequencias_famosas.txt`), `normalizar_chave(acordes)` e
    `seed()` com `INSERT OR IGNORE` por `chave`. Ids 1..6 atribuídos pelo banco;
    nenhum id escrito à mão. Chamada no import.
-4. [ ] **Matching em tempo real.** `musica_contem_sequencia(musica, chave)` =
+4. [x] **Matching em tempo real.** `musica_contem_sequencia(musica, chave)` =
    as duas condições (contígua + vocabulário contido, `casefold`), e
    `get_similares_por_chave(chave, generos_key)` substituindo
    `get_similares_por_sequencia` (`main.py:203-223`). `?sequencia=` passa a
    resolver a chave no banco. Verificar à mão contra a fixture do passo 1 antes
    de commitar.
-5. [ ] **`GET /sequencias`.** Lista ordenada por `id`, shape
+5. [x] **`GET /sequencias`.** Lista ordenada por `id`, shape
    `{id, nome, acordes, chave, criado_em}`; `acordes` desserializado do JSON.
-6. [ ] **`POST /sequencias`.** Parse do corpo, validação (2–12 acordes,
+6. [x] **`POST /sequencias`.** Parse do corpo, validação (2–12 acordes,
    vocabulário, nome ≤ 80, nome derivado quando ausente), normalização, `201`;
    `400` com `campo`/`acorde`; `409` com `id` e `chave` do existente. Corpo
    sempre `json.dumps(...)`, nunca `jsonify`.
-7. [ ] **`sequencia_id` em `/similares`.** Precedência `acordes` >
+7. [x] **`sequencia_id` em `/similares`.** Precedência `acordes` >
    `id_unico_musica` > `sequencia_id` > `sequencia`; `404` para id inexistente;
    mesmo shape de 9 campos (sem `diferenca`, preservando o `ng-hide` de
    `sequencia.html:42-43`).
-8. [ ] **Frontend.** `sequencia.js`: catálogo via `GET /sequencias`, `temAcorde`
+8. [x] **Frontend.** `sequencia.js`: catálogo via `GET /sequencias`, `temAcorde`
    comparando string (não identidade de objeto), busca por `sequencia_id`,
    formulário inline com parse de `,`/`;`/espaço, tratamento de `201` (seleciona
    e busca) e `409` (seleciona a existente + aviso). `sequencia.html`: bloco do
    formulário e mensagem de erro.
-9. [ ] **Deploy e documentação.** `VOLUME /var/lib/ciframe` no `Dockerfile`;
+9. [x] **Deploy e documentação.** `VOLUME /var/lib/ciframe` no `Dockerfile`;
    `docker run -p 8080:8080 -v ciframe-data:/var/lib/ciframe ciframe` no
    `README.md` e no `AGENTS.md`, com uma frase dizendo que sem o `-v` os
    cadastros morrem com o container. `AGENTS.md` ganha também a nota de que
    `main.py` agora tem estado gravável externo ao CSV.
-10. [ ] **Relatório de testes (fase 5/5).** Preencher `04-test-report.md` com a
+10. [x] **Relatório de testes (fase 5/5).** Preencher `04-test-report.md` com a
     saída de `pytest -q`, o teste manual de persistência no Docker (cadastrar →
     `docker rm` → `docker run` novo) e o que ficou de fora. Escrever também o
     roteiro do vídeo em `docs/features/sequencias-customizadas/roteiro-video.md`.

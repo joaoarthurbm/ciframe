@@ -3,3 +3,5 @@ static/assets/vendor
 *.pyc
 __pycache__/
 ciframe.db
+.coverage
+.pytest_cache/

@@ -308,6 +308,10 @@ def get_generos():
 def get_acordes():
     return json.dumps(list(acordes))
 
+@app.route('/sequencias')
+def get_sequencias():
+    return json.dumps(listar_sequencias())
+
 @app.route('/musica/<m_id>/')
 def get_musica(m_id):
     return json.dumps(musicas[m_id].__dict__)

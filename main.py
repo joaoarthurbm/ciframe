@@ -41,12 +41,65 @@ TAM_PAGINA = 100
 genero_musicas = {}
 generos = set()
 acordes = set()
-sequencias = {'BmGDA' : 0,
-        'CGAmF' : 1,
-        'EmG' : 2,
-        'CA7DmG7' : 3,
-        'GmF' : 4,
-        'CC7FFm' : 5}
+
+# Catálogo inicial, na ordem das tags que existiam na coluna SEQ_FAMOSA (0..5).
+# Os nomes vêm de data/mapeamento_sequencias_famosas.txt, que até então nenhum
+# código lia. Recebem ids 1..6 na primeira subida.
+SEQUENCIAS_LEGADO = [
+    {'nome': 'Sequência de Bm', 'acordes': ['Bm', 'G', 'D', 'A']},
+    {'nome': 'Sequência de C', 'acordes': ['C', 'G', 'Am', 'F']},
+    {'nome': 'Sequência Em', 'acordes': ['Em', 'G']},
+    {'nome': 'Sequência de C (Samba)', 'acordes': ['C', 'A7', 'Dm', 'G7']},
+    {'nome': 'Sequência de Gm', 'acordes': ['Gm', 'F']},
+    {'nome': 'Sequência de C (Samba cont.)', 'acordes': ['C', 'C7', 'F', 'Fm']},
+]
+
+
+def normalizar_chave(acordes):
+    """Forma canônica usada no matching e na detecção de duplicata.
+
+    Preserva ordem e repetições: 'C;C7;F;Fm' != 'C;F;C7;Fm' e 'C;C' != 'C',
+    porque a regra de matching é sobre a cifra, que também preserva repetições.
+    """
+    return ';'.join(acorde.strip().casefold() for acorde in acordes)
+
+
+# Forma transitória, mantida até o passo 4 trocar a busca por tag pela busca no
+# banco. Preserva a caixa (a URL legada chega como 'BmGDA', não 'bmgda').
+sequencias = {''.join(s['acordes']): i for i, s in enumerate(SEQUENCIAS_LEGADO)}
+
+SCHEMA = """
+CREATE TABLE IF NOT EXISTS sequencias (
+    id        INTEGER PRIMARY KEY,
+    nome      TEXT NOT NULL,
+    acordes   TEXT NOT NULL,
+    chave     TEXT NOT NULL UNIQUE,
+    criado_em TEXT NOT NULL
+)
+"""
+
+
+def criar_schema():
+    with conexao() as conn:
+        conn.executescript(SCHEMA)
+
+
+def seed_sequencias_legado():
+    """Insere as 6 sequências originais. Idempotente por `chave` (UNIQUE)."""
+    agora = datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')
+    with conexao() as conn:
+        for sequencia in SEQUENCIAS_LEGADO:
+            conn.execute(
+                'INSERT OR IGNORE INTO sequencias (nome, acordes, chave, criado_em)'
+                ' VALUES (?, ?, ?, ?)',
+                (
+                    sequencia['nome'],
+                    json.dumps(sequencia['acordes'], ensure_ascii=False),
+                    normalizar_chave(sequencia['acordes']),
+                    agora,
+                ),
+            )
+
 
 musicas_dict = {}
 
@@ -145,6 +198,8 @@ f.close()
 
 # valida o diretório do banco no boot: melhor não subir do que subir e não cadastrar
 prepara_diretorio_db()
+criar_schema()
+seed_sequencias_legado()
 
 
 @app.route('/')

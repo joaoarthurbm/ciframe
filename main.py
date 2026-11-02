@@ -127,6 +127,13 @@ def por_chave(chave):
     return _registro(row) if row else None
 
 
+def por_id(seq_id):
+    with conexao() as conn:
+        row = conn.execute(
+            'SELECT * FROM sequencias WHERE id = ?', (seq_id,)).fetchone()
+    return _registro(row) if row else None
+
+
 def resolver_chave(sequencia_tag):
     """Resolve o parâmetro legado `?sequencia=` para uma chave do catálogo.
 
@@ -432,6 +439,7 @@ def get_similares():
     # tratando request
     acordes_tag = request.args.get('acordes')
     id_musica_tag = request.args.get('id_unico_musica')
+    sequencia_id_tag = request.args.get('sequencia_id')
     sequencia_tag = request.args.get('sequencia')
     pagina_tag = request.args.get('pagina','1')
 
@@ -447,6 +455,21 @@ def get_similares():
     elif id_musica_tag:
         musica = musicas[id_musica_tag]
         acordes = musica.acordes
+    elif sequencia_id_tag:
+        # contrato novo: id do catálogo, 404 quando não existe
+        try:
+            seq_id = int(sequencia_id_tag)
+        except ValueError:
+            return json.dumps(_erro('sequencia_id deve ser um número',
+                                    campo='sequencia_id')), 400
+
+        registro = por_id(seq_id)
+        if not registro:
+            return json.dumps(_erro('sequência não encontrada',
+                                    campo='sequencia_id')), 404
+
+        similares = get_similares_por_chave(registro['chave'], generos_key)
+        return json.dumps(get_pagina(similares, pagina_tag))
     elif sequencia_tag:
         similares = []
 

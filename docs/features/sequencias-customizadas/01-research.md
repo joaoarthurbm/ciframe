@@ -137,8 +137,9 @@ Benchmark da regra (a)+(b) sobre os 67.585 registros, em uma thread, sem
 nenhum índice: **40–51 ms por sequência consultada** (a variação é ruído de
 alocação). O conjunto de dados inteiro é percorrido a cada requisição.
 
-Para comparação, o mesmo processo: importar `main.py` (parse do CSV) leva
-~10 s, e esse parse acontece **uma vez, no import**, conforme `AGENTS.md`.
+Para comparação, no mesmo ambiente: importar `main.py` (parse do CSV inteiro)
+leva **~1,2 s** (três execuções: 1,24 / 1,19 / 1,22), e esse parse acontece
+**uma vez, no import**, conforme `AGENTS.md`.
 
 ### 2. Validação da hipótese
 

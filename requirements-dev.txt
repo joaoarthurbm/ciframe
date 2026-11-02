@@ -1,0 +1,5 @@
+# Dependências de desenvolvimento e teste.
+# A aplicação roda apenas com requirements.txt (Flask + gunicorn).
+
+pytest==8.4.2
+pytest-cov==7.0.0

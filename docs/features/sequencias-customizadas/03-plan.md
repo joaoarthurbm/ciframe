@@ -11,8 +11,8 @@
   normalização, matching e endpoints) vive em `main.py`. `musica.py` **não é
   tocado** — o matching não vira método de `Musica`.
 - **Consequência aceita**: testar o matching exige `import main`, e portanto o
-  parse do CSV (~10 s), uma vez por sessão de `pytest` (fixture de escopo
-  `session`). Não há módulo isolável por decisão de arquitetura.
+  parse do CSV (~1,2 s, medido), uma vez por sessão de `pytest` (fixture de
+  escopo `session`). Não há módulo isolável por decisão de arquitetura.
 - **Fonte de verdade do dado**: `musica.cifra` (ordenada, com repetições), nunca
   `musica.acordes`.
 - **Sem schema de migração**: uma tabela, criada com `CREATE TABLE IF NOT EXISTS`

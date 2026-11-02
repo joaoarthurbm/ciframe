@@ -38,6 +38,11 @@ SEQ_FAMOSA = 7
 CIFRA = 8
 TAM_PAGINA = 100
 
+# limites do catálogo aberto: guardrails de entrada, não de moderação
+MIN_ACORDES_SEQUENCIA = 2
+MAX_ACORDES_SEQUENCIA = 12
+MAX_NOME_SEQUENCIA = 80
+
 genero_musicas = {}
 generos = set()
 acordes = set()
@@ -142,6 +147,8 @@ def resolver_chave(sequencia_tag):
     return None
 
 
+
+
 musicas_dict = {}
 
 # --- catálogo de sequências: banco de dados ---------------------------------------
@@ -237,6 +244,9 @@ for k,v in genero_musicas.items():
 
 f.close()
 
+# vocabulário para validar acordes de sequências cadastradas
+ACORDES_CANONICOS = {acorde.casefold() for acorde in acordes}
+
 # valida o diretório do banco no boot: melhor não subir do que subir e não cadastrar
 prepara_diretorio_db()
 criar_schema()
@@ -308,9 +318,110 @@ def get_generos():
 def get_acordes():
     return json.dumps(list(acordes))
 
-@app.route('/sequencias')
-def get_sequencias():
+@app.route('/sequencias', methods=['GET', 'POST'])
+def catalogo_sequencias():
+    if request.method == 'POST':
+        return criar_sequencia()
     return json.dumps(listar_sequencias())
+
+def _erro(mensagem, campo=None, acorde=None):
+    """Corpo de erro. Continua sendo json.dumps: o contrato é o formato, não o MIME."""
+    payload = {'erro': mensagem}
+    if campo:
+        payload['campo'] = campo
+    if acorde:
+        payload['acorde'] = acorde
+    return payload
+
+
+def validar_sequencia(corpo):
+    """Valida o corpo de POST /sequencias.
+
+    Devolve `((nome, acordes), None)` quando aceita, ou `(None, (status, payload))`
+    quando recusa. O catálogo é aberto e anônimo, então a validação é o único
+    guardrail que existe: 2 a 12 acordes e todos presentes no vocabulário que a
+    aplicação já carrega do CSV.
+    """
+    if not isinstance(corpo, dict):
+        return None, (400, _erro('corpo deve ser um objeto JSON'))
+
+    recebidos = corpo.get('acordes')
+    if not isinstance(recebidos, list):
+        return None, (400, _erro('acordes deve ser uma lista', campo='acordes'))
+
+    acordes_limpos = []
+    for item in recebidos:
+        if not isinstance(item, str):
+            return None, (400, _erro('cada acorde deve ser uma string', campo='acordes'))
+        acorde = item.strip()
+        if not acorde:
+            return None, (400, _erro('acorde vazio', campo='acordes'))
+        acordes_limpos.append(acorde)
+
+    if not (MIN_ACORDES_SEQUENCIA <= len(acordes_limpos) <= MAX_ACORDES_SEQUENCIA):
+        return None, (400, _erro(
+            'a sequência deve ter entre %d e %d acordes'
+            % (MIN_ACORDES_SEQUENCIA, MAX_ACORDES_SEQUENCIA), campo='acordes'))
+
+    for acorde in acordes_limpos:
+        if acorde.casefold() not in ACORDES_CANONICOS:
+            return None, (400, _erro(
+                'acorde desconhecido: %s' % acorde, campo='acordes', acorde=acorde))
+
+    nome = corpo.get('nome')
+    if nome is not None:
+        if not isinstance(nome, str):
+            return None, (400, _erro('nome deve ser uma string', campo='nome'))
+        nome = nome.strip()
+        if len(nome) > MAX_NOME_SEQUENCIA:
+            return None, (400, _erro(
+                'nome deve ter no máximo %d caracteres' % MAX_NOME_SEQUENCIA,
+                campo='nome'))
+    if not nome:
+        nome = ' - '.join(acordes_limpos)
+
+    return (nome, acordes_limpos), None
+
+
+def _conflito(chave):
+    existente = por_chave(chave)
+    payload = _erro('essa sequência já está no catálogo')
+    if existente:
+        payload['id'] = existente['id']
+        payload['chave'] = existente['chave']
+        payload['nome'] = existente['nome']
+    return json.dumps(payload), 409
+
+
+def criar_sequencia():
+    validado, erro = validar_sequencia(request.get_json(silent=True))
+    if erro:
+        status, payload = erro
+        return json.dumps(payload), status
+
+    nome, acordes_limpos = validado
+    chave = normalizar_chave(acordes_limpos)
+
+    if por_chave(chave):
+        return _conflito(chave)
+
+    try:
+        with conexao() as conn:
+            conn.execute(
+                'INSERT INTO sequencias (nome, acordes, chave, criado_em)'
+                ' VALUES (?, ?, ?, ?)',
+                (
+                    nome,
+                    json.dumps(acordes_limpos, ensure_ascii=False),
+                    chave,
+                    datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
+                ),
+            )
+    except sqlite3.IntegrityError:
+        # duas requisições simultâneas com a mesma chave: o UNIQUE decide
+        return _conflito(chave)
+
+    return json.dumps(por_chave(chave)), 201
 
 @app.route('/musica/<m_id>/')
 def get_musica(m_id):

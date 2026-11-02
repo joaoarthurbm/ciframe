@@ -64,10 +64,7 @@ def normalizar_chave(acordes):
     return ';'.join(acorde.strip().casefold() for acorde in acordes)
 
 
-# Forma transitória, mantida até o passo 4 trocar a busca por tag pela busca no
-# banco. Preserva a caixa (a URL legada chega como 'BmGDA', não 'bmgda').
-sequencias = {''.join(s['acordes']): i for i, s in enumerate(SEQUENCIAS_LEGADO)}
-
+# Forma canônica de uma sequência: ';' + casefold, preservando ordem e repetições.
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS sequencias (
     id        INTEGER PRIMARY KEY,
@@ -99,6 +96,50 @@ def seed_sequencias_legado():
                     agora,
                 ),
             )
+
+
+def _registro(row):
+    """Linha do banco -> dict do catálogo (acordes desserializados)."""
+    return {
+        'id': row['id'],
+        'nome': row['nome'],
+        'acordes': json.loads(row['acordes']),
+        'chave': row['chave'],
+        'criado_em': row['criado_em'],
+    }
+
+
+def listar_sequencias():
+    with conexao() as conn:
+        return [_registro(row) for row in
+                conn.execute('SELECT * FROM sequencias ORDER BY id')]
+
+
+def por_chave(chave):
+    with conexao() as conn:
+        row = conn.execute(
+            'SELECT * FROM sequencias WHERE chave = ?', (chave,)).fetchone()
+    return _registro(row) if row else None
+
+
+def resolver_chave(sequencia_tag):
+    """Resolve o parâmetro legado `?sequencia=` para uma chave do catálogo.
+
+    Aceita as duas formas que já circularam: acordes separados por vírgula
+    (`Bm,G,D,A`, o que o frontend envia) e a concatenação sem separador
+    (`BmGDA`, forma antiga da chave do dict hardcoded).
+    """
+    chave = normalizar_chave(sequencia_tag.split(','))
+    if por_chave(chave):
+        return chave
+
+    alvo = ''.join(sequencia_tag.split()).casefold()
+    if not alvo:
+        return None
+    for registro in listar_sequencias():
+        if ''.join(registro['acordes']).casefold() == alvo:
+            return registro['chave']
+    return None
 
 
 musicas_dict = {}
@@ -292,25 +333,48 @@ def get_similares():
         musica = musicas[id_musica_tag]
         acordes = musica.acordes
     elif sequencia_tag:
-        acordes = sequencia_tag.replace(',','')
         similares = []
 
-        if acordes in sequencias:
-            id_seq = sequencias[acordes]
-            similares = get_pagina(get_similares_por_sequencia(id_seq, generos_key), pagina_tag)
+        chave = resolver_chave(sequencia_tag)
+        if chave:
+            similares = get_pagina(get_similares_por_chave(chave, generos_key), pagina_tag)
         return json.dumps(similares)
 
     similares = get_similares(acordes, generos_key, id_musica_tag)
 
     return json.dumps(get_pagina(similares, pagina_tag))
 
-def get_similares_por_sequencia(id_seq, generos_key):
-    # filtra para melhor desempenho
+def musica_contem_sequencia(musica, chave):
+    """A sequência `chave` aparece nesta música?
+
+    Reproduz exatamente a regra que gerava a coluna SEQ_FAMOSA
+    (`scripts/generate_data_set.py`):
+
+    1. **contiguidade** — `chave` é substring contígua da cifra normalizada;
+    2. **vocabulário contido** — todo acorde usado na música está entre os
+       acordes da sequência.
+
+    As duas condições juntas é que dão o resultado atual (ver 01-research.md).
+    Usa `musica.cifra` — ordenada e com repetições — e não `musica.acordes`, que
+    é `list(set(cifra))` e perdeu a ordem.
+    """
+    if not musica.cifra:
+        return False
+
+    cifra = ';'.join(acorde.casefold() for acorde in musica.cifra)
+    if chave not in cifra:
+        return False
+
+    return set(cifra.split(';')).issubset(chave.split(';'))
+
+
+def get_similares_por_chave(chave, generos_key):
+    # filtra por gênero para melhor desempenho
     collection = apply_filtro(musicas.values(), generos_key)
 
     similares = []
     for musica in collection:
-        if str(id_seq) in musica.seqs_famosas:
+        if musica_contem_sequencia(musica, chave):
             similar = {
                 'id_unico_musica' : musica.id_unico_musica,
                 'id_artista' : musica.id_artista,

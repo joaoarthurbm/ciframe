@@ -2,3 +2,4 @@ static/assets/vendor
 .venv
 *.pyc
 __pycache__/
+instance/

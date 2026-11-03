@@ -1,0 +1,13 @@
+services:
+  deciframe:
+    build: .
+    image: ciframe
+    ports:
+      - "8080:8080"
+    volumes:
+      - deciframe-instance:/app/instance
+    restart: unless-stopped
+
+volumes:
+  deciframe-instance:
+    name: deciframe-instance

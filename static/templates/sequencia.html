@@ -3,9 +3,69 @@
     <div class="col-sm-6 col-md-4 viewWindow-panel viewWindow-panel-C">
       <div class="viewWindow-panel-container">
         <h4 class="text-center">Aponte uma sequencia de acordes</h4>
-        <div class="acordes-container" ng-repeat='sequencia in Sequencia.sequenciasFamosas' ng-click="Sequencia.pesquisarPorSequencia(sequencia)">
-          <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" acorde-checked="Sequencia.temAcorde(acordeon)" ng-repeat="acordeon in sequencia.acordes"></df-hex>
+
+        <p class="text-center" ng-show="Sequencia.carregandoCatalogo">Carregando sequências...</p>
+        <p class="text-center" ng-show="Sequencia.erroCatalogo">{{Sequencia.erroCatalogo}}</p>
+
+        <div class="sequencia-catalogo" ng-repeat="sequencia in Sequencia.sequenciasFamosas track by sequencia.id">
+          <p class="text-center sequencia-catalogo-nome">{{sequencia.nome}}</p>
+          <div class="acordes-container" ng-click="Sequencia.pesquisarPorSequencia(sequencia)">
+            <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" acorde-checked="Sequencia.temAcorde(acordeon)" ng-repeat="acordeon in sequencia.acordes"></df-hex>
+          </div>
         </div>
+
+        <br style="clear: both;">
+
+        <h4 class="text-center">Cadastrar sequência</h4>
+        <form ng-submit="Sequencia.cadastrarSequencia()">
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control form-control-inverse"
+              placeholder="Nome da sequência"
+              maxlength="80"
+              ng-model="Sequencia.novaSequencia.nome">
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control form-control-inverse"
+                placeholder="Acorde"
+                ng-model="Sequencia.novoAcorde"
+                uib-typeahead="acorde for acorde in Sequencia.acordesDisponiveis | filter:$viewValue | limitTo:10"
+                typeahead-min-length="1"
+                typeahead-wait-ms="100"
+                ng-keydown="$event.keyCode === 13 && Sequencia.adicionarAcorde()">
+              <span class="input-group-btn">
+                <button class="btn btn-primary" type="button" ng-click="Sequencia.adicionarAcorde()">+</button>
+              </span>
+            </div>
+          </div>
+
+          <p class="text-center" style="margin-bottom: 8px;">
+            <span
+              class="label label-default"
+              style="display: inline-block; margin: 2px; cursor: pointer;"
+              ng-repeat="acorde in Sequencia.novaSequencia.acordes track by $index"
+              ng-click="Sequencia.removerAcorde($index)"
+              title="Clique para remover">{{acorde.acorde}} ×</span>
+          </p>
+          <p class="text-center" style="font-size: 0.8em;">Clique em um acorde para removê-lo.</p>
+
+          <div class="alert alert-danger" role="alert" ng-show="Sequencia.erroCadastro">
+            {{Sequencia.erroCadastro}}
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary btn-block"
+            ng-disabled="Sequencia.salvando || !Sequencia.novaSequencia.nome || Sequencia.novaSequencia.acordes.length === 0">
+            <span ng-show="!Sequencia.salvando">Cadastrar sequência</span>
+            <span ng-show="Sequencia.salvando">Cadastrando...</span>
+          </button>
+        </form>
+
         <br style="clear: both;">
         <button class="search-results-count" ng-if="Sequencia.showSearchResultsCount" ng-click="Sequencia.goToResults()">
           <span class="glyphicon glyphicon-triangle-bottom bounce animated infinite"></span>
@@ -40,7 +100,7 @@
         <div class="row row-in">
           <div class="col-sm-6 col-lg-4"
             ng-repeat="music in Sequencia.musics | orderBy:'-popularidade'"
-            ng-hide="music.diferenca.length">
+            ng-hide="music.diferenca && music.diferenca.length">
 
               <div class="music-card" ng-click="Sequencia.goToLirics(music)">
                 <div class="row row-in">

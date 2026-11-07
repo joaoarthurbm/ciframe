@@ -7,8 +7,9 @@ similar songs. Full description: [README.md](README.md).
 ## Stack
 
 - Backend: Python 3.9, Flask 3.1, gunicorn. Single file (`main.py`) that
-  loads `data/top/dataset_final.csv` into memory once at startup — there is
-  no database.
+  loads `data/top/dataset_final.csv` into memory once at startup. The only
+  persisted data is the custom chord-sequence catalog, stored in SQLite at
+  `data/sequencias.db` (override with `SEQUENCIAS_DB_PATH`).
 - Frontend: AngularJS 1.4.9 + jQuery, loaded from CDN in `static/index.html`,
   no build step. Legacy, and there's no plan to modernize the stack itself —
   but touching it is no longer off-limits when a task needs it; see
@@ -21,8 +22,11 @@ Docker (matches how the app actually ships):
 
 ```
 docker build -t ciframe .
-docker run -p 8080:8080 ciframe
+docker run -p 8080:8080 -v "$(pwd)/data:/app/data" ciframe
 ```
+
+The volume keeps `data/sequencias.db` (custom sequences) across container
+recreations. Without it, the catalog is lost when the container is recreated.
 
 Or a plain virtualenv:
 
@@ -31,6 +35,14 @@ python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 python main.py        # serves on :5000 instead of :8080
 ```
+
+## Run tests
+
+```
+python -m unittest discover -s tests -v
+```
+
+Tests use a temporary SQLite database and do not touch `data/sequencias.db`.
 
 ## Verify it's up
 
@@ -43,5 +55,6 @@ Done when this returns a JSON array of genre names (e.g. `["Rock", "Samba", ...]
 ## Gotchas
 
 - Editing `data/top/*.csv` requires a restart: it's read once at import time, not per-request.
+- `data/sequencias.db` is runtime state (gitignored). Don't commit it; use a volume to persist it.
 - Every endpoint returns `json.dumps(...)` as a plain string, not `jsonify` — responses come back `Content-Type: text/html`. This is intentional legacy behavior; changing it is a real API change, not a cleanup.
 - Check `docs/adr/` before changing the deploy setup — it has a documented reason for its current state.

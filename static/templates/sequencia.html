@@ -3,9 +3,17 @@
     <div class="col-sm-6 col-md-4 viewWindow-panel viewWindow-panel-C">
       <div class="viewWindow-panel-container">
         <h4 class="text-center">Aponte uma sequencia de acordes</h4>
+        <div ng-if="Sequencia.mensagemCatalogo" class="alert alert-warning">{{Sequencia.mensagemCatalogo}}</div>
         <div class="acordes-container" ng-repeat='sequencia in Sequencia.sequenciasFamosas' ng-click="Sequencia.pesquisarPorSequencia(sequencia)">
           <df-hex acorde="{{acordeon.acorde}}" acorde-color="{{acordeon.cor}}" acorde-checked="Sequencia.temAcorde(acordeon)" ng-repeat="acordeon in sequencia.acordes"></df-hex>
         </div>
+        <br style="clear: both;">
+        <h4 class="text-center">Cadastrar nova sequência</h4>
+        <div class="form-group">
+          <input type="text" class="form-control" ng-model="Sequencia.novaSequencia" placeholder="Ex: Am,F,C,G">
+        </div>
+        <button class="btn btn-default" ng-click="Sequencia.cadastrarSequencia()" ng-disabled="Sequencia.cadastrando">Cadastrar</button>
+        <div ng-if="Sequencia.mensagemCadastro">{{Sequencia.mensagemCadastro}}</div>
         <br style="clear: both;">
         <button class="search-results-count" ng-if="Sequencia.showSearchResultsCount" ng-click="Sequencia.goToResults()">
           <span class="glyphicon glyphicon-triangle-bottom bounce animated infinite"></span>

@@ -2,3 +2,9 @@
 .venv
 __pycache__
 *.pyc
+data/sequencias.db
+*.db-journal
+*.db-wal
+*.db-shm
+research/
+tests/
